@@ -11,11 +11,11 @@
 </div>
 SkillTester is a benchmark system for testing skills with a repeatable agent workflow.
 
-Report:[skilltester-report-20260325.pdf](report/skilltester-report-20260325.pdf)
+## Quick Access
 
-Website:[skilltester.ai](https://skilltester.ai)
-
-Tutorial:[Tutorial.md](Tutorial.md)
+- **Report:** [skilltester-report-20260325.pdf](report/skilltester-report-20260325.pdf)
+- **Website:** [skilltester.ai](https://skilltester.ai)
+- **Tutorial:** [Tutorial.md](Tutorial.md)
 
 It is designed to:
 
