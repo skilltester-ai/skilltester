@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./logo.png" alt="SkillTester logo" width="300">
+  <img src="./pics/logo.png" alt="SkillTester logo" width="300">
   <h1>SkillTester:Agent-driven benchmark system
  for evaluating skills.</h1>
   <p><strong></strong></p>
@@ -43,7 +43,7 @@ The scoring system is still evolving. For now, the project should be understood 
 
 The public SkillTester dashboard is available at [skilltester.ai](https://skilltester.ai).
 
-![SkillTester.ai](./skilltester.png)
+![SkillTester.ai](./pics/skilltester.png)
 From there, users can:
 
 - browse tested skills
@@ -119,7 +119,7 @@ The system is organized around a three-stage workflow and a shared benchmark spe
 
 ## System Architecture
 
-![SkillTester Architecture](./arch.png)
+![SkillTester Architecture](./pics/arch.png)
 ## Core Workflow
 
 SkillTester runs as:
@@ -194,9 +194,10 @@ skilltester/
 │           └── SafeTest/
 ├── README.md
 ├── Tutorial.md
-├── （results）(If tested)/
-└── （skillsource）(To be test)/
-└── skilltester.png
+└── pics/
+    ├── arch.png
+    ├── logo.png
+    └── skilltester.png
 ```
 
 ## Important References
