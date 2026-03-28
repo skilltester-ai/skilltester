@@ -28,8 +28,8 @@ __OTHER_STAGE_DIR_2__
 __SPEC_OUTPUT_DIR__
 
 Hard constraints:
-Do not use the `Task` tool to launch any subagent, child-agent, delegated task, or parallel agent.
-All with_skill work must be completed independently by the current agent in the current terminal. If the `Task` tool is called or any subagent is launched, this run is considered a violation.
+Do not launch any subagent, child-agent, delegated task, or parallel agent.
+All with_skill work must be completed independently by the current agent in the current terminal. 
 This run is one of the two required ExecAgent launches. `baseline` does not
 need to be complete before this run starts.
 
@@ -46,11 +46,10 @@ Execution requirements:
 10. After writing `end_timestamp.json`, you must call `backfill_task_duration_fields.py --task-metrics .../task_metrics.json --start .../start_timestamp.json --end .../end_timestamp.json --task-id ... --mode with_skill` so the script rewrites `task_metrics.json` canonically.
 11. That script internally uses `calculate_timestamp_diff.py` as the only valid source for `time` / `total_time_seconds`. Do not manually edit those fields, and do not recompute them from `stage_start_timestamp.json`, the previous task's `end_timestamp.json`, `timer.log`, default values, or any inference method.
 12. At stage start, you must generate `stage_start_timestamp.json` first. At stage end, you must generate `metrics.json` and append the with_skill stage summary to the shared `agent_worklog.log`.
-13. Reiterating: do not use the `Task` tool, do not launch subagents / child-agents / delegated execution, and complete all work inside the current terminal.
-14. All tasks must execute strictly in serial, one after another in manifest order. Parallel execution, background execution, interleaved execution, or any task-level concurrency is forbidden inside the current with_skill stage.
-15. Every task must be executed strictly according to its requirements. Do not simplify tasks on your own, remove output items, weaken constraints, skip boundary conditions, or pretend that an approximate result is complete.
-16. If a task cannot be truly completed because of environment, dependency, permission, data, or external-condition limits, you must fail honestly and record the blocking reason. Do not fake success, and do not use placeholder files, shell results, mock results, or simplified artifacts to pretend completion.
-17. `baseline` and `with_skill` may be launched independently or in parallel, but this current terminal must not try to execute baseline work.
-18. Do not interact with the user and do not wait for extra confirmation. Independently complete all required reading, execution, generation, validation, and saving.
+13. All tasks must execute strictly in serial, one after another in manifest order. Parallel execution, background execution, interleaved execution, or any task-level concurrency is forbidden inside the current with_skill stage.
+14. Every task must be executed strictly according to its requirements. Do not simplify tasks on your own, remove output items, weaken constraints, skip boundary conditions, or pretend that an approximate result is complete.
+15. If a task cannot be truly completed because of environment, dependency, permission, data, or external-condition limits, you must fail honestly and record the blocking reason. Do not fake success, and do not use placeholder files, shell results, mock results, or simplified artifacts to pretend completion.
+16. `baseline` and `with_skill` may be launched independently or in parallel, but this current terminal must not try to execute baseline work.
+17. Do not interact with the user and do not wait for extra confirmation. Independently complete all required reading, execution, generation, validation, and saving.
 
 Start now.

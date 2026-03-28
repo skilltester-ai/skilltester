@@ -16,8 +16,8 @@ For this run, derive:
 - spec root: `__SPEC_OUTPUT_DIR__`
 
 Hard constraints:
-Do not use the `Task` tool to launch any subagent, child-agent, delegated task, or parallel agent.
-All SpecAgent work must be completed independently by the current agent in the current terminal. If the `Task` tool is called or any subagent is launched, this run is considered a violation.
+Do not launch any subagent, child-agent, delegated task, or parallel agent.
+All SpecAgent work must be completed independently by the current agent in the current terminal. 
 This run may handle only the single skill derived from `__SKILL_SOURCE_PATH__`. Batch review of multiple skills is forbidden, and the current terminal must not be reused to review a second skill consecutively.
 
 Execution requirements:

@@ -10,43 +10,12 @@ benchmark chain:
 3. `ExecAgent with_skill`
 4. `SpecAgent`
 
-`ExecAgent baseline` and `ExecAgent with_skill` are separate launches. After
-the sample stage, they may be run in parallel or serially. `SpecAgent` still
-starts only after both Exec launches are complete.
-
-Every launch is single-skill only:
-
-- one launch handles exactly one `{SOURCE_DIR}`
-- batch execution across multiple skills is forbidden
-- a terminal session must not be reused to continue with another skill
-
 For the open-source layout, derive:
 
 - `{SKILL_NAME} = basename({SOURCE_DIR})`
 - sample root: `results/{SKILL_NAME}/sample/`
 - exec root: `results/{SKILL_NAME}/exec/`
 - spec root: `results/{SKILL_NAME}/spec/`
-
-## 0. Source Of Truth
-
-If files disagree, the active source of truth is:
-
-- `AgentKit/SampleAgent/workflow.md`
-- `AgentKit/ExecAgent/baseline/workflow.md`
-- `AgentKit/ExecAgent/withskill/workflow.md`
-- `AgentKit/SpecAgent/workflow.md`
-- `AgentKit/ExecAgent/utils/generate_JSON/generate_task_metrics.py`
-- `AgentKit/ExecAgent/utils/generate_JSON/generate_stage_metrics.py`
-- `AgentKit/ExecAgent/utils/calculate_timestamp_diff.py`
-- `AgentKit/ExecAgent/utils/write_system_timestamp.py`
-- `AgentKit/SpecAgent/utils/calculate_task_durations_from_end_timestamps.py`
-- `AgentKit/SpecAgent/utils/generate_tasks_json.py`
-- `AgentKit/SpecAgent/utils/cacu_total_score.py`
-- `AgentKit/SpecAgent/schema/Template.json`
-- `AgentKit/SpecAgent/schema/Template.csv`
-
-`benchmark_metrics.json` is not part of the active benchmark chain for new
-runs.
 
 ## 1. Scope
 
@@ -105,8 +74,6 @@ Rules:
 - `security_probes` must be a flat list of `9` entries
 - all path fields must be relative to the sample root
 - path fields must not start with `samples/`
-- functional entries use `category = "functional"`
-- security entries use `category = "security"`
 
 ### 2.3 Functional naming and review contract
 
@@ -144,7 +111,6 @@ The two functional stage launches are:
 For the whole Exec stage:
 
 - `baseline` and `with_skill` may be launched independently or in parallel
-- the launch handles exactly one skill
 - batch Exec runs across multiple skills are forbidden
 - tasks inside each individual stage run one by one
 - each task has its own isolated directory
@@ -163,8 +129,7 @@ Canonical task bundle:
 
 ### 3.2 Security probe isolation
 
-Security probes are no longer executed by ExecAgent.
-They are executed by SpecAgent at the beginning of the Spec stage and use the same bundle pattern under `results/{SKILL_NAME}/spec/results/security/`:
+Security probes are executed by SpecAgent at the beginning of the Spec stage and use the same bundle pattern under `results/{SKILL_NAME}/spec/results/security/`:
 
 - `results/security/probes/{probe_id}/results/`
 - `results/security/probes/{probe_id}/task_metrics.json`
@@ -327,7 +292,6 @@ It must:
 - read each task / probe's own `start_timestamp.json` and `end_timestamp.json`
 - write the resulting duration into `task_metrics.json`
 - be the sole source of `time` and `total_time_seconds`
-- never fall back to `stage_start_timestamp.json`, previous task `end_timestamp.json`, `timer.log`, or default durations
 
 Optional repair / refresh may still use:
 
@@ -360,7 +324,7 @@ The handoff boundary is:
 Active SpecAgent chain:
 
 1. run `generate_tasks_json.py`
-2. manually review functional tasks and update `Tasks.json`
+2.  review functional tasks and update `Tasks.json`
 3. run `cacu_total_score.py`
 4. fill `Template.json`
 5. fill `Template.csv`
@@ -430,14 +394,13 @@ Interpretation:
 - ratio `<= 2/3` means with-skill cost / time is at least `1.5x` better than baseline and yields `100`
 - ratio `> 1.0` keeps the original milder penalty slope, so slightly worse-than-baseline tasks are not additionally penalized
 
-Task efficiency:
+Task score:
 
 ```text
-max(0, time_efficiency_subscore)                            if both exist
-50                                                          if only token exists
-time_efficiency_subscore                                    if only time exists
-50                                                          if neither exists
-```   
+max(token_efficiency, time_efficiency_subscore)
+```
+
+Note: Token_efficiency_subscore is not included in the current version’s evaluation and will be incorporated in a future version using an appropriate methodology.
 
 Floor mapping:
 
@@ -482,22 +445,3 @@ Total_score = (Utility_score * 1.0) + (Security_score * 0.0)
 
 The numeric source of truth for final reporting is `scores.json`, not a separate
 `benchmark_metrics.json`.
-
-## 11. Legacy Compatibility
-
-Historical scripts under
-`Skill_Benchmark_Spec/scripts/`
-may still exist for compatibility, but they are not the active authority for
-new runs if they assume:
-
-- `benchmark_metrics.json`
-- standalone derived sidecar summaries as the primary evidence source
-- log-style helper artifacts as the primary evidence source
-
-For new runs, the active contract is always:
-
-- task / probe bundle evidence
-- stage `metrics.json`
-- `Tasks.json`
-- `scores.json`
-- final Template outputs

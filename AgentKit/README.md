@@ -23,7 +23,6 @@ AgentKit/
 │   ├── schema/
 │   └── utils/
 ├── ExecAgent/
-│   ├── REFERENCE.md
 │   ├── baseline/
 │   ├── withskill/
 │   ├── schema/
@@ -110,7 +109,6 @@ Key artifacts:
 
 Inputs:
 
-- `AgentKit/ExecAgent/REFERENCE.md`
 - `AgentKit/ExecAgent/baseline/prompt.md`
 - `AgentKit/ExecAgent/baseline/workflow.md`
 - `AgentKit/ExecAgent/withskill/prompt.md`
@@ -191,8 +189,6 @@ First-stage sample design contract.
 
 Second-stage functional execution contract.
 
-- `REFERENCE.md`
-  - top-level launch model for the two Exec stages
 - `baseline/`
   - baseline stage prompt, workflow, and reference files
 - `withskill/`
@@ -262,10 +258,9 @@ Important scripts used by the current workflows:
 1. `AgentKit/README.md`
 2. `AgentKit/Skill_Benchmark_Spec/Skill_Benchmark_Spec.md`
 3. `AgentKit/SampleAgent/workflow.md`
-4. `AgentKit/ExecAgent/REFERENCE.md`
-5. `AgentKit/ExecAgent/baseline/workflow.md`
-6. `AgentKit/ExecAgent/withskill/workflow.md`
-7. `AgentKit/SpecAgent/workflow.md`
+4. `AgentKit/ExecAgent/baseline/workflow.md`
+5. `AgentKit/ExecAgent/withskill/workflow.md`
+6. `AgentKit/SpecAgent/workflow.md`
 
 ## Tutorial
 

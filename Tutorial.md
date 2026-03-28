@@ -92,6 +92,9 @@ Before running a benchmark, read these files in order:
 5. `AgentKit/ExecAgent/withskill/workflow.md`
 6. `AgentKit/SpecAgent/workflow.md`
 
+**Note:`agent.py` is the code implementation of the corresponding agent’s `workflow.md`. It is provided for LLMs to better understand the execution logic and is not actually executed.**
+
+
 Each stage prompt explicitly points to its corresponding workflow. Treat the
 workflow as the runtime contract for that stage.
 
