@@ -1,0 +1,26 @@
+# ExecAgent agent_worklog.txt template
+# One file for the whole ExecAgent run.
+# Format:
+#   TIMESTAMP [LEVEL] [TYPE] key=value ... message="..."
+# Allowed LEVEL values: INFO, WARN, ERROR
+# Allowed TYPE values: START, READ, EXECUTE, WRITE, VALIDATE, SYNC, END
+# This log is global. Do not use it as a replacement for task-local worklog.log files.
+# After baseline and with_skill finish, append one stage summary line.
+
+2026-03-23T08:59:50Z [INFO] [START] agent=ExecAgent scope=run status=begin message="ExecAgent run started."
+2026-03-23T08:59:51Z [INFO] [READ] agent=ExecAgent path="results/{SKILL_NAME}/sample/benchmark_manifest.json" status=begin message="Begin reading benchmark manifest."
+2026-03-23T08:59:52Z [INFO] [READ] agent=ExecAgent path="results/{SKILL_NAME}/sample/benchmark_manifest.json" status=end bytes=6321 message="Finished reading benchmark manifest."
+2026-03-23T08:59:53Z [INFO] [READ] agent=ExecAgent path="results/{SKILL_NAME}/sample/common/" status=begin message="Begin scanning functional task samples."
+2026-03-23T08:59:55Z [INFO] [READ] agent=ExecAgent path="results/{SKILL_NAME}/sample/common/" status=end tasks=4 message="Finished scanning functional task samples."
+2026-03-23T08:59:56Z [INFO] [EXECUTE] agent=ExecAgent stage=baseline status=begin message="Baseline stage started."
+2026-03-23T09:02:46Z [INFO] [SYNC] agent=ExecAgent stage=baseline completed_tasks=4 successful_tasks=4 failed_tasks=0 metrics_path="results/baseline/metrics.json" artifact_root="results/baseline/tasks/" message="Baseline stage summary appended."
+2026-03-23T09:02:47Z [INFO] [WRITE] agent=ExecAgent stage=baseline path="results/baseline/metrics.json" status=begin message="Begin writing baseline stage metrics."
+2026-03-23T09:02:48Z [INFO] [EXECUTE] agent=ExecAgent stage=baseline command="python3 AgentKit/ExecAgent/utils/generate_JSON/generate_stage_metrics.py --output results/baseline/metrics.json --mode baseline" exit_code=0 message="Generated baseline metrics skeleton."
+2026-03-23T09:02:49Z [INFO] [WRITE] agent=ExecAgent stage=baseline path="results/baseline/metrics.json" status=end bytes=514 message="Finished writing baseline stage metrics."
+2026-03-23T09:03:00Z [INFO] [EXECUTE] agent=ExecAgent stage=with_skill status=begin message="With-skill stage started."
+2026-03-23T09:40:20Z [INFO] [SYNC] agent=ExecAgent stage=with_skill completed_tasks=4 successful_tasks=3 failed_tasks=1 metrics_path="results/with_skill/metrics.json" artifact_root="results/with_skill/tasks/" message="With-skill stage summary appended."
+2026-03-23T09:40:21Z [INFO] [WRITE] agent=ExecAgent stage=with_skill path="results/with_skill/metrics.json" status=begin message="Begin writing with-skill stage metrics."
+2026-03-23T09:40:22Z [INFO] [EXECUTE] agent=ExecAgent stage=with_skill command="python3 AgentKit/ExecAgent/utils/generate_JSON/generate_stage_metrics.py --output results/with_skill/metrics.json --mode with_skill" exit_code=0 message="Generated with-skill metrics skeleton."
+2026-03-23T09:40:23Z [INFO] [WRITE] agent=ExecAgent stage=with_skill path="results/with_skill/metrics.json" status=end bytes=612 message="Finished writing with-skill stage metrics."
+2026-03-23T09:40:24Z [INFO] [VALIDATE] agent=ExecAgent status=pass required_outputs="results/{SKILL_NAME}/exec/results/agent_worklog.log results/baseline/metrics.json results/with_skill/metrics.json" message="Validated stage-level benchmark artifacts."
+2026-03-23T09:40:25Z [INFO] [END] agent=ExecAgent scope=run success=true message="ExecAgent run completed."

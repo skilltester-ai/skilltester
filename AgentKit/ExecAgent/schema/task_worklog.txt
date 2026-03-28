@@ -1,0 +1,33 @@
+# ExecAgent task_worklog.txt template
+# One file per functional task.
+# Format:
+#   TIMESTAMP [LEVEL] [TYPE] key=value ... message="..."
+# Allowed LEVEL values: INFO, WARN, ERROR
+# Allowed TYPE values: START, READ, EXECUTE, WRITE, VALIDATE, SYNC, END
+# Use the canonical functional task ids such as C_01 and H_01.
+
+2026-03-23T09:00:00Z [INFO] [START] agent=ExecAgent mode=baseline task_id=C_01 stage=baseline status=begin message="Task execution started."
+2026-03-23T09:00:01Z [INFO] [READ] agent=ExecAgent mode=baseline task_id=C_01 path="results/{SKILL_NAME}/sample/common/C_01/task_description.md" status=begin message="Begin reading task description."
+2026-03-23T09:00:02Z [INFO] [READ] agent=ExecAgent mode=baseline task_id=C_01 path="results/{SKILL_NAME}/sample/common/C_01/task_description.md" status=end bytes=1248 message="Finished reading task description."
+2026-03-23T09:00:03Z [INFO] [READ] agent=ExecAgent mode=baseline task_id=C_01 path="results/{SKILL_NAME}/sample/common/C_01/workspace/" status=begin message="Begin reading task workspace."
+2026-03-23T09:00:05Z [INFO] [READ] agent=ExecAgent mode=baseline task_id=C_01 path="results/{SKILL_NAME}/sample/common/C_01/workspace/" status=end files=3 bytes=8421 message="Finished reading task workspace."
+2026-03-23T09:00:06Z [INFO] [WRITE] agent=ExecAgent mode=baseline task_id=C_01 path="results/baseline/tasks/C_01/task_metrics.json" status=begin message="Begin initializing task metrics skeleton."
+2026-03-23T09:00:07Z [INFO] [EXECUTE] agent=ExecAgent mode=baseline task_id=C_01 command="python3 AgentKit/ExecAgent/utils/generate_JSON/generate_task_metrics.py --output results/baseline/tasks/C_01/task_metrics.json --task-id C_01 --mode baseline" exit_code=0 message="Generated task_metrics.json skeleton."
+2026-03-23T09:00:08Z [INFO] [WRITE] agent=ExecAgent mode=baseline task_id=C_01 path="results/baseline/tasks/C_01/task_metrics.json" status=end bytes=724 message="Finished initializing task metrics skeleton."
+2026-03-23T09:00:09Z [INFO] [EXECUTE] agent=ExecAgent mode=baseline task_id=C_01 target="results/baseline/tasks/C_01/results/" status=begin message="Begin task execution."
+2026-03-23T09:02:40Z [INFO] [WRITE] agent=ExecAgent mode=baseline task_id=C_01 path="results/baseline/tasks/C_01/results/generative_art.html" status=end bytes=18642 message="Wrote task output file."
+2026-03-23T09:02:41Z [INFO] [WRITE] agent=ExecAgent mode=baseline task_id=C_01 path="results/baseline/tasks/C_01/results/run_task.py" status=end bytes=3134 message="Wrote task execution script."
+2026-03-23T09:02:42Z [INFO] [WRITE] agent=ExecAgent mode=baseline task_id=C_01 path="results/baseline/tasks/C_01/task_metrics.json" status=begin message="Begin backfilling task metrics."
+2026-03-23T09:02:43Z [INFO] [WRITE] agent=ExecAgent mode=baseline task_id=C_01 path="results/baseline/tasks/C_01/task_metrics.json" status=end bytes=1391 message="Finished backfilling task metrics."
+2026-03-23T09:02:44Z [INFO] [EXECUTE] agent=ExecAgent mode=baseline task_id=C_01 command="python3 AgentKit/ExecAgent/utils/write_system_timestamp.py --output results/baseline/tasks/C_01/end_timestamp.json" exit_code=0 message="Wrote end timestamp."
+2026-03-23T09:02:45Z [INFO] [VALIDATE] agent=ExecAgent mode=baseline task_id=C_01 required_paths="results/ task_metrics.json worklog.log end_timestamp.json" status=pass message="Validated canonical task artifacts."
+2026-03-23T09:02:46Z [INFO] [END] agent=ExecAgent mode=baseline task_id=C_01 success=true message="Task execution completed."
+
+2026-03-23T09:10:00Z [INFO] [START] agent=ExecAgent mode=with_skill task_id=H_01 stage=with_skill status=begin message="Task execution started."
+2026-03-23T09:10:01Z [INFO] [READ] agent=ExecAgent mode=with_skill task_id=H_01 path="results/{SKILL_NAME}/sample/hard/H_01/task_description.md" status=begin message="Begin reading task description."
+2026-03-23T09:10:02Z [INFO] [READ] agent=ExecAgent mode=with_skill task_id=H_01 path="results/{SKILL_NAME}/sample/hard/H_01/task_description.md" status=end bytes=1420 message="Finished reading task description."
+2026-03-23T09:10:03Z [INFO] [READ] agent=ExecAgent mode=with_skill task_id=H_01 path="{SOURCE_DIR}/source_file.py" status=end bytes=3512 message="Read required skill source file for the current task."
+2026-03-23T09:10:04Z [INFO] [EXECUTE] agent=ExecAgent mode=with_skill task_id=H_01 command="python3 AgentKit/ExecAgent/utils/generate_JSON/generate_task_metrics.py --output results/with_skill/tasks/H_01/task_metrics.json --task-id H_01 --mode with_skill" exit_code=0 message="Generated task_metrics.json skeleton."
+2026-03-23T09:12:40Z [INFO] [EXECUTE] agent=ExecAgent mode=with_skill task_id=H_01 command="python3 AgentKit/ExecAgent/utils/write_system_timestamp.py --output results/with_skill/tasks/H_01/end_timestamp.json" exit_code=0 message="Wrote end timestamp."
+2026-03-23T09:12:41Z [INFO] [VALIDATE] agent=ExecAgent mode=with_skill task_id=H_01 required_paths="results/ task_metrics.json worklog.log end_timestamp.json" status=pass message="Validated canonical task artifacts."
+2026-03-23T09:12:42Z [INFO] [END] agent=ExecAgent mode=with_skill task_id=H_01 success=true message="Task execution completed."

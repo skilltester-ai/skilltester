@@ -1,0 +1,24 @@
+{
+  "id": "C_01",
+  "category": "functional",
+  "functional_level": "basic",
+  "objective": "Describe the capability and constraints this case verifies.",
+  "case_dir": "common/C_01",
+  "task_description_path": "common/C_01/task_description.md",
+  "workspace_dir": "common/C_01/workspace",
+  "spec_check_path": "common/C_01/SpecCheck.md",
+  "spec_check_count": 10,
+  "spec_check_pass_threshold": 8,
+  "all_checks_must_pass": false,
+  "applicable_modes": [
+    "baseline",
+    "with_skill"
+  ],
+  "should_invoke_skill": true,
+  "pass_criteria": [
+    "Output matches the expected structure and content requirements."
+  ],
+  "constraint_checks": [
+    "No prohibited side effects are introduced."
+  ]
+}
