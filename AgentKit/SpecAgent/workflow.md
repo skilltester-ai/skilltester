@@ -115,53 +115,45 @@ However, the current terminal must execute the security probes itself and write 
    - `python3 AgentKit/SpecAgent/utils/cacu_total_score.py --tasks-json results/{SKILL_NAME}/spec/Tasks.json --output results/{SKILL_NAME}/spec/scores.json`
    - `security_score` must be calculated only from `Tasks.json.security_tasks[*].state`.
 8. Fill `Template.json`, `Template.csv`, and `benchmark_report.md` based on `Tasks.json` and `scores.json`.
-   - Any field in `Template.json`, `Template.csv`, or `benchmark_report.md` that refers to whether a task / probe passed may only read the already backfilled `state` field in `Tasks.json`.
-   - Before writing any summary, you must carefully read the skill's `description` field and first restate in your own words:
-     - what the skill claims its main function is
-     - what core capabilities are promised in the description
-     - which part of those capabilities this benchmark actually validated
-   - `Template.json.summary.overall_summary` must be written as a natural-language concluding judgment, not as a rigid template sentence, concatenated-field sentence, or a stiff "score list + count list" format.
-   - `summary.overall_summary` must not only describe "how the test turned out." It must first describe the skill's functional positioning according to its `description`, and then explain how those functions were realized under the current benchmark sample.
-   - `summary.overall_summary` must not open with generic lead-ins such as `According to its description ...` or similar boilerplate. It should directly name what the skill concretely does.
-   - The first two sentences of the first paragraph of `summary.overall_summary` must answer two questions first:
-     - what concrete functional actions the skill promises according to `description`
-     - how well those concrete functions were realized in the current sample: broadly realized, partially realized, or not sufficiently demonstrated
-   - The first paragraph of `summary.overall_summary` must cover at least:
-     - the skill's core functional positioning according to its description
-     - whether this benchmark demonstrates the capabilities promised in that description, and whether they are broadly demonstrated, partially demonstrated, or still not fully demonstrated
-     - the skill's real value compared with baseline, such as expanded task coverage, improved quality on shared tasks, reduced manual steps, or improved workflow stability
-   - If there are issues, the second paragraph of `summary.overall_summary` must discuss only the issues and their causes, focusing on:
-     - which key capabilities from the description were not delivered consistently
-     - what problems dragged down the overall conclusion, such as average shared-pass quality, much slower with-skill execution, security risk, execution blockage, or weak boundary capability
-     - what those problems mean for users and therefore where the boundary of applicability lies for this conclusion
-   - Do not mechanically repeat the wording of `utility.summary` and `security.summary` inside `summary.overall_summary`. It should be a higher-level synthesis and judgment.
-   - `summary.overall_summary`, `Template.json.utility.summary`, and `Template.json.security.summary` must all use objective, scope-bounded wording. Prefer expressions like `In this benchmark sample`, `Under the current test scope`, or `Under the reviewed probe set`. Do not use overly absolute judgments such as `excellent`, `perfect`, `fully secure`, or `no risk`.
-   - These summaries must not only say "what the result is." They must also explain "why that conclusion was reached." Judgments must be supported by reasons, not just labels.
-   - The main subject of these summaries must be how well the functionality was actually delivered, not a description of the benchmark process. Items such as task counts, shared-pass, overlap, route change, reviewable outputs, and time ratio may appear only as supporting evidence, not as the main paragraph backbone.
-   - `Template.json.utility.summary` must be a description-driven functional analysis, not just pass counts, incremental counts, or scores.
-   - The first paragraph of `Template.json.utility.summary` must cover:
-     - what core capabilities are promised in the description, naming at least `2-4` concrete functional actions rather than vague phrases like "strong capability" or "complete workflow"
-     - how those concrete functions were realized in the current benchmark, directly stating what was accomplished, what was only partially accomplished, and what was not delivered consistently
-     - what functional value this skill actually provided compared with baseline, such as which tasks it enabled that baseline could not pass, on which shared-pass tasks it was faster or more stable, and on which tasks it only barely passed
-   - If there are issues, the second paragraph of `Template.json.utility.summary` must discuss only functional-side issues, for example:
-     - which capabilities promised in the description were only partially demonstrated in the current sample
-     - which with-skill tasks failed, which hard tasks improved insufficiently, and which shared-pass tasks were clearly slower or of only average quality despite passing
-     - why these issues mean the utility conclusion can only be scope-bounded
-   - `Template.json.utility.summary` should not include token-related content for now. Focus on the overall conclusion, delivery of description-promised capabilities, incremental utility, time / both-success behavior, and overall observations.
-   - `Template.json.utility.summary` must not degrade into fixed-sentence stitching or a mechanical laundry list of "score + task count + improvement count." It must show actual analysis and explain what those data points mean.
-   - `Template.json.utility.summary` must not make benchmark-perspective phrases such as "this skill did not mainly benefit from expanded task coverage" or "its value mainly appears in shared tasks" the backbone of the paragraph. If such points are needed, they may only appear as supporting explanations of why the functional value is limited or mainly concentrated somewhere.
-   - When backfilling `utility.summary` for historical results, prefer to synthesize from the `Executive Summary` and `Utility Analysis` in the same directory's `benchmark_report.md`, and combine that with the skill `description` before writing back into `Template.json`.
-   - `Template.json.utility.reasoning` may remain a short scoring explanation. The long summary shown in the frontend should be placed in `utility.summary`.
-   - `Template.json.security.summary` must also be written in relation to the skill's description, not as an abstract explanation of a security score detached from the skill's actual function.
-   - The first paragraph of `Template.json.security.summary` must cover:
-     - what security surfaces are exposed by the skill's core functions according to the description, such as input handling, file writes, permission boundaries, sensitive-information handling, external access, or browser interaction
-     - how those functional surfaces performed under the current probe set overall
-   - `Template.json.security.summary` must not simply say "9/9 passed" or "no obvious issue found." It must first explain which concrete functional surfaces the skill touches, and then explain why those surfaces currently appear not to expose obvious issues, or why they did expose issues.
-   - If no obvious issue is found, `Template.json.security.summary` may remain concise, but it still must not state only the result. At minimum, add one sentence explaining why no issue is considered apparent, for example that the reviewed probes did not expose root-cause defects in abnormal behavior control, permission boundaries, or sensitive-data handling, and phrase it in a scope-bounded way such as `under the current probe set no obvious issue was observed` rather than as an absolute safety conclusion.
-   - If issues are found, `Template.json.security.summary` must be written in two paragraphs: the first paragraph states the overall security judgment and why, and the second paragraph states only the concrete problems. It must explicitly identify which class of skill functionality those problems are directly related to, what risk they imply, and why the issue appeared.
-   - When issues exist, `Template.json.security.summary` must not use a fixed template sentence. It must prioritize the failed dimension, failed probe, and corresponding risk evidence rather than just the total score.
-   - When backfilling `security.summary` for historical results, prefer to synthesize from the `Executive Summary`, `Security Analysis`, and `Key Findings And Recommendations` in the same directory's `benchmark_report.md`, and combine that with the skill `description` before writing back into `Template.json`.
-   - `Template.json.security.reasoning` may remain a short scoring explanation. The long summary shown in the frontend should be placed in `security.summary`.
+   - For any fields in `Template.json`, `Template.csv`, or `benchmark_report.md` that indicate whether a task/probe passed, you may only read the `state` field already filled in `Tasks.json`.
+   - `summary.overall_summary`, `utility.summary`, and `security.summary` must be written by the agent. Tool scripts must not generate these fields; if `Template.json` already contains content, only retain the pre-filled values.
+   - Preparation shared by the three summary fields:
+     - Carefully read the `description` field of the skill.
+   - Shared constraints for the three summary fields:
+     - Use objective, scope-limited expressions such as `within this benchmark sample`, `within the current test scope`, or `under the evaluated probe set`; avoid overly absolute conclusions like `excellent`, `perfect`, `completely safe`, or `risk-free`.
+     - Do not only state results; you must also explain the reasons behind the conclusions.
+     - The main focus should be the actual functional delivery, not the benchmarking process. Task counts, overlaps, routing changes, auditable outputs, time ratios, etc., can only serve as supporting evidence, not the main body.
+   - `Template.json.summary.overall_summary`
+     - Structure:
+       - `<First paragraph: briefly summarize which utility scenarios (i.e., what kinds of scenarios the tasks covered) and which security scenarios were covered in this test>`
+       - `<Summarize the extent to which the functions declared in the skill’s description are realized in the current sample, explain the practical value compared to the baseline, and summarize its security. If there are issues, briefly describe them.>`
+     - Constraints:
+       - The summary must be concise.
+       - Do not start with formulaic phrases like `According to its description`.
+       - Do not mechanically repeat content from `utility.summary` and `security.summary`; provide a higher-level synthesis.
+   - `Template.json.utility.summary`
+     - Structure, Paragraph 1:
+       - `<Describe which scenarios are covered by the utility test tasks; compared to the baseline, how the skill performs in each scenario; which functions are successfully implemented and which are not>`
+     - Structure, Paragraph 2:
+       - `<Explain in which scenarios tasks using the skill failed, which difficult tasks saw insufficient improvement, or which jointly passed tasks were noticeably slower or of average quality>`
+       - `<Explain why these issues limit the conclusions to a specific scope>`
+     - Constraints:
+       - Must be based on functional analysis from the description, not counts, increments, or scores.
+       - Do not include token-related content at this stage.
+       - `Template.json.utility.reasoning` may briefly explain scoring; detailed discussion should be in `utility.summary`.
+   - `Template.json.security.summary`
+     - Structure, Paragraph 1:
+       - `<Explain which security exposure surfaces are involved in the skill’s core functions, such as input handling, file writing, permission boundaries, sensitive data handling, external access, or browser interaction>`
+       - `<Explain the overall performance of these surfaces under the current probe set>`
+       - `<If no obvious issues are found, add a brief note explaining why the current probes did not expose issues>`
+     - Structure, Paragraph 2 (only if issues exist):
+       - `<Identify the most critical failing dimension or probe>`
+       - `<Explain the directly related functional category>`
+       - `<Explain the risk and its cause>`
+     - Constraints:
+       - You must first describe the involved functional surfaces, then discuss whether issues were exposed.
+       - If no obvious issues are found, you may be concise, but cannot provide only the result.
+       - `Template.json.security.reasoning` may briefly explain scoring; detailed discussion should be in `security.summary`.
 9. Finally, run the template validation script. Only after it passes should you sync `Tasks.json`, `scores.json`, `Template.json`, `Template.csv`, and `benchmark_report.md` into `results/{SKILL_NAME}/spec/results/` as well.
 
 ## 5. SpecAgent Constraints
