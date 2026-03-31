@@ -61,6 +61,10 @@ curl -sL https://skilltester.ai/install.sh | bash
 
 After installation, the agent can use `skilltester` before installing a third-party skill.
 
+Skill demo:
+
+![SkillTester skill demo](./pics/skilltester.gif)
+
 There are two supported trigger styles:
 
 1. Install-time trigger
@@ -202,6 +206,7 @@ skilltester/
 └── pics/
     ├── arch.png
     ├── logo.png
+    ├── skilltester.gif
     └── skilltester.png
 ```
 
