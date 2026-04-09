@@ -56,7 +56,7 @@ From there, users can:
 Quick install:
 
 ```bash
-curl -sL https://skilltester.ai/install.sh | bash
+npx skills add https://skilltester.ai --skill skilltester
 ```
 
 After installation, the agent can use `skilltester` before installing a third-party skill.
