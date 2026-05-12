@@ -15,7 +15,7 @@ scaffold for one skill.
 SpecAgent review results are no longer produced as separate review-log files.
 Instead, the agent should:
 1. call this script first to generate / refresh Tasks.json skeletons
-2. directly backfill SpecCheck audit results into each task / probe row
+2. directly backfill code-grader audit results into each task / probe row
 3. run downstream scoring / template generation from Tasks.json only
 
 If an existing Tasks.json already contains review fields, this script preserves
@@ -478,11 +478,35 @@ def _load_functional_task_ids(sample_dir: Path) -> list[str]:
     return ordered_ids
 
 
+def _load_manifest_entries(sample_dir: Path, key: str) -> dict[str, dict[str, Any]]:
+    manifest = _read_json(sample_dir / "benchmark_manifest.json") or {}
+    entries: dict[str, dict[str, Any]] = {}
+    for entry in manifest.get(key, []) or []:
+        if not isinstance(entry, dict):
+            continue
+        item_id = str(entry.get("id") or entry.get("task_id") or "").strip()
+        if item_id:
+            entries[item_id] = dict(entry)
+    return entries
+
+
+def _match_manifest_entry(
+    entries: dict[str, dict[str, Any]],
+    *candidate_ids: str,
+) -> dict[str, Any]:
+    for candidate_id in candidate_ids:
+        item_id = str(candidate_id or "").strip().strip("/")
+        if item_id and item_id in entries:
+            return entries[item_id]
+    return {}
+
+
 def _calculate_task_scores(
     baseline_tasks: dict[str, dict[str, Any]],
     with_skill_tasks: dict[str, dict[str, Any]],
     ordered_task_ids: list[str] | None = None,
     existing_review_rows: dict[str, dict[str, Any]] | None = None,
+    manifest_entries: dict[str, dict[str, Any]] | None = None,
 ) -> list[dict[str, Any]]:
     """Calculate task-level scores."""
     all_ids = set(baseline_tasks.keys()) | set(with_skill_tasks.keys())
@@ -522,6 +546,7 @@ def _calculate_task_scores(
         ws_task = with_skill_tasks.get(task_id, {"task_id": task_id})
         bl_task = baseline_tasks.get(task_id, {"task_id": task_id})
         existing = existing_review_rows.get(task_id, {})
+        manifest_entry = _match_manifest_entry(manifest_entries or {}, task_id)
 
         baseline_state = _resolved_state(existing.get("baseline_state"))
         with_skill_state = _resolved_state(existing.get("with_skill_state") or existing.get("state"))
@@ -574,6 +599,16 @@ def _calculate_task_scores(
             "baseline_tokens": _round(baseline_tokens),
             "skill_time": _round(skill_time),
             "baseline_time": _round(baseline_time),
+            "outcome": manifest_entry.get("outcome") or existing.get("outcome"),
+            "grader_dir": manifest_entry.get("grader_dir") or existing.get("grader_dir"),
+            "grader_manifest_path": manifest_entry.get("grader_manifest_path") or existing.get("grader_manifest_path"),
+            "grader_entry": manifest_entry.get("grader_entry") or existing.get("grader_entry"),
+            "rubric_count": manifest_entry.get("rubric_count") or existing.get("rubric_count"),
+            "rubric_pass_threshold": manifest_entry.get("rubric_pass_threshold") or existing.get("rubric_pass_threshold"),
+            "output_contract": manifest_entry.get("output_contract") or existing.get("output_contract"),
+            "environment": manifest_entry.get("environment") or existing.get("environment"),
+            "verifier": manifest_entry.get("verifier") or existing.get("verifier"),
+            "unsupported_rules": manifest_entry.get("unsupported_rules") or existing.get("unsupported_rules"),
         }
         task_row.update(_recompute_task_scoring_fields(task_row))
         task_rows.append(task_row)
@@ -598,10 +633,10 @@ def _summarize_spec_check(path: Path) -> str:
     if check_count:
         required_pass_count = min(SPEC_CHECK_PASS_THRESHOLD, check_count)
         return (
-            f"Audit against SpecCheck.md with {check_count} checks; "
+            f"Legacy audit against SpecCheck.md with {check_count} checks; "
             f"at least {required_pass_count}/{check_count} checks must pass."
         )
-    return "Audit against SpecCheck.md."
+    return "Audit with Grader/ code graders; legacy SpecCheck.md not found."
 
 
 def _load_case_spec_check(case_dir: Path) -> tuple[str | None, int | None, str]:
@@ -619,7 +654,12 @@ def _is_security_probe_case_dir(path: Path) -> bool:
         return False
     if path.name in SECURITY_NON_PROBE_DIR_NAMES:
         return False
-    return (path / "SpecCheck.md").exists() or (path / "task_description.md").exists()
+    return (
+        (path / "Grader").exists()
+        or (path / "TaskDescription.md").exists()
+        or (path / "SpecCheck.md").exists()
+        or (path / "task_description.md").exists()
+    )
 
 
 def _merge_probe_result_payload(existing: dict[str, Any], incoming: dict[str, Any]) -> None:
@@ -825,6 +865,7 @@ def _load_security_tasks(
     _, existing_security_rows_by_id, existing_security_rows_by_spec_path = _load_existing_tasks_snapshot(
         specs_dir=spec_dir,
     )
+    security_manifest_entries = _load_manifest_entries(sample_dir, "security_probes")
 
     def _get_dimension_from_probe_id(probe_id: str) -> str:
         category = _infer_probe_category(probe_id)
@@ -933,14 +974,23 @@ def _load_security_tasks(
                 category = _infer_probe_category(entry.name) or entry.name
                 sample_probe_id = entry.name
                 description = ""
-                task_desc_path = entry / "task_description.md"
+                task_desc_path = entry / "TaskDescription.md"
+                if not task_desc_path.exists():
+                    task_desc_path = entry / "task_description.md"
                 if task_desc_path.exists():
                     description = task_desc_path.read_text(encoding="utf-8")
                 spec_check_path, spec_check_count, expected_behavior = _load_case_spec_check(entry)
+                manifest_entry = _match_manifest_entry(
+                    security_manifest_entries,
+                    sample_probe_id,
+                    f"{category}/{sample_probe_id}",
+                    f"{category}_{sample_probe_id}",
+                )
                 probe_cases.append(
                     {
                         "category": category,
                         "sample_probe_id": sample_probe_id,
+                        "manifest_entry": manifest_entry,
                         "candidate_ids": _candidate_probe_ids(category, sample_probe_id),
                         "sample_spec_path": spec_check_path,
                         "sample_spec_rel": _normalize_path_like(_repo_rel(Path(spec_check_path))) if spec_check_path else "",
@@ -960,14 +1010,23 @@ def _load_security_tasks(
             for sample_path in probe_case_dirs:
                 sample_probe_id = sample_path.name
                 description = ""
-                task_desc_path = sample_path / "task_description.md"
+                task_desc_path = sample_path / "TaskDescription.md"
+                if not task_desc_path.exists():
+                    task_desc_path = sample_path / "task_description.md"
                 if task_desc_path.exists():
                     description = task_desc_path.read_text(encoding="utf-8")
                 spec_check_path, spec_check_count, expected_behavior = _load_case_spec_check(sample_path)
+                manifest_entry = _match_manifest_entry(
+                    security_manifest_entries,
+                    sample_probe_id,
+                    f"{category}/{sample_probe_id}",
+                    f"{category}_{sample_probe_id}",
+                )
                 probe_cases.append(
                     {
                         "category": category,
                         "sample_probe_id": sample_probe_id,
+                        "manifest_entry": manifest_entry,
                         "candidate_ids": _candidate_probe_ids(category, sample_probe_id),
                         "sample_spec_path": spec_check_path,
                         "sample_spec_rel": _normalize_path_like(_repo_rel(Path(spec_check_path))) if spec_check_path else "",
@@ -1037,7 +1096,9 @@ def _load_security_tasks(
         description: str,
         expected_behavior: str,
         spec_check_count: int | None,
+        manifest_entry: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
+        manifest_entry = manifest_entry or {}
         existing_review_row = existing_security_rows_by_spec_path.get(sample_spec_rel)
         if existing_review_row is None:
             existing_review_row = existing_security_rows_by_id.get(output_probe_id)
@@ -1112,6 +1173,16 @@ def _load_security_tasks(
             "failed_checks": existing_review_row.get("failed_checks"),
             "total_checks": existing_review_row.get("total_checks") or spec_check_count,
             "all_checks_passed": existing_review_row.get("all_checks_passed"),
+            "outcome": manifest_entry.get("outcome") or existing_review_row.get("outcome"),
+            "grader_dir": manifest_entry.get("grader_dir") or existing_review_row.get("grader_dir"),
+            "grader_manifest_path": manifest_entry.get("grader_manifest_path") or existing_review_row.get("grader_manifest_path"),
+            "grader_entry": manifest_entry.get("grader_entry") or existing_review_row.get("grader_entry"),
+            "rubric_count": manifest_entry.get("rubric_count") or existing_review_row.get("rubric_count"),
+            "rubric_pass_threshold": manifest_entry.get("rubric_pass_threshold") or existing_review_row.get("rubric_pass_threshold"),
+            "output_contract": manifest_entry.get("output_contract") or existing_review_row.get("output_contract"),
+            "environment": manifest_entry.get("environment") or existing_review_row.get("environment"),
+            "verifier": manifest_entry.get("verifier") or existing_review_row.get("verifier"),
+            "unsupported_rules": manifest_entry.get("unsupported_rules") or existing_review_row.get("unsupported_rules"),
         }
 
     matched_probe_ids: set[str] = set()
@@ -1137,6 +1208,7 @@ def _load_security_tasks(
                 description=case["description"],
                 expected_behavior=case["expected_behavior"],
                 spec_check_count=case["spec_check_count"],
+                manifest_entry=case["manifest_entry"],
             )
         )
 
@@ -1160,6 +1232,7 @@ def _load_security_tasks(
                 description=str(result_data.get("task_description") or ""),
                 expected_behavior=str(existing_security_rows_by_id.get(probe_id, {}).get("expected_behavior") or ""),
                 spec_check_count=existing_security_rows_by_id.get(probe_id, {}).get("total_checks"),
+                manifest_entry=_match_manifest_entry(security_manifest_entries, probe_id),
             )
         )
 
@@ -1193,6 +1266,7 @@ def generate_tasks_json(
     baseline_tasks = _load_tasks_from_log(exec_dir, "baseline")
     with_skill_tasks = _load_tasks_from_log(exec_dir, "with_skill")
     ordered_task_ids = _load_functional_task_ids(sample_dir)
+    functional_manifest_entries = _load_manifest_entries(sample_dir, "functional_tasks")
 
     # Calculate functional task scores
     task_rows = _calculate_task_scores(
@@ -1200,6 +1274,7 @@ def generate_tasks_json(
         with_skill_tasks,
         ordered_task_ids=ordered_task_ids,
         existing_review_rows=existing_task_rows,
+        manifest_entries=functional_manifest_entries,
     )
 
     # Step 2: Load security tasks

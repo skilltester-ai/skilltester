@@ -18,8 +18,15 @@ Must read:
 
 For each functional task, read only that task's:
 
-- `task_description.md`
-- `workspace/`
+- `TaskDescription.md`
+- `WorkSpace/`
+
+For each functional task, also read the manifest row fields `outcome`,
+`output_contract`, `environment`, `verifier`, and `unsupported_rules`.
+These fields define the required parseable output artifact and honest
+`unsupported` / `blocked` reporting conditions.
+
+ExecAgent must not read or run `Grader/`; graders are reserved for SpecAgent.
 
 Rules for reading the target skill:
 
@@ -45,7 +52,7 @@ Forbidden to write:
 2. The first stage action must be:
    - `python3 AgentKit/ExecAgent/utils/write_system_timestamp.py --output results/with_skill/stage_start_timestamp.json`
 3. Execute the functional tasks in `benchmark_manifest.json` one by one, following the order of the `functional_tasks` array.
-4. Before reading a task's `task_description.md`, you must first run:
+4. Before reading a task's `TaskDescription.md`, you must first run:
    - `python3 AgentKit/ExecAgent/utils/write_system_timestamp.py --output results/with_skill/tasks/{task_id}/start_timestamp.json`
 5. Each task must first generate a JSON skeleton. Do not hand-edit the duration fields:
    - `python3 AgentKit/ExecAgent/utils/generate_JSON/generate_task_metrics.py --output results/with_skill/tasks/{task_id}/task_metrics.json --task-id {task_id} --mode with_skill`
@@ -55,6 +62,7 @@ Forbidden to write:
    - `results/with_skill/tasks/{task_id}/worklog.log`
    - `results/with_skill/tasks/{task_id}/start_timestamp.json`
    - `results/with_skill/tasks/{task_id}/end_timestamp.json`
+   - the primary parseable result artifact required by the task's `output_contract`
 7. At the end of each task, you must run the following script command to generate `end_timestamp.json`:
    - `python3 AgentKit/ExecAgent/utils/write_system_timestamp.py --output results/with_skill/tasks/{task_id}/end_timestamp.json`
    - Hand-writing `end_timestamp.json` or creating / overwriting it through `echo`, `date`, `touch`, or any other method is forbidden.
@@ -79,7 +87,8 @@ Forbidden to write:
 8. `with_skill` may be launched independently of `baseline`. Parallel stage
    execution is allowed, but task execution inside the current with-skill stage
    must still remain serial.
-9. You must implement strictly according to each task's `task_description.md` and `workspace/` requirements. Do not privately remove requirements, weaken constraints, skip boundary conditions, or substitute an approximate simplified result.
+9. You must implement strictly according to each task's `TaskDescription.md`, `Outcome`, `Output Contract`, and `WorkSpace/` requirements. Do not privately remove requirements, weaken constraints, skip boundary conditions, or substitute an approximate simplified result.
+9.1. You must produce the parseable primary result artifact declared by `output_contract`. If the task cannot be completed because of an environment or verifier limitation covered by `unsupported_rules`, write the declared result artifact with `status` set to `unsupported` or `blocked` and record the reason.
 10. If a task cannot truly be completed because environment, dependency, permission, data, external-service, or task conditions are not satisfied, you must fail honestly:
    - record the failure reason and blocking point truthfully in the result
    - do not fake success

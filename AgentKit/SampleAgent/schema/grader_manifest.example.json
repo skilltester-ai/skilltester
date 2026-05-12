@@ -1,0 +1,29 @@
+{
+  "schema_version": "grader.v1",
+  "entry": "run.py",
+  "result_path": "grading_result.json",
+  "primary_result_path": "result.json",
+  "pass_policy": {
+    "minimum_pass_count": 8,
+    "must_pass": [
+      "R1",
+      "R2"
+    ]
+  },
+  "rubrics": [
+    {
+      "id": "R1",
+      "grader": "R1.py",
+      "type": "json_schema",
+      "official": true,
+      "weight": 1
+    },
+    {
+      "id": "R2",
+      "grader": "R2.py",
+      "type": "coverage",
+      "official": true,
+      "weight": 1
+    }
+  ]
+}

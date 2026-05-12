@@ -47,10 +47,11 @@ Canonical manifest rules:
 - `security_probes` is a flat list of `9` entries
 - manifest paths are sample-root-relative and must not start with `samples/`
 - functional ids are fixed to `C_01`...`C_08` and `H_01`...`H_04`
-- `SpecCheck.md` is the active audit artifact; `expected_output.*` is not
-  canonical for new runs
-- every `SpecCheck.md` must contain exactly `10` checks plus one parseable
-  `<!-- SPECCHECK: {...} -->` JSON block per check
+- `TaskDescription.md` defines an Anthropic-style `Outcome`; `expected_output.*`
+  is not canonical for new runs
+- every `Outcome.Rubric` must contain exactly `10` rubric items with stable IDs
+- every rubric ID must map one-to-one to a code grader under `Grader/`
+- every task/probe must use `TaskDescription.md`, `WorkSpace/`, and `Grader/`
 
 ## Active ExecAgent Contract
 

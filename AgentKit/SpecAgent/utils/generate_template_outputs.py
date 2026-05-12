@@ -936,7 +936,7 @@ def _build_utility_evidence(
         f"Skill-failed tasks: {len(skill_failed_tasks)}.",
     ]
     if frequent_failures:
-        summary_parts.append("Most common failed SpecCheck items: " + "; ".join(frequent_failures) + ".")
+        summary_parts.append("Most common failed rubric/grader items: " + "; ".join(frequent_failures) + ".")
     utility_summary = " ".join(summary_parts)
 
     return {
@@ -1114,7 +1114,7 @@ def _utility_issue_paragraph(scores: dict[str, Any], non_skill_state: str, non_s
     skill_failed = int(_as_float(scores.get("skill_failed_tasks")) or 0)
     if skill_failed > 0:
         issues.append(
-            f"{skill_failed} with-skill tasks still fell below the final SpecCheck threshold, so part of the score loss comes from incomplete or weak final deliverables rather than from execution attempts alone."
+            f"{skill_failed} with-skill tasks still fell below the final rubric/grader threshold, so part of the score loss comes from incomplete or weak final deliverables rather than from execution attempts alone."
         )
 
     ratio = _as_float(scores.get("raw_measurements", {}).get("compare", {}).get("time_change_ratio"))
@@ -1215,7 +1215,7 @@ def _build_overall_summary(
     issue_sentence = _security_failure_digest(scores, limit=1)
     if not issue_sentence and valid_task_count > 0 and skill_failed > 0:
         issue_sentence = (
-            f"Review notes still show {skill_failed} with-skill tasks failing the final SpecCheck threshold, so the main limitation is not just speed but incomplete realization of the promised workflow."
+            f"Review notes still show {skill_failed} with-skill tasks failing the final rubric/grader threshold, so the main limitation is not just speed but incomplete realization of the promised workflow."
         )
     first_paragraph = " ".join(
         part
@@ -1351,7 +1351,7 @@ def _build_security_evidence(scores: dict[str, Any]) -> dict[str, str]:
             examples = []
             for row in failing_rows[:2]:
                 note = str(row.get("notes") or "").strip()
-                examples.append(f"{row.get('task_id')}: {note or 'SpecCheck audit failed.'}")
+                examples.append(f"{row.get('task_id')}: {note or 'rubric/grader audit failed.'}")
             sentence += " Failing probes: " + " ".join(examples)
         else:
             examples = ", ".join(str(row.get("task_id")) for row in rows[:3])
@@ -1442,15 +1442,15 @@ def _build_recommendations(
     functional_tasks = [item for item in scores.get("tasks", []) if isinstance(item, dict)]
     top_functional_issues = _summarize_failed_checks([row for row in functional_tasks if not _state_is_pass(row)])
     for issue in top_functional_issues[:2]:
-        recommendations.append(f"Fix recurrent with-skill SpecCheck failure: {issue}.")
+        recommendations.append(f"Fix recurrent with-skill rubric/grader failure: {issue}.")
 
     failing_security = [row for row in security_tasks if not _state_is_pass(row)]
     for row in failing_security[:2]:
         notes = str(row.get("notes") or "").strip()
-        recommendations.append(f"Address security probe {row.get('task_id')}: {notes or 'SpecCheck audit failed.'}")
+        recommendations.append(f"Address security probe {row.get('task_id')}: {notes or 'rubric/grader audit failed.'}")
 
     if not recommendations:
-        recommendations.append("No major blocking issue detected; focus on reducing execution time overhead and tightening SpecCheck wording.")
+        recommendations.append("No major blocking issue detected; focus on reducing execution time overhead and tightening rubric/grader design.")
     return recommendations[:4]
 
 
@@ -1813,10 +1813,10 @@ def _build_benchmark_report(
 - High-priority issues:
 {chr(10).join(f"  - {item}" for item in recommendations)}
 - Suggested skill improvements:
-  - Reduce recurrent SpecCheck failures before optimizing efficiency metrics.
-  - Tighten security-sensitive outputs that still trip SpecCheck audit patterns.
+  - Reduce recurrent rubric/grader failures before optimizing efficiency metrics.
+  - Tighten security-sensitive outputs that still trip grader audit patterns.
 - Suggested benchmark / sample improvements:
-  - Keep SpecCheck wording aligned with executable evidence.
+  - Keep outcome rubric wording aligned with executable grader evidence.
   - Backfill missing ExecAgent stage metrics when historical runs lack them.
 
 ## 7. Evidence Appendix

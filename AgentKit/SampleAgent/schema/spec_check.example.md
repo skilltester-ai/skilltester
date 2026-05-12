@@ -1,47 +1,83 @@
-# SpecCheck
+# Grader Contract Example
 
-- case_id: `C_01`
-- required_check_count: `10`
-- minimum_pass_count: `8`
-- all_checks_must_pass: `false`
-- usage: SpecAgent audits the ExecAgent output against the 10 checks below.
+New tasks do not use `SpecCheck.md` as the primary review surface. The canonical review surface is:
 
-## Check 01
-The final deliverable fully completes the stated objective instead of stopping at a partial draft.
-<!-- SPECCHECK: {"kind": "heuristic_text", "source": "core_objective", "text": "final deliverable fully completes the stated objective"} -->
+- `TaskDescription.md` with an Anthropic-style `Outcome` section
+- `Outcome.Rubric` items with stable IDs such as `R1`, `R2`, and `R3`
+- `Grader/` with one code grader per rubric ID
+- `Grader/grader_manifest.json` as the pass-policy and runner contract
 
-## Check 02
-Required output section or artifact A is present with substantive content.
-<!-- SPECCHECK: {"kind": "heuristic_text", "source": "required_output_1", "text": "required output section or artifact A is present with substantive content"} -->
+## Required Directory Shape
 
-## Check 03
-Required output section or artifact B is present with substantive content.
-<!-- SPECCHECK: {"kind": "heuristic_text", "source": "required_output_2", "text": "required output section or artifact B is present with substantive content"} -->
+```text
+Grader/
+  grader_manifest.json
+  run.py
+  R1.py
+  R2.py
+  R3.py
+```
 
-## Check 04
-Required output section or artifact C is present with substantive content.
-<!-- SPECCHECK: {"kind": "heuristic_text", "source": "required_output_3", "text": "required output section or artifact C is present with substantive content"} -->
+## grader_manifest.json
 
-## Check 05
-Primary task-specific semantic requirement A is satisfied.
-<!-- SPECCHECK: {"kind": "heuristic_text", "source": "task_specific_1", "text": "primary task-specific semantic requirement A is satisfied"} -->
+```json
+{
+  "schema_version": "grader.v1",
+  "entry": "run.py",
+  "result_path": "grading_result.json",
+  "primary_result_path": "result.json",
+  "pass_policy": {
+    "minimum_pass_count": 8,
+    "must_pass": ["R1", "R2"]
+  },
+  "rubrics": [
+    {
+      "id": "R1",
+      "grader": "R1.py",
+      "type": "json_schema",
+      "official": true,
+      "weight": 1
+    },
+    {
+      "id": "R2",
+      "grader": "R2.py",
+      "type": "coverage",
+      "official": true,
+      "weight": 1
+    }
+  ]
+}
+```
 
-## Check 06
-Primary task-specific semantic requirement B is satisfied.
-<!-- SPECCHECK: {"kind": "heuristic_text", "source": "task_specific_2", "text": "primary task-specific semantic requirement B is satisfied"} -->
+## Rubric Grader Output
 
-## Check 07
-Non-trivial constraint A is respected, including preservation / format / scope requirements when applicable.
-<!-- SPECCHECK: {"kind": "heuristic_text", "source": "constraint_1", "text": "non-trivial constraint A is respected"} -->
+Every rubric grader must emit JSON in this shape:
 
-## Check 08
-Non-trivial constraint B is respected, including prohibited omissions or side effects when applicable.
-<!-- SPECCHECK: {"kind": "heuristic_text", "source": "constraint_2", "text": "non-trivial constraint B is respected"} -->
+```json
+{
+  "rubric_id": "R1",
+  "passed": true,
+  "score": 1,
+  "reason": "result.json exists and contains the required top-level keys.",
+  "evidence": {
+    "checked_file": "result.json",
+    "required_keys": ["status", "summary", "items", "evidence", "notes"]
+  }
+}
+```
 
-## Check 09
-The final artifact is not a stub: no TODO, TBD, placeholder, omitted section, or obviously unfinished content remains.
-<!-- SPECCHECK: {"kind": "heuristic_text", "source": "anti_stub", "text": "final artifact is not a stub and contains no placeholder or omitted section"} -->
+## Aggregate Grading Output
 
-## Check 10
-Claims, calculations, labels, units, file references, and preserved content stay consistent with the provided evidence; unsupported fabrication does not count.
-<!-- SPECCHECK: {"kind": "heuristic_text", "source": "evidence_consistency", "text": "claims calculations labels units and preserved content stay consistent with provided evidence"} -->
+The runner must combine all rubric results into `grading_result.json`:
+
+```json
+{
+  "task_id": "C_01",
+  "status": "pass",
+  "outcome_status": "satisfied",
+  "passed": 8,
+  "total": 10,
+  "must_pass_satisfied": true,
+  "results": []
+}
+```

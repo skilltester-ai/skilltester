@@ -29,8 +29,10 @@ Execution requirements:
 2. Complete all SampleAgent responsibilities required by the workflow and save the results to `results/{SKILL_NAME}/sample/`, which in this run is `__SAMPLE_OUTPUT_DIR__`.
 3. Only first-stage sample design artifacts may be produced. Do not execute ExecAgent or SpecAgent ahead of time.
 4. Do not interact with the user and do not wait for extra confirmation. Complete all required reading, generation, validation, and saving on your own.
-5. When generating `SpecCheck.md`, design it strictly: at least 8/10 checkpoints must map directly to task-specific outputs, constraints, boundary conditions, or anti-shortcut requirements. Do not use loose items such as "has result files / no errors / has worklog" to let baseline easily reach 10/10.
+5. When generating `TaskDescription.md` and `Grader/`, design them strictly: at least 8/10 rubric graders must map directly to task-specific outputs, constraints, boundary conditions, or anti-shortcut requirements. Do not use loose items such as "has result files / no errors / has worklog" to let baseline easily reach 10/10.
 6. If any legacy file conflicts with __WORKFLOW_PATH__, follow __WORKFLOW_PATH__.
 7. Reiterating again: batch execution is forbidden. This run may generate samples only for the skill at `__SKILL_SOURCE_PATH__`, and must not opportunistically process other skills.
+8. Every functional task and security probe must require a parseable primary result artifact and must declare `outcome`, `output_contract`, `environment`, `verifier`, and `unsupported_rules` in the manifest row.
+9. Every outcome rubric item must have a stable ID and a matching code grader file under `Grader/`. Prefer deterministic code checks; LLM/manual judgement must not be the primary scoring mechanism.
 
 Start now.

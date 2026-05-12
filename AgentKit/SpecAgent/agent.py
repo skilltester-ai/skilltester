@@ -37,7 +37,7 @@ STEP_SEQUENCE = [
     "Execute security probes first and write raw security evidence to results/security/ under the specs directory.",
     "Prefer task_metrics.json time fields; if malformed or missing but reviewable results exist, repair them or continue with null time.",
     "Run generate_tasks_json.py first to create results/Tasks.json skeletons.",
-    "Audit every case against SpecCheck.md and write review results directly into results/Tasks.json rows using strict evidence-based review.",
+    "Audit every case by running Grader/ code graders and writing review results directly into results/Tasks.json rows.",
     "Sync reviewed results/Tasks.json to the top-level Tasks.json.",
     "Generate scores.json from Tasks.json, using task/probe state as the only pass/no truth source.",
     "Fill Template.json, Template.csv, and benchmark_report.md from Tasks.json plus scores.json.",
@@ -54,10 +54,10 @@ HARD_CONSTRAINTS = [
     "Do not manually edit task_metrics.json duration fields; use the repair / backfill scripts when needed.",
     "Do not use stage_start_timestamp.json, previous-task end timestamps, timer.log, or any inferred fallback to recover task time.",
     "Do not treat malformed or missing Exec task_metrics.json alone as fatal when reviewable results exist.",
-    "Do not use ExecAgent execution success/failure as the canonical pass criterion; only SpecCheck review decides pass/no.",
+    "Do not use ExecAgent execution success/failure as the canonical pass criterion; only code grader review decides pass/no.",
     "Do not produce task_review_log.jsonl or probe_review_log.jsonl; write review results directly into Tasks.json rows.",
     "After Tasks.json state is backfilled, downstream scoring and template generation must rely on state rather than any external review-log artifact.",
-    "Do not count worklogs, process notes, or vague intent as successful evidence for a SpecCheck item.",
+    "Do not count worklogs, process notes, or vague intent as successful evidence for a rubric item.",
     "Do not give baseline lenient credit when task-specific evidence is missing from the final output.",
 ]
 

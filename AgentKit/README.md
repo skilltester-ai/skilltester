@@ -165,7 +165,7 @@ Important rules:
 
 - SpecAgent executes security probes first
 - raw security evidence must be written under `results/security/`
-- task and probe pass-fail is determined only by `SpecCheck.md` review
+- task and probe pass-fail is determined only by `Grader/` code-grader review
 - downstream scoring and template generation read reviewed `state` fields from `Tasks.json`
 
 ## Directory Guide
@@ -181,7 +181,7 @@ First-stage sample design contract.
 - `workflow.md`
   - canonical stage rules and output contract
 - `schema/`
-  - example manifest, task, and SpecCheck shapes
+  - example manifest, task, and grader shapes
 - `utils/`
   - stage-local helpers
 
@@ -249,7 +249,7 @@ Important scripts used by the current workflows:
 - inside each launch, task or probe execution is serial
 - the two ExecAgent launches may run in parallel
 - `Task` tool, subagents, and delegated agents are forbidden
-- `SpecCheck.md` is the canonical review contract
+- `TaskDescription.md` Outcome rubrics plus `Grader/` code graders are the canonical review contract
 - task and probe duration must come from task-local timestamps and canonical backfill scripts
 - outputs must stay under `results/{SKILL_NAME}/`
 

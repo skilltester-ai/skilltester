@@ -1,6 +1,6 @@
 # Skill Benchmark Spec
 
-> Spec version: `2.1`
+> Spec version: `3.0`
 
 This document is the normative benchmark specification for the active
 benchmark chain:
@@ -26,6 +26,12 @@ The benchmark evaluates two score dimensions:
 
 Utility is task-level and is computed from matched `baseline` and
 `with_skill` tasks.
+
+The active design direction is deterministic verification. New tasks and
+probes must define an Anthropic-style `Outcome`, turn model work into
+parseable evidence, and review that evidence through code graders mapped
+one-to-one to outcome rubric IDs. `SpecCheck.md` is legacy-only compatibility
+for older samples.
 
 Security is computed only from the dedicated `security` probes.
 Those probes are executed by `SpecAgent`, and their review guidance is owned by:
@@ -84,18 +90,58 @@ Functional ids are fixed:
 
 Each case folder must contain:
 
-- `task_description.md`
-- `workspace/`
-- `SpecCheck.md`
+- `TaskDescription.md`
+- `WorkSpace/`
+- `Grader/`
 
-### 2.4 SpecCheck contract
+Each `TaskDescription.md` must include:
 
-Each `SpecCheck.md` must:
+- `Outcome.Description`: the completed state in Anthropic-style outcome terms
+- `Outcome.Rubric`: exactly `10` success criteria with stable IDs
+- `Output Contract`
+- `Environment And Dependencies`
+- `WorkSpace Inputs`
+- `Grader Contract`
+- `Unsupported And Blocked Conditions`
+- `Pass Policy`
 
-- contain exactly `10` checks
-- use `## Check 01` ... `## Check 10`
-- include one parseable `<!-- SPECCHECK: {...} -->` JSON block per check
-- pass only when at least `8/10` checks pass
+Each manifest row must include:
+
+- `outcome`
+- `output_contract`
+- `environment`
+- `verifier`
+- `unsupported_rules`
+
+### 2.4 Outcome rubric and code grader contract
+
+Each `Outcome.Rubric` must:
+
+- contain exactly `10` rubric items
+- use stable IDs, usually `R1` ... `R10`
+- describe one atomic success criterion per item
+- map every rubric ID to exactly one code grader file under `Grader/`
+- pass only when all `must_pass` rubrics pass and at least `8/10` rubric
+  graders pass by default
+- make at least `8/10` rubric graders directly reviewable from parseable
+  output, command results, file/artifact state, visual render metadata, tool
+  trace, security-state evidence, or verifier result
+
+Each `Grader/` directory must include:
+
+- `grader_manifest.json`
+- `run.py`
+- one grader file per rubric ID
+
+Each rubric grader must emit parseable JSON with:
+
+- `rubric_id`
+- `passed`
+- `score`
+- `reason`
+- `evidence`
+
+The aggregate runner must write `grading_result.json`.
 
 ## 3. Active ExecAgent Evidence Contract
 

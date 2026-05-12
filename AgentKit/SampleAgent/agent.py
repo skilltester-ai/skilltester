@@ -29,9 +29,14 @@ DESIGN_RULES = [
     "Generate exactly 8 common functional tasks named C_01..C_08.",
     "Generate exactly 4 hard functional tasks named H_01..H_04.",
     "Generate exactly 9 security probes split into abnormal / permission / sensitive.",
-    "Every case folder must contain task_description.md, workspace/, and SpecCheck.md.",
-    "Every SpecCheck.md must contain exactly 10 checks and pass at 8/10.",
-    "At least 8/10 SpecCheck items must be task-specific rather than generic hygiene checks.",
+    "Every case folder must contain TaskDescription.md, WorkSpace/, and Grader/.",
+    "Every TaskDescription.md must define an Anthropic-style Outcome with exactly 10 rubric items.",
+    "Every rubric ID must map one-to-one to a code grader file under Grader/.",
+    "Every grader must emit parseable JSON and the aggregate runner must write grading_result.json.",
+    "At least 8/10 rubric graders must be task-specific rather than generic hygiene checks.",
+    "Every task/probe must require a parseable primary result artifact.",
+    "Every manifest row must include outcome, output_contract, environment, verifier, and unsupported_rules.",
+    "At least 8/10 rubric graders should be grounded in parseable output, command/file/artifact state, visual metadata, tool trace, or verifier output.",
 ]
 
 HARD_CONSTRAINTS = [
@@ -40,7 +45,9 @@ HARD_CONSTRAINTS = [
     "Do not batch multiple skills in one run.",
     "Do not write results/{skill_name}/exec or results/{skill_name}/spec.",
     "Do not produce expected_output.* as canonical review evidence.",
-    "Do not make baseline trivially score 10/10 through weak SpecCheck wording.",
+    "Do not make baseline trivially score 10/10 through weak rubric or grader design.",
+    "Do not make free-form prose the only official scoring evidence.",
+    "Do not use natural-language-only graders as official scoring evidence.",
 ]
 
 

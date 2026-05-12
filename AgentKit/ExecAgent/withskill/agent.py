@@ -19,7 +19,9 @@ STAGE_METRICS_GENERATOR = AGENT_DIR.parent / "utils" / "generate_JSON" / "genera
 
 READ_RULES = [
     "Read results/{skill_name}/sample/benchmark_manifest.json plus common/ and hard/ sample folders.",
-    "For one task, read only that task's task_description.md and workspace/.",
+    "For one task, read only that task's TaskDescription.md and WorkSpace/.",
+    "For one task, read its manifest outcome, output_contract, environment, verifier, and unsupported_rules.",
+    "Do not read or run Grader/ during ExecAgent execution.",
     "Read skill files only after stage_start_timestamp.json exists and only for the current task.",
     "Do not preload the whole skill tree.",
 ]
@@ -33,7 +35,7 @@ WRITE_RULES = [
 STEP_SEQUENCE = [
     "Write results/with_skill/stage_start_timestamp.json with write_system_timestamp.py before the first task.",
     "Process functional tasks sequentially in manifest order.",
-    "Before reading one task's task_description.md, write results/with_skill/tasks/{task_id}/start_timestamp.json.",
+    "Before reading one task's TaskDescription.md, write results/with_skill/tasks/{task_id}/start_timestamp.json.",
     "Generate task_metrics.json skeleton before each task.",
     "Write results/, worklog.log, task_metrics.json, start_timestamp.json, and end_timestamp.json for each task.",
     "Run backfill_task_duration_fields.py so task_metrics.json is rewritten canonically from task-local timestamps.",

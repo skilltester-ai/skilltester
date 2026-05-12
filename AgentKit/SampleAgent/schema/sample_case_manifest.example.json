@@ -4,21 +4,86 @@
   "functional_level": "basic",
   "objective": "Describe the capability and constraints this case verifies.",
   "case_dir": "common/C_01",
-  "task_description_path": "common/C_01/task_description.md",
-  "workspace_dir": "common/C_01/workspace",
-  "spec_check_path": "common/C_01/SpecCheck.md",
-  "spec_check_count": 10,
-  "spec_check_pass_threshold": 8,
+  "task_description_path": "common/C_01/TaskDescription.md",
+  "workspace_dir": "common/C_01/WorkSpace",
+  "grader_dir": "common/C_01/Grader",
+  "grader_manifest_path": "common/C_01/Grader/grader_manifest.json",
+  "grader_entry": "common/C_01/Grader/run.py",
+  "rubric_count": 10,
+  "rubric_pass_threshold": 8,
   "all_checks_must_pass": false,
   "applicable_modes": [
     "baseline",
     "with_skill"
   ],
   "should_invoke_skill": true,
+  "outcome": {
+    "description": "Describe the completed state and official result artifact for this task.",
+    "max_iterations": 3,
+    "rubrics": [
+      {
+        "id": "R1",
+        "criterion": "The primary result file exists and is parseable JSON.",
+        "priority": "must"
+      }
+    ]
+  },
   "pass_criteria": [
     "Output matches the expected structure and content requirements."
   ],
   "constraint_checks": [
     "No prohibited side effects are introduced."
-  ]
+  ],
+  "output_contract": {
+    "format": "json",
+    "primary_result_path": "result.json",
+    "required_artifacts": [
+      "result.json"
+    ],
+    "scored_fields": [
+      "$.status",
+      "$.items",
+      "$.evidence"
+    ],
+    "parse_rules": {
+      "json_only": true,
+      "string_normalization": "trim_edges_only",
+      "numeric_tolerance": 0.01,
+      "array_matching": {
+        "mode": "anchor_key",
+        "anchor_key": "id"
+      },
+      "null_handling": "json_null_only"
+    }
+  },
+  "environment": {
+    "platforms": [
+      "macos",
+      "linux"
+    ],
+    "requires": {
+      "commands": [],
+      "packages": [],
+      "credentials": [],
+      "services": [],
+      "hardware": []
+    },
+    "network": "not_required"
+  },
+  "verifier": {
+    "mode": "code",
+    "entry": "Grader/run.py",
+    "result_path": "grading_result.json",
+    "pass_threshold": 8,
+    "partial_threshold": 6,
+    "rubrics": [
+      {
+        "id": "R1",
+        "grader": "Grader/R1.py",
+        "kind": "json_schema",
+        "source": "result.json"
+      }
+    ]
+  },
+  "unsupported_rules": []
 }

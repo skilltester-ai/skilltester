@@ -37,17 +37,18 @@ Execution requirements:
 2. First read the first-stage sample from `results/{SKILL_NAME}/sample/`, which in this run is `__SAMPLE_OUTPUT_DIR__`. If it is missing or incomplete, fail immediately.
 3. Only baseline functional tasks may be executed.
 4. Baseline must not read any skill source directory or `SKILL.md`.
-5. Before reading each task's `task_description.md`, you must first call `write_system_timestamp.py --output .../start_timestamp.json` to generate that task's `start_timestamp.json`.
+5. Before reading each task's `TaskDescription.md`, you must first call `write_system_timestamp.py --output .../start_timestamp.json` to generate that task's `start_timestamp.json`.
 6. Every task must first call the task-metrics skeleton script to generate `task_metrics.json`. Do not hand-edit the duration fields in that file.
 7. At the end of every task, you must call `write_system_timestamp.py --output .../end_timestamp.json` to generate `end_timestamp.json`. Hand-writing it or creating / overwriting it via `echo`, `date`, `touch`, or any other method is forbidden.
 8. After writing `end_timestamp.json`, you must call `backfill_task_duration_fields.py --task-metrics .../task_metrics.json --start .../start_timestamp.json --end .../end_timestamp.json --task-id ... --mode baseline` so the script rewrites `task_metrics.json` canonically.
 9. That script internally uses `calculate_timestamp_diff.py` as the only valid source for `time` / `total_time_seconds`. Do not manually edit those fields, and do not recompute them from `stage_start_timestamp.json`, the previous task's `end_timestamp.json`, `timer.log`, default values, or any inference method.
 10. At stage start, you must generate `stage_start_timestamp.json` first. At stage end, you must generate `metrics.json` and append the baseline stage summary to the shared `agent_worklog.log`.
 11. All tasks must execute strictly in serial, one after another in manifest order. Parallel execution, background execution, interleaved execution, or any task-level concurrency is forbidden.
-12. Every task must be executed strictly according to its requirements. Do not simplify tasks on your own, remove output items, weaken constraints, skip boundary conditions, or pretend that an approximate result is complete.
-13. If a task cannot be truly completed because of environment, dependency, permission, data, or external-condition limits, you must fail honestly and record the blocking reason. Do not fake success, and do not use placeholder files, shell results, mock results, or simplified artifacts to pretend completion.
-14. After the baseline stage is complete, stop. Do not launch, simulate, or
+12. Every task must be executed strictly according to `TaskDescription.md`, the manifest `outcome`, `output_contract`, `environment`, `verifier`, and `unsupported_rules`. Produce the declared parseable primary result artifact; free-form prose alone is not a valid task output.
+13. Do not read or run `Grader/`; graders are executed later by SpecAgent.
+14. If a task cannot be truly completed because of environment, dependency, permission, data, or external-condition limits, you must fail honestly and record the blocking reason. Do not fake success, and do not use placeholder files, shell results, mock results, or simplified artifacts to pretend completion.
+15. After the baseline stage is complete, stop. Do not launch, simulate, or
     continue the `with_skill` stage inside the current terminal.
-15. Do not interact with the user and do not wait for extra confirmation. Independently complete all required reading, execution, generation, validation, and saving.
+16. Do not interact with the user and do not wait for extra confirmation. Independently complete all required reading, execution, generation, validation, and saving.
 
 Start now.

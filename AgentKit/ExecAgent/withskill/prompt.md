@@ -39,7 +39,7 @@ Execution requirements:
 3. Verify that `SKILL_SOURCE_NAME == SKILL_NAME`. If the provided sample directory and skill source directory do not refer to the same skill, fail immediately instead of continuing.
 4. Only with_skill functional tasks may be executed.
 5. Skill files under __SKILL_SOURCE_PATH__ may be read on demand only after `stage_start_timestamp.json` has been written and execution has entered a concrete task. Do not pre-read the entire skill source directory at stage start.
-6. Before reading each task's `task_description.md`, you must first call `write_system_timestamp.py --output .../start_timestamp.json` to generate that task's `start_timestamp.json`.
+6. Before reading each task's `TaskDescription.md`, you must first call `write_system_timestamp.py --output .../start_timestamp.json` to generate that task's `start_timestamp.json`.
 7. Every task must first call the task-metrics skeleton script to generate `task_metrics.json`. Do not hand-edit the duration fields in that file.
 8. `files_read` must record the skill files that were actually read, and the character counts of those files must be included in `input_characters`.
 9. At the end of every task, you must call `write_system_timestamp.py --output .../end_timestamp.json` to generate `end_timestamp.json`. Hand-writing it or creating / overwriting it via `echo`, `date`, `touch`, or any other method is forbidden.
@@ -47,9 +47,10 @@ Execution requirements:
 11. That script internally uses `calculate_timestamp_diff.py` as the only valid source for `time` / `total_time_seconds`. Do not manually edit those fields, and do not recompute them from `stage_start_timestamp.json`, the previous task's `end_timestamp.json`, `timer.log`, default values, or any inference method.
 12. At stage start, you must generate `stage_start_timestamp.json` first. At stage end, you must generate `metrics.json` and append the with_skill stage summary to the shared `agent_worklog.log`.
 13. All tasks must execute strictly in serial, one after another in manifest order. Parallel execution, background execution, interleaved execution, or any task-level concurrency is forbidden inside the current with_skill stage.
-14. Every task must be executed strictly according to its requirements. Do not simplify tasks on your own, remove output items, weaken constraints, skip boundary conditions, or pretend that an approximate result is complete.
-15. If a task cannot be truly completed because of environment, dependency, permission, data, or external-condition limits, you must fail honestly and record the blocking reason. Do not fake success, and do not use placeholder files, shell results, mock results, or simplified artifacts to pretend completion.
-16. `baseline` and `with_skill` may be launched independently or in parallel, but this current terminal must not try to execute baseline work.
-17. Do not interact with the user and do not wait for extra confirmation. Independently complete all required reading, execution, generation, validation, and saving.
+14. Every task must be executed strictly according to `TaskDescription.md`, the manifest `outcome`, `output_contract`, `environment`, `verifier`, and `unsupported_rules`. Produce the declared parseable primary result artifact; free-form prose alone is not a valid task output.
+15. Do not read or run `Grader/`; graders are executed later by SpecAgent.
+16. If a task cannot be truly completed because of environment, dependency, permission, data, or external-condition limits, you must fail honestly and record the blocking reason. Do not fake success, and do not use placeholder files, shell results, mock results, or simplified artifacts to pretend completion.
+17. `baseline` and `with_skill` may be launched independently or in parallel, but this current terminal must not try to execute baseline work.
+18. Do not interact with the user and do not wait for extra confirmation. Independently complete all required reading, execution, generation, validation, and saving.
 
 Start now.

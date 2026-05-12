@@ -336,9 +336,9 @@ def _locate_case_dir(samples_root: Path, source: str, skill: str, mode: str, tas
 def _default_case_inputs(case_dir: Path | None, mode: str) -> list[Path]:
     if case_dir is None:
         return []
-    candidates = [case_dir / "task_description.md"]
+    candidates = [case_dir / "TaskDescription.md", case_dir / "task_description.md"]
     if mode == "security":
-        for name in ("SpecCheck.md",):
+        for name in ("Grader/grader_manifest.json", "SpecCheck.md"):
             candidate = case_dir / name
             if candidate.exists():
                 candidates.append(candidate)
