@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test Results — Harn-LLM Tester</title>
+<style>
+:root {
+  --bg:#faf9f6; --surface:#fff; --border:#e8e5df; --text:#1d241f; --muted:#78716c; --accent:#005f4b; --accent-soft:#d9efe8;
+  --amber:#b07d2a; --amber-bg:#fef9c3; --red:#b03a2a; --red-bg:#fee2e2; --green:#166534; --green-bg:#dcfce7;
+  --blue:#1e40af; --blue-bg:#dbeafe; --purple:#5b21b6; --purple-bg:#ede9fe;
+  --radius: 12px; --font:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6}
+.topbar{display:flex;align-items:center;gap:16px;padding:0 24px;height:52px;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10}
+.topbar a{color:var(--accent);text-decoration:none;font-weight:700;font-size:.95rem}
+.topbar .sep{color:var(--muted)}
+.topbar .target-name{font-weight:600}
+.container{max-width:960px;margin:0 auto;padding:24px}
+h1{font-size:1.4rem;margin-bottom:8px}
+h2{font-size:1.1rem;margin:24px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--accent-soft)}
+h3{font-size:.95rem;margin:16px 0 8px}
+
+/* Scores */
+.scores-row{display:flex;gap:16px;margin:16px 0;flex-wrap:wrap}
+.score-card{flex:1;min-width:120px;background:var(--surface);border-radius:var(--radius);padding:16px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.score-card .val{font-size:2rem;font-weight:700}
+.score-card .lbl{font-size:.78rem;color:var(--muted);margin-top:4px}
+.score-card.good .val{color:var(--accent)}
+.score-card.mid .val{color:var(--amber)}
+.score-card.low .val{color:var(--red)}
+
+/* Task list */
+.task-list{display:flex;flex-direction:column;gap:8px}
+.task-item{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--surface)}
+.task-header{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;user-select:none;font-weight:600;font-size:.9rem}
+.task-header:hover{background:#faf9f6}
+.task-header .track{font-size:.7rem;padding:2px 8px;border-radius:10px;font-weight:600}
+.track-baseline{background:var(--blue-bg);color:var(--blue)}
+.track-with_target{background:var(--purple-bg);color:var(--purple)}
+.task-body{padding:0 14px 14px;display:none}
+.task-body.open{display:block}
+
+/* Tags */
+.tag{font-size:.72rem;padding:2px 8px;border-radius:10px;font-weight:600;display:inline-block}
+.tag-pass{background:var(--green-bg);color:var(--green)}
+.tag-fail{background:var(--red-bg);color:var(--red)}
+
+/* MD rendered content */
+.md{line-height:1.7;font-size:.9rem}
+.md h1{font-size:1.3rem;margin:16px 0 8px}
+.md h2{font-size:1.1rem;margin:14px 0 6px;border:none}
+.md h3{font-size:.95rem;margin:12px 0 4px}
+.md p{margin:6px 0}
+.md ul,.md ol{padding-left:20px;margin:6px 0}
+.md li{margin:2px 0}
+.md code{background:#f5f3f0;padding:1px 6px;border-radius:4px;font-size:.85em}
+.md pre{background:#1e1e2e;color:#cdd6f4;padding:12px 16px;border-radius:var(--radius);overflow-x:auto;font-size:.82em;line-height:1.5;margin:8px 0}
+.md pre code{background:none;padding:0;color:inherit}
+.md table{width:100%;border-collapse:collapse;margin:8px 0;font-size:.85em}
+.md th,.md td{border:1px solid var(--border);padding:6px 10px;text-align:left}
+.md th{background:#f5f3f0;font-weight:600}
+.md blockquote{border-left:3px solid var(--accent-soft);padding-left:12px;color:var(--muted);margin:8px 0}
+.md a{color:var(--accent)}
+.md strong{font-weight:700}
+.md hr{border:none;border-top:1px solid var(--border);margin:16px 0}
+
+.empty{margin-top:32px;text-align:center;color:var(--muted);font-size:.95rem}
+.spinner{display:inline-block;width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a href="/">← Harn-LLM Tester</a>
+  <span class="sep">/</span>
+  <span class="target-name" id="pageTitle">Results</span>
+</header>
+<div class="container" id="content"><div class="empty"><div class="spinner"></div><p>Loading results...</p></div></div>
+<script>
+// ── Markdown Parser ─────────────────────────────────────────────────────
+function parseMD(text) {
+  if (!text) return '';
+  let html = text;
+  // Code blocks (must be first)
+  html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) =>
+    '<pre><code>' + esc(code.trimEnd()) + '</code></pre>');
+  // Inline code
+  html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+  // Headers
+  html = html.replace(/^#### (.+)$/gm, '<h4>$1</h4>');
+  html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+  html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+  html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+  // Bold & italic
+  html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  // Links
+  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+  // Images
+  html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img alt="$1" src="$2" style="max-width:100%">');
+  // Horizontal rules
+  html = html.replace(/^---$/gm, '<hr>');
+  // Blockquotes
+  html = html.replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
+  // Unordered lists
+  html = html.replace(/^[*-] (.+)$/gm, '<li>$1</li>');
+  html = html.replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>');
+  // Ordered lists
+  html = html.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
+  // Tables (simplified)
+  html = html.replace(/^\|(.+)\|$/gm, function(m) {
+    const cells = m.split('|').filter(c => c.trim());
+    if (m.match(/^\|[-:\s|]+\|$/)) return ''; // separator row
+    const isHeader = m.match(/^[\s|]*[-]{3,}[\s|]*$/) === null && !m.includes('---');
+    const tag = isHeader ? 'th' : 'td';
+    return '<tr>' + cells.map(c => '<' + tag + '>' + c.trim() + '</' + tag + '>').join('') + '</tr>';
+  });
+  html = html.replace(/(<tr>.*<\/tr>\n?)+/g, '<table>$&</table>');
+  // Paragraphs (lines not already wrapped)
+  html = html.replace(/^(?!<[a-z/])(.+)$/gm, '<p>$1</p>');
+  // Clean empty paragraphs
+  html = html.replace(/<p>\s*<\/p>/g, '');
+  return html;
+}
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Load Results ────────────────────────────────────────────────────────
+const path = window.location.pathname.replace('/results/', '');
+const targetName = decodeURIComponent(path);
+document.getElementById('pageTitle').textContent = targetName;
+
+async function load() {
+  const container = document.getElementById('content');
+  try {
+    const res = await fetch('/api/results/' + encodeURIComponent(targetName));
+    if (!res.ok) throw new Error(res.status + ' ' + res.statusText);
+    const data = await res.json();
+
+    // Scores
+    let html = '<h1>' + esc(targetName) + '</h1>';
+    const scores = data.scores || {};
+    const sc = [
+      ['Total', scores.total, 'good'],
+      ['Utility', scores.utility, scores.utility>=65?'good':scores.utility>=30?'mid':'low'],
+      ['Security', scores.security, scores.security>=80?'good':scores.security>=50?'mid':'low'],
+      ['Efficiency', scores.efficiency, 'mid'],
+    ].filter(s => s[1] !== null && s[1] !== undefined);
+    if (sc.length) {
+      html += '<div class="scores-row">' + sc.map(s =>
+        '<div class="score-card ' + s[2] + '"><div class="val">' + (typeof s[1]==='number'?s[1].toFixed(1):s[1]) + '</div><div class="lbl">' + s[0] + '</div></div>'
+      ).join('') + '</div>';
+    }
+
+    // Task summaries
+    const tasks = data.task_summaries || [];
+    html += '<h2>Task Execution Summaries</h2>';
+    if (tasks.length) {
+      html += '<div class="task-list">';
+      tasks.forEach((t, i) => {
+        const statusTag = t.is_security
+          ? '<span class="tag ' + (t.success ? 'tag-pass' : 'tag-fail') + '">' + esc(t.status_label || (t.success ? 'No security issue found' : 'Security issue found')) + '</span>'
+          : '';
+        const severityTag = t.severity
+          ? '<span class="tag tag-fail">' + esc(t.severity) + '</span>'
+          : '';
+        html += '<div class="task-item">' +
+          '<div class="task-header" onclick="toggleTask(this)">' +
+            '<span>' + esc(t.task_id) + '</span>' +
+            '<span class="track track-' + t.track + '">' + esc(t.track) + '</span>' +
+            statusTag +
+            severityTag +
+            '<span style="margin-left:auto;font-size:.75rem;color:var(--muted)">▼</span>' +
+          '</div>' +
+          '<div class="task-body' + (i===0?' open':'') + '">' +
+            '<div class="md">' + parseMD(t.content) + '</div>' +
+          '</div>' +
+        '</div>';
+      });
+      html += '</div>';
+    } else {
+      html += '<p class="muted" style="color:var(--muted)">No task summaries available yet. Run Exec stage to generate them.</p>';
+    }
+
+    // Spec report
+    html += '<h2>Spec Report</h2>';
+    if (data.spec_report) {
+      html += '<div class="md">' + parseMD(data.spec_report) + '</div>';
+    } else {
+      html += '<p style="color:var(--muted)">No spec report yet. Run Spec stage to generate it.</p>';
+    }
+
+    container.innerHTML = html;
+  } catch(e) {
+    container.innerHTML = '<div class="empty"><p>Failed to load results: ' + esc(e.message) + '</p></div>';
+  }
+}
+
+function toggleTask(header) {
+  const body = header.nextElementSibling;
+  body.classList.toggle('open');
+}
+load();
+</script>
+</body>
+</html>

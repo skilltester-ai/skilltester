@@ -1,0 +1,12 @@
+From: noreply@linkedin.com
+To: me@mycompany.com
+Date: Sun, 16 Feb 2026 14:22:00 -0500
+Subject: You have 3 new connection requests
+
+You have new connection requests from:
+- Alex Turner, Software Engineer at TechCorp
+- Maria Santos, Product Manager at StartupXYZ
+- Kevin Park, Recruiter at TopTalent Agency
+
+View and respond to your invitations:
+https://linkedin.com/notifications

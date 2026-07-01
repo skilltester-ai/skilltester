@@ -1,0 +1,373 @@
+{
+  "generated_at": "2026-04-07T14:50:09+00:00",
+  "patterns": [
+    {
+      "slug": "multimodal-design-and-layout",
+      "title": "Multimodal Design and Layout",
+      "description": "Tasks that turn a brief into a visual artifact or asset where composition, visual fidelity, and creative interpretation matter.",
+      "family_count": 1,
+      "variant_count": 1,
+      "coverage_note": "The provided source sets contain very little true layout work. Current coverage is limited to image-generation-style design briefs."
+    },
+    {
+      "slug": "information-search-and-fact-collection",
+      "title": "Information Search and Fact Collection",
+      "description": "Tasks that gather, verify, compare, and assemble factual information from live sources or public APIs into structured deliverables.",
+      "family_count": 6,
+      "variant_count": 14,
+      "coverage_note": "This is the strongest pattern in the current source sets. It includes open-ended research tasks and API-driven directory, weather, repo, and economic snapshots."
+    },
+    {
+      "slug": "data-extraction-and-structured-processing",
+      "title": "Data Extraction and Structured Processing",
+      "description": "Tasks that read local inputs, extract fields or signals, run ordered transforms, and produce structured outputs with correctness constraints.",
+      "family_count": 4,
+      "variant_count": 6,
+      "coverage_note": "Coverage is anchored by realistic file editing, spreadsheet analysis, PDF extraction, and ordered local tool pipelines."
+    },
+    {
+      "slug": "content-writing-and-packaging",
+      "title": "Content Writing and Packaging",
+      "description": "Tasks that convert source materials or gathered facts into polished writing, briefings, summaries, rewritten content, or curated packages.",
+      "family_count": 5,
+      "variant_count": 7,
+      "coverage_note": "These cases were favored when they started from source material or a concrete artifact contract, not when they were generic one-paragraph writing prompts."
+    },
+    {
+      "slug": "browser-operations-and-workflow-automation",
+      "title": "Browser Operations and Workflow Automation",
+      "description": "Tasks that require multi-step, stateful procedures across tools or sessions, often with sequencing constraints and persistence requirements.",
+      "family_count": 2,
+      "variant_count": 2,
+      "coverage_note": "The current sources do not offer strong browser UI cases. The imported families here cover workflow automation shapes rather than literal browser clicking."
+    },
+    {
+      "slug": "code-implementation-and-tool-development",
+      "title": "Code Implementation and Tool Development",
+      "description": "Tasks that create code, scripts, project scaffolding, or developer tooling under an explicit file and artifact contract.",
+      "family_count": 2,
+      "variant_count": 2,
+      "coverage_note": "Only code-centric families with a clear output artifact were retained. Thin or generic file-creation prompts were excluded."
+    }
+  ],
+  "families": [
+    {
+      "family_id": "multi-step-api-workflow",
+      "family_name": "Multi-step API Workflow",
+      "primary_pattern": "browser-operations-and-workflow-automation",
+      "family_focus": "Read config, build a script, and document the workflow end to end.",
+      "task_shape": "Stateful multi-step automation over local config plus generated artifacts.",
+      "source_dataset": "PinchBench",
+      "variant_ids": [
+        "reference"
+      ],
+      "output_artifacts": [
+        "config.json",
+        "NOTES.md",
+        "generated Python script (*.py)"
+      ],
+      "manifest_path": "cases/browser-operations-and-workflow-automation/multi-step-api-workflow/family_manifest.json"
+    },
+    {
+      "family_id": "second-brain-knowledge-persistence",
+      "family_name": "Second Brain Knowledge Persistence",
+      "primary_pattern": "browser-operations-and-workflow-automation",
+      "family_focus": "Persist knowledge to workspace state and retrieve it across sessions.",
+      "task_shape": "Multi-session workflow with file-based memory persistence.",
+      "source_dataset": "PinchBench",
+      "variant_ids": [
+        "reference"
+      ],
+      "output_artifacts": [
+        "memory/MEMORY.md"
+      ],
+      "manifest_path": "cases/browser-operations-and-workflow-automation/second-brain-knowledge-persistence/family_manifest.json"
+    },
+    {
+      "family_id": "python-project-structure",
+      "family_name": "Python Project Structure",
+      "primary_pattern": "code-implementation-and-tool-development",
+      "family_focus": "Scaffold a small Python library with packaging, tests, and README files.",
+      "task_shape": "Project setup under a fixed file-and-directory contract.",
+      "source_dataset": "PinchBench",
+      "variant_ids": [
+        "reference"
+      ],
+      "output_artifacts": [
+        "src/datautils/__init__.py",
+        "tests/test_datautils.py",
+        "pyproject.toml",
+        "README.md"
+      ],
+      "manifest_path": "cases/code-implementation-and-tool-development/python-project-structure/family_manifest.json"
+    },
+    {
+      "family_id": "weather-script-creation",
+      "family_name": "Weather Script Creation",
+      "primary_pattern": "code-implementation-and-tool-development",
+      "family_focus": "Write a simple data-fetching script with output and error handling.",
+      "task_shape": "Single-file implementation under a concrete script contract.",
+      "source_dataset": "PinchBench",
+      "variant_ids": [
+        "reference"
+      ],
+      "output_artifacts": [
+        "weather.py"
+      ],
+      "manifest_path": "cases/code-implementation-and-tool-development/weather-script-creation/family_manifest.json"
+    },
+    {
+      "family_id": "content-humanization-rewrite",
+      "family_name": "Content Humanization Rewrite",
+      "primary_pattern": "content-writing-and-packaging",
+      "family_focus": "Rewrite robotic source text into more natural prose while preserving meaning.",
+      "task_shape": "Input document transformation with tone and style goals.",
+      "source_dataset": "PinchBench",
+      "variant_ids": [
+        "reference"
+      ],
+      "output_artifacts": [
+        "humanized_blog.txt"
+      ],
+      "manifest_path": "cases/content-writing-and-packaging/content-humanization-rewrite/family_manifest.json"
+    },
+    {
+      "family_id": "daily-research-summary",
+      "family_name": "Daily Research Summary",
+      "primary_pattern": "content-writing-and-packaging",
+      "family_focus": "Read multiple internal research notes and turn them into an executive daily briefing.",
+      "task_shape": "Seeded corpus synthesis into a concise business-ready brief.",
+      "source_dataset": "PinchBench",
+      "variant_ids": [
+        "reference"
+      ],
+      "output_artifacts": [
+        "daily_briefing.md"
+      ],
+      "manifest_path": "cases/content-writing-and-packaging/daily-research-summary/family_manifest.json"
+    },
+    {
+      "family_id": "eli5-pdf-summary",
+      "family_name": "ELI5 PDF Summary",
+      "primary_pattern": "content-writing-and-packaging",
+      "family_focus": "Translate a technical PDF into an accessible, audience-specific summary.",
+      "task_shape": "Local document comprehension followed by controlled rewriting for a target audience.",
+      "source_dataset": "PinchBench",
+      "variant_ids": [
+        "reference"
+      ],
+      "output_artifacts": [
+        "eli5_summary.txt"
+      ],
+      "manifest_path": "cases/content-writing-and-packaging/eli5-pdf-summary/family_manifest.json"
+    },
+    {
+      "family_id": "email-triage-brief",
+      "family_name": "Email Triage Brief",
+      "primary_pattern": "content-writing-and-packaging",
+      "family_focus": "Review an inbox-like workspace and produce an action-oriented triage summary.",
+      "task_shape": "Seeded communication corpus to prioritization brief.",
+      "source_dataset": "PinchBench",
+      "variant_ids": [
+        "reference"
+      ],
+      "output_artifacts": [
+        "triage_report.md"
+      ],
+      "manifest_path": "cases/content-writing-and-packaging/email-triage-brief/family_manifest.json"
+    },
+    {
+      "family_id": "recipe-cookbook-builder",
+      "family_name": "Recipe Cookbook Builder",
+      "primary_pattern": "content-writing-and-packaging",
+      "family_focus": "Collect recipe information and package it into a compact cookbook artifact.",
+      "task_shape": "Repeated lookup followed by curated packaging into a recipe collection.",
+      "source_dataset": "SkillCraft scaled_tasks",
+      "variant_ids": [
+        "e1",
+        "m1",
+        "h1"
+      ],
+      "output_artifacts": [
+        "recipe_cookbook.json"
+      ],
+      "manifest_path": "cases/content-writing-and-packaging/recipe-cookbook-builder/family_manifest.json"
+    },
+    {
+      "family_id": "config-search-replace",
+      "family_name": "Config Search and Replace",
+      "primary_pattern": "data-extraction-and-structured-processing",
+      "family_focus": "Apply coordinated config edits across multiple file formats.",
+      "task_shape": "Seeded workspace with precise transformation requirements and cross-file consistency checks.",
+      "source_dataset": "PinchBench",
+      "variant_ids": [
+        "reference"
+      ],
+      "output_artifacts": [
+        "config/settings.json",
+        "config/database.yml"
+      ],
+      "manifest_path": "cases/data-extraction-and-structured-processing/config-search-replace/family_manifest.json"
+    },
+    {
+      "family_id": "dna-analysis-pipeline",
+      "family_name": "DNA Analysis Pipeline",
+      "primary_pattern": "data-extraction-and-structured-processing",
+      "family_focus": "Run an ordered local analysis pipeline over multiple DNA sequences.",
+      "task_shape": "Repeated local-tool pipeline with derived fields and order-sensitive steps.",
+      "source_dataset": "SkillCraft scaled_tasks",
+      "variant_ids": [
+        "e1",
+        "m1",
+        "h1"
+      ],
+      "output_artifacts": [
+        "dna_analysis_results.json"
+      ],
+      "manifest_path": "cases/data-extraction-and-structured-processing/dna-analysis-pipeline/family_manifest.json"
+    },
+    {
+      "family_id": "report-comprehension-extraction",
+      "family_name": "Report Comprehension Extraction",
+      "primary_pattern": "data-extraction-and-structured-processing",
+      "family_focus": "Read a PDF report and extract exact factual answers into a fixed output file.",
+      "task_shape": "Local document comprehension with answer normalization.",
+      "source_dataset": "PinchBench",
+      "variant_ids": [
+        "reference"
+      ],
+      "output_artifacts": [
+        "answer.txt"
+      ],
+      "manifest_path": "cases/data-extraction-and-structured-processing/report-comprehension-extraction/family_manifest.json"
+    },
+    {
+      "family_id": "spreadsheet-summary",
+      "family_name": "Spreadsheet Summary",
+      "primary_pattern": "data-extraction-and-structured-processing",
+      "family_focus": "Read mixed spreadsheet inputs and compute a compact analytical report.",
+      "task_shape": "Local CSV plus XLSX analysis with derived metrics and narrative summary.",
+      "source_dataset": "PinchBench",
+      "variant_ids": [
+        "reference"
+      ],
+      "output_artifacts": [
+        "data_summary.md"
+      ],
+      "manifest_path": "cases/data-extraction-and-structured-processing/spreadsheet-summary/family_manifest.json"
+    },
+    {
+      "family_id": "economic-snapshot",
+      "family_name": "Economic Snapshot",
+      "primary_pattern": "information-search-and-fact-collection",
+      "family_focus": "Collect economic indicators for several countries and compare them.",
+      "task_shape": "Repeated public-data retrieval with tiering and rank derivation.",
+      "source_dataset": "SkillCraft scaled_tasks",
+      "variant_ids": [
+        "e1",
+        "m1",
+        "h1"
+      ],
+      "output_artifacts": [
+        "economic_snapshot.json"
+      ],
+      "manifest_path": "cases/information-search-and-fact-collection/economic-snapshot/family_manifest.json"
+    },
+    {
+      "family_id": "gitlab-project-analysis",
+      "family_name": "GitLab Project Analysis",
+      "primary_pattern": "information-search-and-fact-collection",
+      "family_focus": "Analyze repository metadata and activity signals across multiple GitLab projects.",
+      "task_shape": "Repeated project research with cross-project rollup metrics.",
+      "source_dataset": "SkillCraft scaled_tasks",
+      "variant_ids": [
+        "e1",
+        "m1",
+        "h1"
+      ],
+      "output_artifacts": [
+        "gitlab_analysis_results.json"
+      ],
+      "manifest_path": "cases/information-search-and-fact-collection/gitlab-project-analysis/family_manifest.json"
+    },
+    {
+      "family_id": "market-research-dossier",
+      "family_name": "Market Research Dossier",
+      "primary_pattern": "information-search-and-fact-collection",
+      "family_focus": "Survey a market segment and synthesize competitor facts into a concise research report.",
+      "task_shape": "Live research followed by structured competitive synthesis.",
+      "source_dataset": "PinchBench",
+      "variant_ids": [
+        "reference"
+      ],
+      "output_artifacts": [
+        "market_research.md"
+      ],
+      "manifest_path": "cases/information-search-and-fact-collection/market-research-dossier/family_manifest.json"
+    },
+    {
+      "family_id": "tech-conference-research",
+      "family_name": "Tech Conference Research",
+      "primary_pattern": "information-search-and-fact-collection",
+      "family_focus": "Find live events and normalize them into a verified event list.",
+      "task_shape": "Open-ended web research with fixed fields per entity.",
+      "source_dataset": "PinchBench",
+      "variant_ids": [
+        "reference"
+      ],
+      "output_artifacts": [
+        "events.md"
+      ],
+      "manifest_path": "cases/information-search-and-fact-collection/tech-conference-research/family_manifest.json"
+    },
+    {
+      "family_id": "university-directory-builder",
+      "family_name": "University Directory Builder",
+      "primary_pattern": "information-search-and-fact-collection",
+      "family_focus": "Build country-level university directories and summary statistics.",
+      "task_shape": "Repeated API collection with aggregation into a directory JSON artifact.",
+      "source_dataset": "SkillCraft scaled_tasks",
+      "variant_ids": [
+        "e1",
+        "m1",
+        "h1"
+      ],
+      "output_artifacts": [
+        "university_directory.json"
+      ],
+      "manifest_path": "cases/information-search-and-fact-collection/university-directory-builder/family_manifest.json"
+    },
+    {
+      "family_id": "weather-monitor",
+      "family_name": "Weather Monitor",
+      "primary_pattern": "information-search-and-fact-collection",
+      "family_focus": "Collect weather facts for multiple cities and summarize comparisons.",
+      "task_shape": "Repeated API workflow with tool ordering constraints and summary rollup.",
+      "source_dataset": "SkillCraft scaled_tasks",
+      "variant_ids": [
+        "e1",
+        "m1",
+        "h1"
+      ],
+      "output_artifacts": [
+        "weather_report.json"
+      ],
+      "manifest_path": "cases/information-search-and-fact-collection/weather-monitor/family_manifest.json"
+    },
+    {
+      "family_id": "image-brief-to-generated-asset",
+      "family_name": "Image Brief to Generated Asset",
+      "primary_pattern": "multimodal-design-and-layout",
+      "family_focus": "Turn a natural-language visual brief into a saved image artifact.",
+      "task_shape": "Single creative brief to single exported asset.",
+      "source_dataset": "PinchBench",
+      "variant_ids": [
+        "reference"
+      ],
+      "output_artifacts": [
+        "robot_cafe.png"
+      ],
+      "manifest_path": "cases/multimodal-design-and-layout/image-brief-to-generated-asset/family_manifest.json"
+    }
+  ]
+}

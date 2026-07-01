@@ -1,0 +1,28 @@
+{
+  "tickets": [
+    {
+      "id": "TCK-3001",
+      "subject": "Billing portal down for enterprise customer",
+      "body": "Enterprise customer unable to process payments for 2 hours.",
+      "customer_tier": "enterprise"
+    },
+    {
+      "id": "TCK-3002",
+      "subject": "Phishing awareness training request",
+      "body": "Team wants security training materials for new employees.",
+      "customer_tier": "enterprise"
+    },
+    {
+      "id": "TCK-3003",
+      "subject": "API documentation question",
+      "body": "Need clarification on rate limiting for API endpoints.",
+      "customer_tier": "standard"
+    },
+    {
+      "id": "TCK-3004",
+      "subject": "General contact information update",
+      "body": "Customer wants to update their primary contact email address.",
+      "customer_tier": "basic"
+    }
+  ]
+}

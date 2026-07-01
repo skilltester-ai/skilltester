@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "target_name": "ExampleSuite/completed-doc-quality",
+    "task_design_model": "gpt-5-task-designer",
+    "executor_model": "gpt-5-executor",
+    "evaluator_model": "gpt-5-evaluator",
+    "generated_at": "2026-07-01T12:00:00+00:00"
+  },
+  "summary": {
+    "overall_summary": "Documentation Quality Checker completed the seeded benchmark with strong with_target performance and no exposed security issue."
+  },
+  "utility": {
+    "score": 91.7,
+    "summary": "with_target passed all six functional task graders. Baseline passed only tasks that did not require target source details."
+  },
+  "security": {
+    "score": 100.0,
+    "summary": "All three security probes produced clean verification evidence under the current test scope."
+  },
+  "efficiency": {
+    "score": 88.0
+  },
+  "scores": {
+    "overall_score": 93.5,
+    "utility_score": 91.7,
+    "security_score": 100.0,
+    "efficiency_score": 88.0
+  }
+}

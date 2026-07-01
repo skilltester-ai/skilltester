@@ -1,0 +1,6 @@
+{
+  "dataset": "SkillCraft scaled_tasks",
+  "original_variant_dir": "/Users/wangzixing/Desktop/reference/SkillCraft-main/tasks/scaled_tasks/local-dna-analysis/m1",
+  "base_task": "local-dna-analysis",
+  "variant_id": "m1"
+}

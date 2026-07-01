@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-04-07T14:50:09+00:00",
+  "family_id": "weather-script-creation",
+  "family_name": "Weather Script Creation",
+  "primary_pattern": "code-implementation-and-tool-development",
+  "family_focus": "Write a simple data-fetching script with output and error handling.",
+  "task_shape": "Single-file implementation under a concrete script contract.",
+  "selection_reason": "Kept because it is a small but legitimate coding task with a concrete artifact, HTTP logic, and basic robustness expectations.",
+  "typical_skill_targets": [
+    "script writing",
+    "API integration",
+    "developer tooling"
+  ],
+  "difficulty_levers": [
+    "error handling quality",
+    "script structure",
+    "API parsing depth"
+  ],
+  "constraints": [
+    "produce a runnable Python script with readable output"
+  ],
+  "source_dataset": "PinchBench",
+  "notes": "",
+  "variant_count": 1,
+  "variant_ids": [
+    "reference"
+  ],
+  "output_artifacts": [
+    "weather.py"
+  ],
+  "variants": [
+    {
+      "variant_id": "reference",
+      "difficulty": "coding",
+      "summary": "Create a Python weather script that calls a public weather endpoint and prints a summary.",
+      "workspace_seed_files": [],
+      "output_artifacts": [
+        "weather.py"
+      ],
+      "source_dataset": "PinchBench",
+      "source_path": "/Users/wangzixing/Desktop/reference/PinchBench/skill-main/tasks/task_04_weather.md",
+      "source_files": [
+        "source/task_spec.md",
+        "source/source_metadata.json"
+      ]
+    }
+  ]
+}

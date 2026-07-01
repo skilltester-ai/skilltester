@@ -1,0 +1,8 @@
+{
+  "target": "completed-data-normalizer",
+  "task_id": "C_06",
+  "source_files": [
+    "data/customers.csv",
+    "data/schema.json"
+  ]
+}

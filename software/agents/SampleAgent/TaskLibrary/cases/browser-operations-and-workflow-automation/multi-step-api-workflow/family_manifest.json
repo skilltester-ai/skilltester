@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-04-07T14:50:09+00:00",
+  "family_id": "multi-step-api-workflow",
+  "family_name": "Multi-step API Workflow",
+  "primary_pattern": "browser-operations-and-workflow-automation",
+  "family_focus": "Read config, build a script, and document the workflow end to end.",
+  "task_shape": "Stateful multi-step automation over local config plus generated artifacts.",
+  "selection_reason": "Kept because it is a compact workflow reference with sequential dependencies and multiple result artifacts, even though it is API-driven rather than browser-driven.",
+  "typical_skill_targets": [
+    "workflow automation",
+    "multi-step execution",
+    "artifact coordination"
+  ],
+  "difficulty_levers": [
+    "step count",
+    "artifact count",
+    "error handling expectations"
+  ],
+  "constraints": [
+    "read the config first, then create both code and notes artifacts"
+  ],
+  "source_dataset": "PinchBench",
+  "notes": "This family covers workflow automation shape only; it is not a real browser UI benchmark.",
+  "variant_count": 1,
+  "variant_ids": [
+    "reference"
+  ],
+  "output_artifacts": [
+    "config.json",
+    "NOTES.md",
+    "generated Python script (*.py)"
+  ],
+  "variants": [
+    {
+      "variant_id": "reference",
+      "difficulty": "complex",
+      "summary": "Use a config file to generate both an API-calling script and a process note.",
+      "workspace_seed_files": [
+        "config.json"
+      ],
+      "output_artifacts": [
+        "config.json",
+        "NOTES.md",
+        "generated Python script (*.py)"
+      ],
+      "source_dataset": "PinchBench",
+      "source_path": "/Users/wangzixing/Desktop/reference/PinchBench/skill-main/tasks/task_10_workflow.md",
+      "source_files": [
+        "source/task_spec.md",
+        "source/source_metadata.json"
+      ]
+    }
+  ]
+}

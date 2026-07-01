@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-04-07T14:50:09+00:00",
+  "family_id": "spreadsheet-summary",
+  "family_name": "Spreadsheet Summary",
+  "primary_pattern": "data-extraction-and-structured-processing",
+  "family_focus": "Read mixed spreadsheet inputs and compute a compact analytical report.",
+  "task_shape": "Local CSV plus XLSX analysis with derived metrics and narrative summary.",
+  "selection_reason": "Kept because it exercises structured data extraction across file types and asks for correct calculations rather than freeform prose.",
+  "typical_skill_targets": [
+    "spreadsheet analysis",
+    "data extraction",
+    "report generation"
+  ],
+  "difficulty_levers": [
+    "multiple file formats",
+    "cross-sheet analysis",
+    "numeric accuracy"
+  ],
+  "constraints": [
+    "compute the requested totals and top performers from both files"
+  ],
+  "source_dataset": "PinchBench",
+  "notes": "",
+  "variant_count": 1,
+  "variant_ids": [
+    "reference"
+  ],
+  "output_artifacts": [
+    "data_summary.md"
+  ],
+  "variants": [
+    {
+      "variant_id": "reference",
+      "difficulty": "data_analysis",
+      "summary": "Analyze a CSV and a multi-sheet XLSX workbook to produce a summary report.",
+      "workspace_seed_files": [
+        "company_expenses.xlsx",
+        "quarterly_sales.csv"
+      ],
+      "output_artifacts": [
+        "data_summary.md"
+      ],
+      "source_dataset": "PinchBench",
+      "source_path": "/Users/wangzixing/Desktop/reference/PinchBench/skill-main/tasks/task_19_spreadsheet_summary.md",
+      "source_files": [
+        "source/task_spec.md",
+        "source/source_metadata.json"
+      ]
+    }
+  ]
+}

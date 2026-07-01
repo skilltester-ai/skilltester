@@ -1,0 +1,18 @@
+{
+  "task_id": "C_06",
+  "mode": "with_target",
+  "task_start_timestamp": "2026-07-01T12:00:00+00:00",
+  "task_end_timestamp": "2026-07-01T12:00:00+00:00",
+  "time": 14.5,
+  "total_time_seconds": 14.5,
+  "success": true,
+  "status": "success",
+  "input_characters": 3180,
+  "output_characters": 1260,
+  "estimated_total_tokens": 1170,
+  "skill_invocation_attempted": true,
+  "skill_invocation_success": true,
+  "files_read": [
+    "source/README.md"
+  ]
+}

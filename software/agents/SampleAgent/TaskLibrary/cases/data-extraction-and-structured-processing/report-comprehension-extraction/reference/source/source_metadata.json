@@ -1,0 +1,8 @@
+{
+  "dataset": "PinchBench",
+  "original_task_file": "/Users/wangzixing/Desktop/reference/PinchBench/skill-main/tasks/task_21_openclaw_comprehension.md",
+  "original_task_id": "task_21_openclaw_comprehension",
+  "workspace_assets": [
+    "OpenClaw Agent Use Cases and Gap Analysis for PinchBench.pdf"
+  ]
+}

@@ -1,0 +1,20 @@
+From: mike.chen@bigclient.com (Mike Chen, VP Engineering)
+To: me@mycompany.com
+Date: Mon, 17 Feb 2026 08:45:00 -0500
+Subject: Re: API integration timeline
+
+Hi,
+
+Following up on our call last week. Our board approved the integration project
+and we'd like to move forward. We need to finalize the API contract and get
+staging credentials set up ASAP so our team can start development.
+
+Can we schedule a 30-minute call this week? Tuesday or Thursday afternoon works
+best for us. This is a $2M annual contract so we want to keep momentum.
+
+Also, our security team will need to complete a vendor assessment. Could you
+send over your SOC 2 report and data processing agreement?
+
+Best,
+Mike Chen
+VP Engineering, BigClient Inc.

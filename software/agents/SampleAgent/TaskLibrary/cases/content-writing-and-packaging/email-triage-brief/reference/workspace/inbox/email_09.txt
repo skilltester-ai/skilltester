@@ -1,0 +1,16 @@
+From: newsletter@techdigest.io
+To: me@mycompany.com
+Date: Mon, 17 Feb 2026 06:00:00 -0500
+Subject: TechDigest Weekly: AI agents are reshaping software development
+
+This week in tech:
+
+→ AI coding agents now write 40% of code at top tech companies
+→ New study shows remote engineers are 15% more productive
+→ Rust adoption surges in cloud-native development
+→ OpenAI announces GPT-5 release date
+→ Kubernetes 1.32 brings major networking improvements
+
+Read the full digest: https://techdigest.io/weekly/2026-02-17
+
+Unsubscribe: https://techdigest.io/unsubscribe

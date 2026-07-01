@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-04-07T14:50:09+00:00",
+  "family_id": "image-brief-to-generated-asset",
+  "family_name": "Image Brief to Generated Asset",
+  "primary_pattern": "multimodal-design-and-layout",
+  "family_focus": "Turn a natural-language visual brief into a saved image artifact.",
+  "task_shape": "Single creative brief to single exported asset.",
+  "selection_reason": "Kept as the only clearly usable multimodal design reference in the provided sources. It is simple, but still captures prompt-to-asset translation.",
+  "typical_skill_targets": [
+    "image generation",
+    "creative prompting",
+    "visual asset creation"
+  ],
+  "difficulty_levers": [
+    "brief specificity",
+    "need to preserve all requested scene elements",
+    "output file naming contract"
+  ],
+  "constraints": [
+    "save the generated image using the requested filename"
+  ],
+  "source_dataset": "PinchBench",
+  "notes": "Useful as a lightweight design seed, but still far thinner than a full web or slide layout task.",
+  "variant_count": 1,
+  "variant_ids": [
+    "reference"
+  ],
+  "output_artifacts": [
+    "robot_cafe.png"
+  ],
+  "variants": [
+    {
+      "variant_id": "reference",
+      "difficulty": "creative",
+      "summary": "Generate one image from a natural-language scene brief and save it to disk.",
+      "workspace_seed_files": [],
+      "output_artifacts": [
+        "robot_cafe.png"
+      ],
+      "source_dataset": "PinchBench",
+      "source_path": "/Users/wangzixing/Desktop/reference/PinchBench/skill-main/tasks/task_13_image_gen.md",
+      "source_files": [
+        "source/task_spec.md",
+        "source/source_metadata.json"
+      ]
+    }
+  ]
+}

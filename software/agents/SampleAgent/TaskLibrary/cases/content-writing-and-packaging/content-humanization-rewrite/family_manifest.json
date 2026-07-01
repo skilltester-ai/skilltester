@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-04-07T14:50:09+00:00",
+  "family_id": "content-humanization-rewrite",
+  "family_name": "Content Humanization Rewrite",
+  "primary_pattern": "content-writing-and-packaging",
+  "family_focus": "Rewrite robotic source text into more natural prose while preserving meaning.",
+  "task_shape": "Input document transformation with tone and style goals.",
+  "selection_reason": "Kept because the useful task shape is strong even though the original source mentions a specific install flow. In this library it serves as a style-rewrite reference.",
+  "typical_skill_targets": [
+    "rewriting",
+    "tone adjustment",
+    "content editing"
+  ],
+  "difficulty_levers": [
+    "preserving original meaning",
+    "reducing robotic patterns",
+    "style consistency"
+  ],
+  "constraints": [
+    "keep the key points while making the prose more natural"
+  ],
+  "source_dataset": "PinchBench",
+  "notes": "",
+  "variant_count": 1,
+  "variant_ids": [
+    "reference"
+  ],
+  "output_artifacts": [
+    "humanized_blog.txt"
+  ],
+  "variants": [
+    {
+      "variant_id": "reference",
+      "difficulty": "content_transformation",
+      "summary": "Rewrite an AI-sounding blog draft into more natural human-sounding prose.",
+      "workspace_seed_files": [
+        "ai_blog.txt"
+      ],
+      "output_artifacts": [
+        "humanized_blog.txt"
+      ],
+      "source_dataset": "PinchBench",
+      "source_path": "/Users/wangzixing/Desktop/reference/PinchBench/skill-main/tasks/task_14_humanizer.md",
+      "source_files": [
+        "source/task_spec.md",
+        "source/source_metadata.json"
+      ]
+    }
+  ]
+}

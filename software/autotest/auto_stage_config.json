@@ -1,0 +1,12 @@
+{
+  "stage": "spec",
+  "launch_mode": "once",
+  "once": true,
+  "test_mode": "with_target",
+  "candidate_mode": "pending",
+  "skill_scope": "stage_pending",
+  "skill_repo": "__all__",
+  "runner_plan": [
+    "opencode:3"
+  ]
+}

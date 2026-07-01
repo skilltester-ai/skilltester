@@ -1,0 +1,16 @@
+{
+  "api": {
+    "endpoint": "https://api.example.com/v2/data",
+    "method": "GET",
+    "headers": {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    },
+    "timeout": 30
+  },
+  "project": {
+    "name": "DataFetcher",
+    "version": "1.0.0",
+    "description": "Automated data fetching utility"
+  }
+}

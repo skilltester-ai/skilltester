@@ -1,0 +1,6 @@
+{
+  "service": "payments",
+  "timeout_seconds": 25,
+  "retries": 2,
+  "logging": "warn"
+}

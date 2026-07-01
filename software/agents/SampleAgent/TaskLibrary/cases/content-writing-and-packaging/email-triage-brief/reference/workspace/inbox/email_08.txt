@@ -1,0 +1,17 @@
+From: security@mycompany.com (Security Team)
+To: engineering@mycompany.com
+Date: Mon, 17 Feb 2026 07:00:00 -0500
+Subject: IMPORTANT: Mandatory password rotation by Feb 19
+
+As part of our quarterly security compliance, all engineering team members
+must rotate their passwords and SSH keys by Wednesday, February 19, 2026.
+
+Required actions:
+1. Change your SSO password via https://sso.mycompany.com/reset
+2. Rotate your SSH keys on all company repositories
+3. Update any personal access tokens older than 90 days
+4. Confirm completion by replying to this email
+
+Failure to comply by the deadline may result in temporary account lockout.
+
+Security Team

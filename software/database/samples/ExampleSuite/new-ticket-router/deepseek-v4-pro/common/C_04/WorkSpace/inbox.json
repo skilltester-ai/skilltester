@@ -1,0 +1,34 @@
+{
+  "tickets": [
+    {
+      "id": "TCK-4001",
+      "subject": "Subscription renewal failed",
+      "body": "Enterprise account subscription auto-renewal failed due to payment method expired.",
+      "customer_tier": "enterprise"
+    },
+    {
+      "id": "TCK-4002",
+      "subject": "Report phishing email",
+      "body": "Customer received a suspicious email claiming to be from support.",
+      "customer_tier": "standard"
+    },
+    {
+      "id": "TCK-4003",
+      "subject": "How to use the dashboard",
+      "body": "New user needs help navigating the analytics dashboard.",
+      "customer_tier": "enterprise"
+    },
+    {
+      "id": "TCK-4004",
+      "subject": "General feedback",
+      "body": "Customer wants to share product feedback and suggestions.",
+      "customer_tier": "standard"
+    },
+    {
+      "id": "TCK-4005",
+      "subject": "Invoice not received",
+      "body": "Basic tier customer did not receive last monthly invoice.",
+      "customer_tier": "basic"
+    }
+  ]
+}

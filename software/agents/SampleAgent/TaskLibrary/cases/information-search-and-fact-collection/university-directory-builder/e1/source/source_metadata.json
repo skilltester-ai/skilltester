@@ -1,0 +1,6 @@
+{
+  "dataset": "SkillCraft scaled_tasks",
+  "original_variant_dir": "/Users/wangzixing/Desktop/reference/SkillCraft-main/tasks/scaled_tasks/university-directory-builder/e1",
+  "base_task": "university-directory-builder",
+  "variant_id": "e1"
+}

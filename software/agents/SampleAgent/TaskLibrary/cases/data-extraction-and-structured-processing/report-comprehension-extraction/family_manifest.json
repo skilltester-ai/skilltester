@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-04-07T14:50:09+00:00",
+  "family_id": "report-comprehension-extraction",
+  "family_name": "Report Comprehension Extraction",
+  "primary_pattern": "data-extraction-and-structured-processing",
+  "family_focus": "Read a PDF report and extract exact factual answers into a fixed output file.",
+  "task_shape": "Local document comprehension with answer normalization.",
+  "selection_reason": "Kept because it is a strong example of precise extraction from a long document with a tight answer contract.",
+  "typical_skill_targets": [
+    "PDF extraction",
+    "reading comprehension",
+    "fact retrieval"
+  ],
+  "difficulty_levers": [
+    "document length",
+    "fact specificity",
+    "output normalization"
+  ],
+  "constraints": [
+    "write one answer per line in the requested order"
+  ],
+  "source_dataset": "PinchBench",
+  "notes": "",
+  "variant_count": 1,
+  "variant_ids": [
+    "reference"
+  ],
+  "output_artifacts": [
+    "answer.txt"
+  ],
+  "variants": [
+    {
+      "variant_id": "reference",
+      "difficulty": "comprehension",
+      "summary": "Extract a fixed set of answers from a long research PDF into a plain-text file.",
+      "workspace_seed_files": [
+        "openclaw_report.pdf"
+      ],
+      "output_artifacts": [
+        "answer.txt"
+      ],
+      "source_dataset": "PinchBench",
+      "source_path": "/Users/wangzixing/Desktop/reference/PinchBench/skill-main/tasks/task_21_openclaw_comprehension.md",
+      "source_files": [
+        "source/task_spec.md",
+        "source/source_metadata.json"
+      ]
+    }
+  ]
+}

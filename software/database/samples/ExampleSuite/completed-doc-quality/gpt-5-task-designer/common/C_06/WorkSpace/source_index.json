@@ -1,0 +1,8 @@
+{
+  "target": "completed-doc-quality",
+  "task_id": "C_06",
+  "source_files": [
+    "docs/getting-started.md",
+    "docs/release-notes.md"
+  ]
+}

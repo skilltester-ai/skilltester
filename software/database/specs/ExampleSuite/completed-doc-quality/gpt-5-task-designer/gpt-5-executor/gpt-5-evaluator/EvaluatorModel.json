@@ -1,0 +1,6 @@
+{
+  "task_design_model": "gpt-5-task-designer",
+  "executor_model": "gpt-5-executor",
+  "evaluator_model": "gpt-5-evaluator",
+  "generated_at": "2026-07-01T12:00:00+00:00"
+}

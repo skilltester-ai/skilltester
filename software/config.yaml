@@ -1,0 +1,114 @@
+version: '1.0'
+paths:
+  database_root: ./database
+  targets_root: ./TargetsRepo
+  logs_root: ./logs
+  runtime_root: ./.runtime
+default_harness: opencode
+harnesses:
+  opencode:
+    display_name: OpenCode
+    command_template: opencode run --dir {workspace} "$(cat {prompt_file})"
+    default_model: K2.6-code-preview
+    enabled: true
+  claude:
+    display_name: Claude Code
+    command_template: claude --print --verbose --dangerously-skip-permissions --output-format
+      stream-json --include-partial-messages --add-dir {base_dir} "$(cat {prompt_file})"
+    default_model: claude-sonnet-4-6
+    enabled: true
+    env:
+      CLAUDE_STREAM_LOG: '{prompt_dir}/claude_stream.jsonl'
+      CLAUDE_RENDERED_LOG: '{prompt_dir}/claude_rendered.log'
+  kimi:
+    display_name: KimiCode
+    command_template: kimi --print --work-dir {workspace} --add-dir {base_dir} --input-format
+      text --output-format text < {prompt_file}
+    default_model: K2.5
+    enabled: false
+    env:
+      KIMI_API_KEY: ''
+  codex:
+    display_name: Codex CLI
+    command_template: codex exec --cd {workspace} --skip-git-repo-check --dangerously-bypass-approvals-and-sandbox
+      - < {prompt_file}
+    default_model: GPT5.4
+    enabled: false
+stages:
+  sample:
+    enabled: true
+    timeout_seconds: 600
+    label: Sample Stage
+    config:
+      functional_task_count: 6
+      security_task_count: 3
+      categories:
+      - common
+      - security
+  exec:
+    enabled: true
+    timeout_seconds: 3600
+    max_retries: 0
+    label: Exec Stage
+    stagger_seconds: 30
+    default_mode: single
+  spec:
+    enabled: true
+    timeout_seconds: 900
+    label: Spec Stage
+    default_mode: benchmark
+    dimensions:
+      utility:
+        enabled: true
+        metrics:
+        - task_completion_rate
+        - target_invocation_success
+      security:
+        enabled: true
+        metrics:
+        - abnormal_behavior_control
+        - permission_boundary
+        - sensitive_data_protection
+      efficiency:
+        enabled: true
+        metrics:
+        - token_per_function
+        - time_per_function
+        - ratio_score
+autotest:
+  poll_interval_seconds: 30
+  max_concurrent_sessions: 10
+  candidate_mode: pending
+  scope: stage_pending
+  default_stage: exec
+report:
+  formats:
+  - markdown
+  - json
+  - csv
+  output:
+    benchmark_mode:
+    - results/Template.json
+    - results/Template.csv
+    - results/benchmark_report.md
+    security_only_mode:
+    - results/Template.json
+    - results/Template.csv
+    - results/benchmark_report.md
+agents:
+  sample:
+    name: SampleAgent
+    description: Reads requirements, creates 6 functional test tasks and 3 security test tasks, and writes benchmark_manifest.json plus a reusable task bundle.
+    model: deepseek-v4-pro
+  exec:
+    name: ExecAgent
+    description: Runs functional tasks in baseline and with_target tracks to compare harness and LLM behavior, target usage, and artifact quality.
+    model: deepseek-v4-pro
+  spec:
+    name: SpecAgent
+    description: Reviews functional and security results, applies grader/evidence decisions, and generates Template.json, Template.csv, and benchmark_report.md.
+    model: deepseek-v4-pro
+server:
+  host: 127.0.0.1
+  port: 8700
+  max_upload_size_mb: 50

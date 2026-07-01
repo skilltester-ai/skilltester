@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-04-07T14:50:09+00:00",
+  "family_id": "second-brain-knowledge-persistence",
+  "family_name": "Second Brain Knowledge Persistence",
+  "primary_pattern": "browser-operations-and-workflow-automation",
+  "family_focus": "Persist knowledge to workspace state and retrieve it across sessions.",
+  "task_shape": "Multi-session workflow with file-based memory persistence.",
+  "selection_reason": "Kept because it captures a useful long-horizon workflow shape: store state now, recall it later in a fresh session.",
+  "typical_skill_targets": [
+    "stateful workflows",
+    "memory files",
+    "session persistence"
+  ],
+  "difficulty_levers": [
+    "number of facts",
+    "cross-session retrieval",
+    "file organization"
+  ],
+  "constraints": [
+    "use the shared memory file as the persistence surface"
+  ],
+  "source_dataset": "PinchBench",
+  "notes": "Also useful when designing tasks around explicit workspace state reuse.",
+  "variant_count": 1,
+  "variant_ids": [
+    "reference"
+  ],
+  "output_artifacts": [
+    "memory/MEMORY.md"
+  ],
+  "variants": [
+    {
+      "variant_id": "reference",
+      "difficulty": "memory",
+      "summary": "Store facts in a memory file and answer recall questions in later turns or sessions.",
+      "workspace_seed_files": [],
+      "output_artifacts": [
+        "memory/MEMORY.md"
+      ],
+      "source_dataset": "PinchBench",
+      "source_path": "/Users/wangzixing/Desktop/reference/PinchBench/skill-main/tasks/task_22_second_brain.md",
+      "source_files": [
+        "source/task_spec.md",
+        "source/source_metadata.json"
+      ]
+    }
+  ]
+}

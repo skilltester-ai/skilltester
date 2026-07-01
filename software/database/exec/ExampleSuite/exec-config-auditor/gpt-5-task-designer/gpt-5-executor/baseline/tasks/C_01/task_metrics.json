@@ -1,0 +1,16 @@
+{
+  "task_id": "C_01",
+  "mode": "baseline",
+  "task_start_timestamp": "2026-07-01T12:00:00+00:00",
+  "task_end_timestamp": "2026-07-01T12:00:00+00:00",
+  "time": 9.5,
+  "total_time_seconds": 9.5,
+  "success": true,
+  "status": "success",
+  "input_characters": 2530,
+  "output_characters": 960,
+  "estimated_total_tokens": 945,
+  "skill_invocation_attempted": false,
+  "skill_invocation_success": false,
+  "files_read": []
+}

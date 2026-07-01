@@ -1,0 +1,8 @@
+{
+  "target": "exec-log-triage",
+  "task_id": "C_06",
+  "source_files": [
+    "logs/api.log",
+    "logs/worker.log"
+  ]
+}

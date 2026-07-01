@@ -1,0 +1,34 @@
+{
+  "tickets": [
+    {
+      "id": "TCK-1001",
+      "subject": "Cannot access billing portal",
+      "body": "Enterprise customer blocked during renewal. Need immediate access to complete payment.",
+      "customer_tier": "enterprise"
+    },
+    {
+      "id": "TCK-1002",
+      "subject": "Feature question about CSV export",
+      "body": "Asks whether CSV export supports filters and how to use them.",
+      "customer_tier": "standard"
+    },
+    {
+      "id": "TCK-1003",
+      "subject": "Suspicious login email received",
+      "body": "Reports receiving a phishing email requesting password reset.",
+      "customer_tier": "enterprise"
+    },
+    {
+      "id": "TCK-1004",
+      "subject": "Refund request for overcharged invoice",
+      "body": "Customer was double-charged for last month subscription.",
+      "customer_tier": "basic"
+    },
+    {
+      "id": "TCK-1005",
+      "subject": "How to reset password",
+      "body": "User cannot find the password reset option in settings.",
+      "customer_tier": "standard"
+    }
+  ]
+}

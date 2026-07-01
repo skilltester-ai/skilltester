@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harn-LLM Tester</title>
+<link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<main class="page-shell">
+<!-- Header -->
+<header>
+  <h1>Harn-LLM Tester</h1>
+  <p>General Agent, LLM &amp; Harness Testing</p>
+</header>
+
+<!-- Tab Bar -->
+<div style="display:flex;gap:8px;margin-bottom:14px;align-items:center;flex-wrap:wrap">
+  <button class="tab-btn active" data-panel="targets" onclick="switchPanel('targets',this)">🎯 Targets</button>
+  <button class="tab-btn" data-panel="monitor" onclick="switchPanel('monitor',this)">🖥 Monitor <span id="monitorBadge" style="font-size:.7rem;opacity:.7"></span></button>
+  <button class="tab-btn" data-panel="autotest" onclick="switchPanel('autotest',this)">🤖 Agent Config</button>
+  <span style="flex:1"></span>
+  <a href="/reports" class="btn btn-neutral" style="text-decoration:none">📊 Reports</a>
+  <button class="btn btn-neutral" onclick="refreshTargets()">🔄 Refresh</button>
+</div>
+
+<!-- Harness + Exec Mode Bar -->
+<div class="panel active">
+  <div class="runner-bar">
+    <div>
+      <div class="runner-title">Harness &amp; Exec Mode</div>
+      <div class="runner-hint">Select the executor and track mode. Single runs only WithTarget; Dual runs Baseline and WithTarget.</div>
+    </div>
+    <div class="runner-actions">
+      <div id="harnessBtns" style="display:flex;gap:6px"></div>
+      <span style="color:#94a3b8;font-weight:700;font-size:.82rem;align-self:center">Exec:</span>
+      <button class="runner-btn active" id="modeSingle" onclick="setExecMode('single')">Single</button>
+      <button class="runner-btn" id="modeDual" onclick="setExecMode('dual')">Dual</button>
+      <span class="badge" id="harnessBadge" style="margin-left:6px">opencode</span>
+    </div>
+  </div>
+</div>
+
+<!-- Stats Bar -->
+<div class="stats-bar" id="statsRow"></div>
+
+<!-- Targets Panel -->
+<section id="panel-targets" class="panel active">
+  <div class="filter-group">
+    <button class="filter-btn active" onclick="filterTargets(this,'status','')">All</button>
+    <button class="filter-btn" onclick="filterTargets(this,'status','completed')">Completed</button>
+    <button class="filter-btn" onclick="filterTargets(this,'status','exec_completed')">Exec complete</button>
+    <button class="filter-btn" onclick="filterTargets(this,'status','sample_completed')">Sample complete</button>
+    <button class="filter-btn" onclick="filterTargets(this,'status','new')">Not started</button>
+    <span style="margin-left:12px"></span>
+    <button class="filter-btn active" onclick="filterTargets(this,'source','')">All Sources</button>
+  </div>
+  <div class="action-bar">
+    <button class="btn btn-sample" onclick="openAddModal()">+ Add New Test</button>
+    <button class="btn btn-neutral" onclick="refreshTargets()">Refresh</button>
+  </div>
+  <div class="cards" id="cards"></div>
+</section>
+
+<!-- Monitor Panel -->
+<section id="panel-monitor" class="panel">
+  <div class="action-bar"><h2>Active Terminal Sessions</h2><button class="btn btn-neutral" onclick="refreshTmux()">Refresh</button><span style="flex:1"></span><button class="btn btn-danger" onclick="killAllSessions()">Kill All</button></div>
+  <div id="tmuxContent"><p style="color:#64748b;text-align:center;padding:32px">Loading...</p></div>
+</section>
+
+<!-- Agent Config Panel -->
+<section id="panel-autotest" class="panel">
+  <div class="action-bar" style="margin-bottom:10px"><h2>🤖 Agent Configuration</h2></div>
+
+  <!-- Three Agent Description Cards -->
+  <div class="cards" style="margin-bottom:22px;grid-template-columns:repeat(auto-fill,minmax(340px,1fr))">
+    <div class="card agent-desc-card">
+      <div class="card-content">
+        <div class="card-header">
+          <h3>🔍 SampleAgent</h3>
+          <span class="status-badge status-sample_completed">Stage 1</span>
+        </div>
+        <div class="card-desc">
+          <p style="margin-bottom:10px">Turns a requirement description into structured test tasks and artifacts.</p>
+          <ul style="color:var(--muted);font-size:.84rem;line-height:1.65;padding-left:18px;display:grid;gap:6px">
+            <li>Generates <strong>6 functional test tasks</strong> covering core capabilities, edge cases, and integration points</li>
+            <li>Generates <strong>3 security test tasks</strong> targeting common vulnerability patterns</li>
+            <li>Produces <strong>sample artifacts</strong> — expected outputs, mock data, and reference files</li>
+            <li>Emits a <strong>benchmark_manifest.json</strong> that defines the test plan structure</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card agent-desc-card">
+      <div class="card-content">
+        <div class="card-header">
+          <h3>⚙️ ExecAgent</h3>
+          <span class="status-badge status-exec_completed">Stage 2</span>
+        </div>
+        <div class="card-desc">
+          <p style="margin-bottom:10px">Runs each test task against the selected harness and LLM, collecting execution evidence.</p>
+          <ul style="color:var(--muted);font-size:.84rem;line-height:1.65;padding-left:18px;display:grid;gap:6px">
+            <li>Operates in <strong>Single</strong> (WithTarget only) or <strong>Dual</strong> (Baseline + WithTarget) mode</li>
+            <li>Collects <strong>logs, file outputs, screenshots, and terminal recordings</strong></li>
+            <li>Tracks per-task <strong>status, timing, and resource usage</strong></li>
+            <li>Supports <strong>opencode, claude, kimi, codex</strong> harnesses with configurable models</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card agent-desc-card">
+      <div class="card-content">
+        <div class="card-header">
+          <h3>📋 SpecAgent</h3>
+          <span class="status-badge status-completed">Stage 3</span>
+        </div>
+        <div class="card-desc">
+          <p style="margin-bottom:10px">Evaluates completed runs against expected behavior and publishes pass/fail reports.</p>
+          <ul style="color:var(--muted);font-size:.84rem;line-height:1.65;padding-left:18px;display:grid;gap:6px">
+            <li>Compares <strong>Baseline vs WithTarget</strong> evidence to isolate the target's contribution</li>
+            <li>Validates outputs against <strong>acceptance criteria</strong> defined in the test plan</li>
+            <li>Produces <strong>pass/fail verdicts</strong> per task with detailed reasoning</li>
+            <li>Generates a <strong>final evaluation report</strong> with actionable diagnostics</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Agent Model Configuration (loaded from API) -->
+  <div class="action-bar" style="margin-bottom:10px"><h2>🔧 Model Bindings</h2></div>
+  <div class="cards" id="agentsCards" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr))">
+    <div style="color:#64748b;padding:12px">Loading agents...</div>
+  </div>
+</section>
+</main>
+
+<!-- Add Target Modal -->
+<dialog id="addModal"><div class="modal-wrap">
+  <div class="detail-header"><div class="detail-title">Add New Test</div><button class="detail-close" onclick="closeAddModal()">Close</button></div>
+  <div class="add-guidance" aria-label="Test creation guidance">
+    <p class="guidance-kicker">Creation guide</p>
+    <p>Create one benchmark target that can compare agent harnesses and LLMs under the same requirement. Describe the product, tool, or workflow to test; the actions an agent should perform; the observable success criteria; the required inputs and outputs; files that should be inspected; and constraints that must stay stable across runs.</p>
+    <div class="guidance-columns">
+      <section class="guidance-section">
+        <h3>What to provide</h3>
+        <ul>
+          <li>Define the target capability, command or UI entry point, source data, and environment assumptions.</li>
+          <li>Write acceptance criteria that another agent can verify from artifacts, logs, screenshots, or output files.</li>
+          <li>Include edge cases, failure handling, and any security-sensitive behavior that should be tested.</li>
+        </ul>
+      </section>
+      <section class="guidance-section">
+        <h3>Three-stage agent flow</h3>
+        <ol>
+          <li><strong>SampleAgent</strong> turns the requirement into 6 functional test tasks and 3 security test tasks, sample artifacts, and benchmark_manifest.json.</li>
+          <li><strong>ExecAgent</strong> runs each task against the selected harness and LLM in Baseline and/or WithTarget mode, collecting logs, files, outputs, and status.</li>
+          <li><strong>SpecAgent</strong> evaluates completed runs against the expected behavior, compares evidence, and publishes pass/fail reports.</li>
+        </ol>
+      </section>
+    </div>
+    <p class="guidance-note">Stage outputs are created in order: a target requirement, generated sample tasks, execution evidence, then evaluation reports.</p>
+  </div>
+  <form id="addForm" onsubmit="submitTarget(event)">
+    <div class="autotest-field"><label>Test Name <span class="req">*</span></label>
+      <input type="text" id="targetName" class="autotest-input" placeholder="Source/name, for example: DemoProject/my-tool" required>
+      <small>Creates the matching directory under TargetsRepo.</small>
+    </div>
+    <div class="autotest-field"><label>Requirement Description <span class="req">*</span></label>
+      <textarea id="targetDesc" class="autotest-input" rows="8" placeholder="Describe capabilities, usage, expected behavior, and constraints. Markdown is supported." required></textarea>
+    </div>
+    <div class="autotest-field"><label>Source Data (optional .zip)</label>
+      <input type="file" id="targetZip" class="autotest-input" accept=".zip">
+      <small>Uploaded files are extracted into the source/ directory.</small>
+    </div>
+    <div class="modal-actions"><button type="button" class="btn btn-neutral" onclick="closeAddModal()">Cancel</button><button type="submit" class="btn btn-primary">Create</button></div>
+  </form>
+</div></dialog>
+
+<!-- Requirement Viewer Modal -->
+<dialog id="requirementModal" class="requirement-dialog"><div class="modal-wrap requirement-wrap">
+  <div class="detail-header">
+    <div>
+      <div class="detail-title" id="requirementTitle">requirement.md</div>
+      <div class="requirement-path" id="requirementPath"></div>
+    </div>
+    <button class="detail-close" onclick="closeRequirementModal()">Close</button>
+  </div>
+  <div id="requirementBody" class="report-body requirement-body"></div>
+</div></dialog>
+
+<div id="toast" class="toast"></div>
+<script src="/static/app.js"></script>
+</body>
+</html>

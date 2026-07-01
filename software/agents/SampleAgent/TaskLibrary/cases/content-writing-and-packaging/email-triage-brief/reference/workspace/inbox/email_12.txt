@@ -1,0 +1,21 @@
+From: cfo@mycompany.com (Linda Zhao, CFO)
+To: engineering-leads@mycompany.com
+Date: Mon, 17 Feb 2026 08:30:00 -0500
+Subject: Q1 budget reconciliation - action needed by Thursday
+
+Hi team leads,
+
+Finance is closing out Q1 budget projections and we need each team to review
+and confirm their spending against allocated budgets. Specifically:
+
+1. Verify cloud infrastructure costs (AWS/GCP) for Jan-Feb
+2. Flag any anticipated overruns for March
+3. Submit any pending purchase requests before the March 1 cutoff
+
+Please fill out the budget tracker: https://docs.mycompany.com/q1-budget
+
+Need responses by end of day Thursday, Feb 20. If your team is trending
+over budget, let's schedule a quick sync to discuss.
+
+Thanks,
+Linda

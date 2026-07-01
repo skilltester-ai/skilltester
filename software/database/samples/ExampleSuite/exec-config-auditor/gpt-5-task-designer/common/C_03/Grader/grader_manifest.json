@@ -1,0 +1,5 @@
+{
+  "rubric_pass_threshold": 8,
+  "total_rubrics": 10,
+  "primary_result_path": "C_03_result.json"
+}

@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-04-07T14:50:09+00:00",
+  "family_id": "recipe-cookbook-builder",
+  "family_name": "Recipe Cookbook Builder",
+  "primary_pattern": "content-writing-and-packaging",
+  "family_focus": "Collect recipe information and package it into a compact cookbook artifact.",
+  "task_shape": "Repeated lookup followed by curated packaging into a recipe collection.",
+  "selection_reason": "Kept because it is a content-packaging family with a concrete output format and a useful ladder from simple to larger multi-dish curation.",
+  "typical_skill_targets": [
+    "content packaging",
+    "recipe curation",
+    "structured writing"
+  ],
+  "difficulty_levers": [
+    "dish count",
+    "API count",
+    "amount of cross-dish summarization"
+  ],
+  "constraints": [
+    "summarize related dishes instead of dumping all raw related results"
+  ],
+  "source_dataset": "SkillCraft scaled_tasks",
+  "notes": "",
+  "variant_count": 3,
+  "variant_ids": [
+    "e1",
+    "m1",
+    "h1"
+  ],
+  "output_artifacts": [
+    "recipe_cookbook.json"
+  ],
+  "variants": [
+    {
+      "variant_id": "e1",
+      "difficulty": "easy",
+      "summary": "Package 3 dishes into a small cookbook using 3 recipe endpoints per dish.",
+      "workspace_seed_files": [
+        "cookbook_plan.json"
+      ],
+      "output_artifacts": [
+        "recipe_cookbook.json"
+      ],
+      "source_dataset": "SkillCraft scaled_tasks",
+      "source_path": "/Users/wangzixing/Desktop/reference/SkillCraft-main/tasks/scaled_tasks/recipe-cookbook-builder/e1",
+      "source_files": [
+        "source/task.md",
+        "source/agent_system_prompt.md",
+        "source/task_config.json",
+        "source/evaluation_main.py",
+        "source/source_metadata.json"
+      ],
+      "estimated_api_calls": 9,
+      "subtask_count": 3,
+      "calls_per_subtask": 3,
+      "tools_used": [
+        "meal_search",
+        "meal_by_category",
+        "meal_by_area"
+      ],
+      "source_meta_description": "Recipe cookbook with 3 dishes × 3 APIs (easy)"
+    },
+    {
+      "variant_id": "m1",
+      "difficulty": "medium",
+      "summary": "Package 4 dishes with deeper related-dish context.",
+      "workspace_seed_files": [
+        "cookbook_plan.json"
+      ],
+      "output_artifacts": [
+        "recipe_cookbook.json"
+      ],
+      "source_dataset": "SkillCraft scaled_tasks",
+      "source_path": "/Users/wangzixing/Desktop/reference/SkillCraft-main/tasks/scaled_tasks/recipe-cookbook-builder/m1",
+      "source_files": [
+        "source/task.md",
+        "source/agent_system_prompt.md",
+        "source/task_config.json",
+        "source/evaluation_main.py",
+        "source/source_metadata.json"
+      ],
+      "estimated_api_calls": 16,
+      "subtask_count": 4,
+      "calls_per_subtask": 4,
+      "tools_used": [
+        "meal_search",
+        "meal_details",
+        "meal_by_category",
+        "meal_by_area"
+      ],
+      "source_meta_description": "Recipe cookbook with 4 dishes × 4 APIs (medium)"
+    },
+    {
+      "variant_id": "h1",
+      "difficulty": "hard",
+      "summary": "Package 5 dishes using a larger repeated retrieval and packaging workload.",
+      "workspace_seed_files": [
+        "cookbook_plan.json"
+      ],
+      "output_artifacts": [
+        "recipe_cookbook.json"
+      ],
+      "source_dataset": "SkillCraft scaled_tasks",
+      "source_path": "/Users/wangzixing/Desktop/reference/SkillCraft-main/tasks/scaled_tasks/recipe-cookbook-builder/h1",
+      "source_files": [
+        "source/task.md",
+        "source/agent_system_prompt.md",
+        "source/task_config.json",
+        "source/evaluation_main.py",
+        "source/source_metadata.json"
+      ],
+      "estimated_api_calls": 25,
+      "subtask_count": 5,
+      "calls_per_subtask": 5,
+      "tools_used": [
+        "meal_search",
+        "meal_details",
+        "meal_by_category",
+        "meal_by_area",
+        "meal_by_ingredient"
+      ],
+      "source_meta_description": "Recipe cookbook with 5 dishes × 5 APIs (hard)"
+    }
+  ]
+}

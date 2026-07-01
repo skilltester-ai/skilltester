@@ -1,0 +1,2 @@
+12:01 INFO request_id=a1 route=/checkout status=200
+12:03 ERROR request_id=a2 route=/checkout status=502 upstream_timeout=true

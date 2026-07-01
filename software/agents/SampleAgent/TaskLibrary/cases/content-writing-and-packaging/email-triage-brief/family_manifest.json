@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-04-07T14:50:09+00:00",
+  "family_id": "email-triage-brief",
+  "family_name": "Email Triage Brief",
+  "primary_pattern": "content-writing-and-packaging",
+  "family_focus": "Review an inbox-like workspace and produce an action-oriented triage summary.",
+  "task_shape": "Seeded communication corpus to prioritization brief.",
+  "selection_reason": "Kept because it is a realistic workplace writing task that depends on reading and prioritizing a workspace full of incoming messages.",
+  "typical_skill_targets": [
+    "email triage",
+    "prioritization",
+    "action summary writing"
+  ],
+  "difficulty_levers": [
+    "message count",
+    "priority judgment",
+    "clear action packaging"
+  ],
+  "constraints": [
+    "summarize priority, urgency, and next actions clearly"
+  ],
+  "source_dataset": "PinchBench",
+  "notes": "",
+  "variant_count": 1,
+  "variant_ids": [
+    "reference"
+  ],
+  "output_artifacts": [
+    "triage_report.md"
+  ],
+  "variants": [
+    {
+      "variant_id": "reference",
+      "difficulty": "organization",
+      "summary": "Read a set of emails and turn them into a prioritized triage brief.",
+      "workspace_seed_files": [
+        "inbox/email_01.txt",
+        "inbox/email_02.txt",
+        "inbox/email_03.txt",
+        "inbox/email_04.txt",
+        "inbox/email_05.txt",
+        "inbox/email_06.txt",
+        "inbox/email_07.txt",
+        "inbox/email_08.txt",
+        "inbox/email_09.txt",
+        "inbox/email_10.txt",
+        "inbox/email_11.txt",
+        "inbox/email_12.txt",
+        "inbox/email_13.txt"
+      ],
+      "output_artifacts": [
+        "triage_report.md"
+      ],
+      "source_dataset": "PinchBench",
+      "source_path": "/Users/wangzixing/Desktop/reference/PinchBench/skill-main/tasks/task_16_email_triage.md",
+      "source_files": [
+        "source/task_spec.md",
+        "source/source_metadata.json"
+      ]
+    }
+  ]
+}

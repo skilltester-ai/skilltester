@@ -1,0 +1,15 @@
+From: cto@mycompany.com (David Park, CTO)
+To: me@mycompany.com
+Date: Mon, 17 Feb 2026 08:02:00 -0500
+Subject: URGENT: Production database outage - all hands needed
+
+Our primary production database cluster went down at 7:45am EST. Customer-facing
+services are returning 500 errors. SRE team is engaged but we need all backend
+engineers on the war room bridge call immediately.
+
+War room link: https://meet.mycompany.com/war-room-prod
+Incident channel: #incident-db-20260217
+
+This is a P0 incident. Drop everything else until this is resolved.
+
+-David

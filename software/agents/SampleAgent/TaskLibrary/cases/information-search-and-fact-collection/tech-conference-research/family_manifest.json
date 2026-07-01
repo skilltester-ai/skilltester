@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-04-07T14:50:09+00:00",
+  "family_id": "tech-conference-research",
+  "family_name": "Tech Conference Research",
+  "primary_pattern": "information-search-and-fact-collection",
+  "family_focus": "Find live events and normalize them into a verified event list.",
+  "task_shape": "Open-ended web research with fixed fields per entity.",
+  "selection_reason": "Kept because it requires finding real current entities, extracting multiple fact fields, and presenting them in a consistent format.",
+  "typical_skill_targets": [
+    "web search",
+    "research",
+    "fact verification"
+  ],
+  "difficulty_levers": [
+    "entity count",
+    "current-date validation",
+    "fact normalization"
+  ],
+  "constraints": [
+    "use real upcoming conferences",
+    "include name, date, location, and website for each entry"
+  ],
+  "source_dataset": "PinchBench",
+  "notes": "",
+  "variant_count": 1,
+  "variant_ids": [
+    "reference"
+  ],
+  "output_artifacts": [
+    "events.md"
+  ],
+  "variants": [
+    {
+      "variant_id": "reference",
+      "difficulty": "research",
+      "summary": "Research five real upcoming tech conferences and assemble a markdown list.",
+      "workspace_seed_files": [],
+      "output_artifacts": [
+        "events.md"
+      ],
+      "source_dataset": "PinchBench",
+      "source_path": "/Users/wangzixing/Desktop/reference/PinchBench/skill-main/tasks/task_06_events.md",
+      "source_files": [
+        "source/task_spec.md",
+        "source/source_metadata.json"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "tickets": [
+    {
+      "id": "TCK-2001",
+      "subject": "Payment failed on enterprise account",
+      "body": "Enterprise subscription payment declined. Urgent attention needed.",
+      "customer_tier": "enterprise"
+    },
+    {
+      "id": "TCK-2002",
+      "subject": "Security breach report",
+      "body": "Customer data may have been exposed. Investigate immediately.",
+      "customer_tier": "standard"
+    },
+    {
+      "id": "TCK-2003",
+      "subject": "How to export data",
+      "body": "Need instructions on exporting data to CSV format.",
+      "customer_tier": "basic"
+    },
+    {
+      "id": "TCK-2004",
+      "subject": "Unknown category request",
+      "body": "Requesting integration with a third-party CRM tool.",
+      "customer_tier": "enterprise"
+    },
+    {
+      "id": "TCK-2005",
+      "subject": "Invoice discrepancy",
+      "body": "Invoice amount does not match agreed contract terms.",
+      "customer_tier": "standard"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-04-07T14:50:09+00:00",
+  "family_id": "market-research-dossier",
+  "family_name": "Market Research Dossier",
+  "primary_pattern": "information-search-and-fact-collection",
+  "family_focus": "Survey a market segment and synthesize competitor facts into a concise research report.",
+  "task_shape": "Live research followed by structured competitive synthesis.",
+  "selection_reason": "Kept because it is a realistic analyst-style task with multiple real-world entities, comparative reasoning, and a clear report artifact.",
+  "typical_skill_targets": [
+    "market research",
+    "competitive intelligence",
+    "fact synthesis"
+  ],
+  "difficulty_levers": [
+    "market breadth",
+    "fact verification",
+    "comparison quality"
+  ],
+  "constraints": [
+    "use credible vendor or company sources where possible"
+  ],
+  "source_dataset": "PinchBench",
+  "notes": "",
+  "variant_count": 1,
+  "variant_ids": [
+    "reference"
+  ],
+  "output_artifacts": [
+    "market_research.md"
+  ],
+  "variants": [
+    {
+      "variant_id": "reference",
+      "difficulty": "research",
+      "summary": "Research the observability and APM market and summarize key competitors.",
+      "workspace_seed_files": [],
+      "output_artifacts": [
+        "market_research.md"
+      ],
+      "source_dataset": "PinchBench",
+      "source_path": "/Users/wangzixing/Desktop/reference/PinchBench/skill-main/tasks/task_18_market_research.md",
+      "source_files": [
+        "source/task_spec.md",
+        "source/source_metadata.json"
+      ]
+    }
+  ]
+}

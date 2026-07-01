@@ -1,0 +1,30 @@
+Customer Feedback Summary - Daily Digest
+Date: February 15, 2026
+Compiled by: Customer Success Team
+
+SUPPORT TICKETS (Last 24 hours):
+- Total: 247 tickets
+- Critical: 12 (down from 18 yesterday)
+- High Priority: 45
+- Medium/Low: 190
+
+TOP ISSUES:
+1. API rate limiting errors (34 tickets) - Engineering investigating
+2. Dashboard loading slowly (28 tickets) - Related to yesterday's update
+3. Export feature not working for large datasets (19 tickets) - Known issue, fix ETA Monday
+4. Mobile app crashes on Android 14 (15 tickets) - New issue, escalated to mobile team
+
+POSITIVE FEEDBACK HIGHLIGHTS:
+- "The new reporting feature saved our team 10 hours this week" - Enterprise client
+- "Best customer support I've experienced in SaaS" - NPS score 72 this month
+- 3 case studies approved by customers for marketing use
+- 15 new G2 reviews, average rating 4.6 stars
+
+CHURN RISK ALERTS:
+- MegaCorp (ARR $450K) - Evaluating competitors, exec meeting scheduled
+- TechStart (ARR $85K) - Missed renewal call, follow-up required
+- GlobalRetail (ARR $220K) - Budget cuts mentioned, may downgrade
+
+UPSELL OPPORTUNITIES:
+- FinanceHub (current ARR $120K) - Interested in enterprise tier
+- HealthTech (current ARR $95K) - Expanding team, needs more seats

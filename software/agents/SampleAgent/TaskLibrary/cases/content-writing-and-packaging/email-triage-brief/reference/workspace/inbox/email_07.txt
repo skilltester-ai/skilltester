@@ -1,0 +1,21 @@
+From: team-lead@mycompany.com (Rachel Green, Engineering Manager)
+To: me@mycompany.com
+Date: Mon, 17 Feb 2026 09:30:00 -0500
+Subject: Performance review self-assessment due Friday
+
+Hi,
+
+Quick reminder that your annual performance review self-assessment is due this
+Friday, Feb 21. Please fill out the form I shared last week covering:
+
+1. Key accomplishments from the past year
+2. Areas for growth
+3. Goals for the next review period
+4. Any feedback on team processes
+
+Form link: https://hr.mycompany.com/perf-review/2026
+
+Let me know if you have any questions. I'll be scheduling our 1:1 review
+meeting for the following week.
+
+Rachel

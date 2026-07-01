@@ -1,0 +1,6 @@
+{
+  "dataset": "SkillCraft scaled_tasks",
+  "original_variant_dir": "/Users/wangzixing/Desktop/reference/SkillCraft-main/tasks/scaled_tasks/world-bank-economic-snapshot/m1",
+  "base_task": "world-bank-economic-snapshot",
+  "variant_id": "m1"
+}

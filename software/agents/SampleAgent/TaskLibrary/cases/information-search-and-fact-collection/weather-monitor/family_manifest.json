@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-04-07T14:50:09+00:00",
+  "family_id": "weather-monitor",
+  "family_name": "Weather Monitor",
+  "primary_pattern": "information-search-and-fact-collection",
+  "family_focus": "Collect weather facts for multiple cities and summarize comparisons.",
+  "task_shape": "Repeated API workflow with tool ordering constraints and summary rollup.",
+  "selection_reason": "Kept because it is a clean fact-collection family with explicit sequencing constraints and increasing scale across variants.",
+  "typical_skill_targets": [
+    "weather lookup",
+    "fact collection",
+    "multi-entity comparison"
+  ],
+  "difficulty_levers": [
+    "city count",
+    "API count",
+    "tool ordering constraints"
+  ],
+  "constraints": [
+    "coordinates lookup must happen before downstream weather calls per city"
+  ],
+  "source_dataset": "SkillCraft scaled_tasks",
+  "notes": "",
+  "variant_count": 3,
+  "variant_ids": [
+    "e1",
+    "m1",
+    "h1"
+  ],
+  "output_artifacts": [
+    "weather_report.json"
+  ],
+  "variants": [
+    {
+      "variant_id": "e1",
+      "difficulty": "easy",
+      "summary": "Analyze 3 cities using 3 weather endpoints per city.",
+      "workspace_seed_files": [],
+      "output_artifacts": [
+        "weather_report.json"
+      ],
+      "source_dataset": "SkillCraft scaled_tasks",
+      "source_path": "/Users/wangzixing/Desktop/reference/SkillCraft-main/tasks/scaled_tasks/openmeteo-weather/e1",
+      "source_files": [
+        "source/task.md",
+        "source/agent_system_prompt.md",
+        "source/task_config.json",
+        "source/evaluation_main.py",
+        "source/source_metadata.json"
+      ],
+      "estimated_api_calls": 9,
+      "subtask_count": 3,
+      "calls_per_subtask": 3,
+      "tools_used": [
+        "weather_get_coordinates",
+        "weather_get_current",
+        "weather_get_hourly"
+      ],
+      "source_meta_description": "Weather monitoring with 3 cities × 3 APIs (easy)"
+    },
+    {
+      "variant_id": "m1",
+      "difficulty": "medium",
+      "summary": "Analyze 4 cities using 4 weather endpoints per city.",
+      "workspace_seed_files": [],
+      "output_artifacts": [
+        "weather_report.json"
+      ],
+      "source_dataset": "SkillCraft scaled_tasks",
+      "source_path": "/Users/wangzixing/Desktop/reference/SkillCraft-main/tasks/scaled_tasks/openmeteo-weather/m1",
+      "source_files": [
+        "source/task.md",
+        "source/agent_system_prompt.md",
+        "source/task_config.json",
+        "source/evaluation_main.py",
+        "source/source_metadata.json"
+      ],
+      "estimated_api_calls": 16,
+      "subtask_count": 4,
+      "calls_per_subtask": 4,
+      "tools_used": [
+        "weather_get_coordinates",
+        "weather_get_current",
+        "weather_get_hourly",
+        "weather_get_daily"
+      ],
+      "source_meta_description": "Weather monitoring with 4 cities × 4 APIs (medium)"
+    },
+    {
+      "variant_id": "h1",
+      "difficulty": "hard",
+      "summary": "Analyze 5 cities using 5 weather endpoints per city with stricter sequencing load.",
+      "workspace_seed_files": [],
+      "output_artifacts": [
+        "weather_report.json"
+      ],
+      "source_dataset": "SkillCraft scaled_tasks",
+      "source_path": "/Users/wangzixing/Desktop/reference/SkillCraft-main/tasks/scaled_tasks/openmeteo-weather/h1",
+      "source_files": [
+        "source/task.md",
+        "source/agent_system_prompt.md",
+        "source/task_config.json",
+        "source/evaluation_main.py",
+        "source/source_metadata.json"
+      ],
+      "estimated_api_calls": 25,
+      "subtask_count": 5,
+      "calls_per_subtask": 5,
+      "tools_used": [
+        "weather_get_coordinates",
+        "weather_get_current",
+        "weather_get_hourly",
+        "weather_get_daily",
+        "weather_get_historical"
+      ],
+      "source_meta_description": "Weather monitoring with 5 cities × 5 APIs (hard)"
+    }
+  ]
+}

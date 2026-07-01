@@ -1,0 +1,2 @@
+12:03 WARN queue=payments latency_ms=4200
+12:04 ERROR job=charge-card timeout=true

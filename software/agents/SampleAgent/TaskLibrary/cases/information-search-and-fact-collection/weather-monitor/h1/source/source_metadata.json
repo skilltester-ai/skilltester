@@ -1,0 +1,6 @@
+{
+  "dataset": "SkillCraft scaled_tasks",
+  "original_variant_dir": "/Users/wangzixing/Desktop/reference/SkillCraft-main/tasks/scaled_tasks/openmeteo-weather/h1",
+  "base_task": "openmeteo-weather",
+  "variant_id": "h1"
+}

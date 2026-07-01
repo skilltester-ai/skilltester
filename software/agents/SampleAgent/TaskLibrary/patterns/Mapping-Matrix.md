@@ -1,0 +1,24 @@
+# Pattern Mapping Matrix
+
+| Pattern | Family | Source | Variants | Why Kept |
+|---|---|---|---|---|
+| `browser-operations-and-workflow-automation` | `multi-step-api-workflow` | PinchBench | `reference` | Kept because it is a compact workflow reference with sequential dependencies and multiple result artifacts, even though it is API-driven rather than browser-driven. |
+| `browser-operations-and-workflow-automation` | `second-brain-knowledge-persistence` | PinchBench | `reference` | Kept because it captures a useful long-horizon workflow shape: store state now, recall it later in a fresh session. |
+| `code-implementation-and-tool-development` | `python-project-structure` | PinchBench | `reference` | Kept because it is a common developer task with clear required files and a realistic project scaffolding output. |
+| `code-implementation-and-tool-development` | `weather-script-creation` | PinchBench | `reference` | Kept because it is a small but legitimate coding task with a concrete artifact, HTTP logic, and basic robustness expectations. |
+| `content-writing-and-packaging` | `content-humanization-rewrite` | PinchBench | `reference` | Kept because the useful task shape is strong even though the original source mentions a specific install flow. In this library it serves as a style-rewrite reference. |
+| `content-writing-and-packaging` | `daily-research-summary` | PinchBench | `reference` | Kept because it starts from a realistic multi-document workspace and produces a clearly scoped written deliverable. |
+| `content-writing-and-packaging` | `eli5-pdf-summary` | PinchBench | `reference` | Kept because it is a strong adaptation case: the task is not just summarize, but rewrite for a very specific audience and tone. |
+| `content-writing-and-packaging` | `email-triage-brief` | PinchBench | `reference` | Kept because it is a realistic workplace writing task that depends on reading and prioritizing a workspace full of incoming messages. |
+| `content-writing-and-packaging` | `recipe-cookbook-builder` | SkillCraft scaled_tasks | `e1`, `m1`, `h1` | Kept because it is a content-packaging family with a concrete output format and a useful ladder from simple to larger multi-dish curation. |
+| `data-extraction-and-structured-processing` | `config-search-replace` | PinchBench | `reference` | Kept because it is a realistic local-editing task with schema preservation requirements across JSON and YAML. |
+| `data-extraction-and-structured-processing` | `dna-analysis-pipeline` | SkillCraft scaled_tasks | `e1`, `m1`, `h1` | Kept because it is one of the cleanest structured-processing families in SkillCraft and includes a meaningful hard-mode ordering constraint. |
+| `data-extraction-and-structured-processing` | `report-comprehension-extraction` | PinchBench | `reference` | Kept because it is a strong example of precise extraction from a long document with a tight answer contract. |
+| `data-extraction-and-structured-processing` | `spreadsheet-summary` | PinchBench | `reference` | Kept because it exercises structured data extraction across file types and asks for correct calculations rather than freeform prose. |
+| `information-search-and-fact-collection` | `economic-snapshot` | SkillCraft scaled_tasks | `e1`, `m1`, `h1` | Kept because it is a good structured macro research template with stable outputs and clear derived ranking logic. |
+| `information-search-and-fact-collection` | `gitlab-project-analysis` | SkillCraft scaled_tasks | `e1`, `m1`, `h1` | Kept because it mirrors real software intelligence work and produces a structured multi-project report rather than a toy encyclopedia entry. |
+| `information-search-and-fact-collection` | `market-research-dossier` | PinchBench | `reference` | Kept because it is a realistic analyst-style task with multiple real-world entities, comparative reasoning, and a clear report artifact. |
+| `information-search-and-fact-collection` | `tech-conference-research` | PinchBench | `reference` | Kept because it requires finding real current entities, extracting multiple fact fields, and presenting them in a consistent format. |
+| `information-search-and-fact-collection` | `university-directory-builder` | SkillCraft scaled_tasks | `e1`, `m1`, `h1` | Kept because it is a solid directory-building reference with a stable structured output and an explicit scale ladder. |
+| `information-search-and-fact-collection` | `weather-monitor` | SkillCraft scaled_tasks | `e1`, `m1`, `h1` | Kept because it is a clean fact-collection family with explicit sequencing constraints and increasing scale across variants. |
+| `multimodal-design-and-layout` | `image-brief-to-generated-asset` | PinchBench | `reference` | Kept as the only clearly usable multimodal design reference in the provided sources. It is simple, but still captures prompt-to-asset translation. |

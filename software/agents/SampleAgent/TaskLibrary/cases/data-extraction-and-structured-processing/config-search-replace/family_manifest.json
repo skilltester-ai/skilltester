@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-04-07T14:50:09+00:00",
+  "family_id": "config-search-replace",
+  "family_name": "Config Search and Replace",
+  "primary_pattern": "data-extraction-and-structured-processing",
+  "family_focus": "Apply coordinated config edits across multiple file formats.",
+  "task_shape": "Seeded workspace with precise transformation requirements and cross-file consistency checks.",
+  "selection_reason": "Kept because it is a realistic local-editing task with schema preservation requirements across JSON and YAML.",
+  "typical_skill_targets": [
+    "config editing",
+    "structured transformation",
+    "multi-file refactoring"
+  ],
+  "difficulty_levers": [
+    "number of files",
+    "format diversity",
+    "replacement precision"
+  ],
+  "constraints": [
+    "preserve valid JSON and YAML while applying all requested replacements"
+  ],
+  "source_dataset": "PinchBench",
+  "notes": "",
+  "variant_count": 1,
+  "variant_ids": [
+    "reference"
+  ],
+  "output_artifacts": [
+    "config/settings.json",
+    "config/database.yml"
+  ],
+  "variants": [
+    {
+      "variant_id": "reference",
+      "difficulty": "file_ops",
+      "summary": "Update a small deployment config workspace across JSON and YAML files.",
+      "workspace_seed_files": [
+        "config/database.yml",
+        "config/settings.json"
+      ],
+      "output_artifacts": [
+        "config/settings.json",
+        "config/database.yml"
+      ],
+      "source_dataset": "PinchBench",
+      "source_path": "/Users/wangzixing/Desktop/reference/PinchBench/skill-main/tasks/task_12_skill_search.md",
+      "source_files": [
+        "source/task_spec.md",
+        "source/source_metadata.json"
+      ]
+    }
+  ]
+}

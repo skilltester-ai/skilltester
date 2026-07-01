@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-04-07T14:50:09+00:00",
+  "family_id": "python-project-structure",
+  "family_name": "Python Project Structure",
+  "primary_pattern": "code-implementation-and-tool-development",
+  "family_focus": "Scaffold a small Python library with packaging, tests, and README files.",
+  "task_shape": "Project setup under a fixed file-and-directory contract.",
+  "selection_reason": "Kept because it is a common developer task with clear required files and a realistic project scaffolding output.",
+  "typical_skill_targets": [
+    "project scaffolding",
+    "package setup",
+    "developer tooling"
+  ],
+  "difficulty_levers": [
+    "package completeness",
+    "metadata correctness",
+    "test scaffolding quality"
+  ],
+  "constraints": [
+    "create the requested directory tree and basic metadata files"
+  ],
+  "source_dataset": "PinchBench",
+  "notes": "",
+  "variant_count": 1,
+  "variant_ids": [
+    "reference"
+  ],
+  "output_artifacts": [
+    "src/datautils/__init__.py",
+    "tests/test_datautils.py",
+    "pyproject.toml",
+    "README.md"
+  ],
+  "variants": [
+    {
+      "variant_id": "reference",
+      "difficulty": "file_ops",
+      "summary": "Scaffold a minimal Python library project with src, tests, README, and pyproject.",
+      "workspace_seed_files": [],
+      "output_artifacts": [
+        "src/datautils/__init__.py",
+        "tests/test_datautils.py",
+        "pyproject.toml",
+        "README.md"
+      ],
+      "source_dataset": "PinchBench",
+      "source_path": "/Users/wangzixing/Desktop/reference/PinchBench/skill-main/tasks/task_11_clawdhub.md",
+      "source_files": [
+        "source/task_spec.md",
+        "source/source_metadata.json"
+      ]
+    }
+  ]
+}

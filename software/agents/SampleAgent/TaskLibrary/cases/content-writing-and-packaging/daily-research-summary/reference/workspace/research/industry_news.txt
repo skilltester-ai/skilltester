@@ -1,0 +1,31 @@
+Industry News Roundup - February 15, 2026
+
+REGULATORY DEVELOPMENTS:
+- EU AI Act enforcement begins March 1, 2026
+  * Companies must disclose AI-generated content
+  * Fines up to 6% of global revenue for violations
+  * Our compliance team confirms we're ready
+
+- California Consumer Privacy Act amendment proposed
+  * Would require explicit consent for data sharing
+  * Tech industry lobbying against stricter requirements
+
+INDUSTRY TRENDS:
+- Gartner Report: Enterprise AI spending to reach $280B by 2027
+- McKinsey Study: 67% of companies plan to increase SaaS budgets in 2026
+- Remote work tools market growing 18% annually
+
+NOTABLE FUNDING ROUNDS THIS WEEK:
+- AIStartup raised $500M Series E (largest AI funding this year)
+- WorkflowTool raised $75M Series B
+- SecurityFirst raised $120M Series C
+
+PARTNERSHIPS & ACQUISITIONS:
+- Salesforce + Anthropic: Expanded AI partnership announced
+- Google acquired DocuAI for $1.8B
+- Microsoft investing $2B in OpenAI competitors
+
+CONFERENCES & EVENTS:
+- TechCrunch Disrupt (Feb 20-22, San Francisco) - Our CEO speaking
+- SaaStr Annual (March 10-12, Phoenix) - We're a Gold Sponsor
+- Enterprise Connect (March 25-28, Orlando) - Booth #342

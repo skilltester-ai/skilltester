@@ -1,0 +1,24 @@
+From: alice.wong@mycompany.com (Alice Wong, Senior Engineer)
+To: me@mycompany.com
+Date: Mon, 17 Feb 2026 09:50:00 -0500
+Subject: Code review request - auth service refactor
+
+Hey,
+
+I just pushed a pretty significant refactor of the auth service to handle
+the new OAuth2 PKCE flow. It's about 800 lines changed across 12 files.
+I'd really appreciate your review since you wrote the original auth module.
+
+PR link: https://github.com/mycompany/auth-service/pull/156
+
+The key changes:
+- Replaced implicit flow with PKCE
+- Added token rotation logic
+- New middleware for session validation
+- Updated all integration tests
+
+I'd like to merge by Thursday if possible since it blocks the mobile app release.
+Let me know if you need more context on any of the changes.
+
+Thanks,
+Alice

@@ -1,0 +1,24 @@
+{
+  "status": "no",
+  "task_id": "C_04",
+  "summary": "Produce Action Plan was incomplete in baseline mode.",
+  "findings": [
+    {
+      "id": "C_04-F1",
+      "claim": "The target domain is product documentation.",
+      "confidence": "high"
+    },
+    {
+      "id": "C_04-F2",
+      "claim": "Evidence was insufficient for a full answer.",
+      "confidence": "medium"
+    }
+  ],
+  "evidence": [
+    "requirement.md",
+    "sample workspace"
+  ],
+  "limitations": [
+    "Baseline did not have access to target source files."
+  ]
+}

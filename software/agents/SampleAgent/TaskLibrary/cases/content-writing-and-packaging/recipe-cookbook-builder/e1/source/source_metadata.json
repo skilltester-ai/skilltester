@@ -1,0 +1,6 @@
+{
+  "dataset": "SkillCraft scaled_tasks",
+  "original_variant_dir": "/Users/wangzixing/Desktop/reference/SkillCraft-main/tasks/scaled_tasks/recipe-cookbook-builder/e1",
+  "base_task": "recipe-cookbook-builder",
+  "variant_id": "e1"
+}

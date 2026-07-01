@@ -1,0 +1,6 @@
+{
+  "dataset": "SkillCraft scaled_tasks",
+  "original_variant_dir": "/Users/wangzixing/Desktop/reference/SkillCraft-main/tasks/scaled_tasks/gitlab-deep-analysis/h1",
+  "base_task": "gitlab-deep-analysis",
+  "variant_id": "h1"
+}

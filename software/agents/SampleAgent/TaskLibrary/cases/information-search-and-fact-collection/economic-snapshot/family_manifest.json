@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-04-07T14:50:09+00:00",
+  "family_id": "economic-snapshot",
+  "family_name": "Economic Snapshot",
+  "primary_pattern": "information-search-and-fact-collection",
+  "family_focus": "Collect economic indicators for several countries and compare them.",
+  "task_shape": "Repeated public-data retrieval with tiering and rank derivation.",
+  "selection_reason": "Kept because it is a good structured macro research template with stable outputs and clear derived ranking logic.",
+  "typical_skill_targets": [
+    "economic research",
+    "indicator lookup",
+    "country comparison"
+  ],
+  "difficulty_levers": [
+    "country count",
+    "API count",
+    "summary depth"
+  ],
+  "constraints": [
+    "format currency values consistently"
+  ],
+  "source_dataset": "SkillCraft scaled_tasks",
+  "notes": "",
+  "variant_count": 3,
+  "variant_ids": [
+    "e1",
+    "m1",
+    "h1"
+  ],
+  "output_artifacts": [
+    "economic_snapshot.json"
+  ],
+  "variants": [
+    {
+      "variant_id": "e1",
+      "difficulty": "easy",
+      "summary": "Create economic snapshots for 3 major economies using 3 APIs each.",
+      "workspace_seed_files": [
+        "countries.json"
+      ],
+      "output_artifacts": [
+        "economic_snapshot.json"
+      ],
+      "source_dataset": "SkillCraft scaled_tasks",
+      "source_path": "/Users/wangzixing/Desktop/reference/SkillCraft-main/tasks/scaled_tasks/world-bank-economic-snapshot/e1",
+      "source_files": [
+        "source/task.md",
+        "source/agent_system_prompt.md",
+        "source/task_config.json",
+        "source/evaluation_main.py",
+        "source/source_metadata.json"
+      ],
+      "estimated_api_calls": 9,
+      "subtask_count": 3,
+      "calls_per_subtask": 3,
+      "tools_used": [
+        "worldbank_economic_snapshot",
+        "worldbank_gdp",
+        "worldbank_country_info"
+      ],
+      "source_meta_description": "Economic snapshot with 3 countries × 3 APIs (easy)"
+    },
+    {
+      "variant_id": "m1",
+      "difficulty": "medium",
+      "summary": "Create economic snapshots for 4 countries using 4 APIs each.",
+      "workspace_seed_files": [
+        "countries.json"
+      ],
+      "output_artifacts": [
+        "economic_snapshot.json"
+      ],
+      "source_dataset": "SkillCraft scaled_tasks",
+      "source_path": "/Users/wangzixing/Desktop/reference/SkillCraft-main/tasks/scaled_tasks/world-bank-economic-snapshot/m1",
+      "source_files": [
+        "source/task.md",
+        "source/agent_system_prompt.md",
+        "source/task_config.json",
+        "source/evaluation_main.py",
+        "source/source_metadata.json"
+      ],
+      "estimated_api_calls": 16,
+      "subtask_count": 4,
+      "calls_per_subtask": 4,
+      "tools_used": [
+        "worldbank_economic_snapshot",
+        "worldbank_gdp",
+        "worldbank_country_info",
+        "worldbank_indicator"
+      ],
+      "source_meta_description": "Economic snapshot with 4 countries × 4 APIs (medium)"
+    },
+    {
+      "variant_id": "h1",
+      "difficulty": "hard",
+      "summary": "Create economic snapshots for 5 countries using 5 APIs each.",
+      "workspace_seed_files": [
+        "countries.json"
+      ],
+      "output_artifacts": [
+        "economic_snapshot.json"
+      ],
+      "source_dataset": "SkillCraft scaled_tasks",
+      "source_path": "/Users/wangzixing/Desktop/reference/SkillCraft-main/tasks/scaled_tasks/world-bank-economic-snapshot/h1",
+      "source_files": [
+        "source/task.md",
+        "source/agent_system_prompt.md",
+        "source/task_config.json",
+        "source/evaluation_main.py",
+        "source/source_metadata.json"
+      ],
+      "estimated_api_calls": 25,
+      "subtask_count": 5,
+      "calls_per_subtask": 5,
+      "tools_used": [
+        "worldbank_economic_snapshot",
+        "worldbank_gdp",
+        "worldbank_country_info",
+        "worldbank_indicator",
+        "worldbank_population"
+      ],
+      "source_meta_description": "Economic snapshot with 5 countries × 5 APIs (hard)"
+    }
+  ]
+}

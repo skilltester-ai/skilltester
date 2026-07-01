@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-04-07T14:50:09+00:00",
+  "family_id": "university-directory-builder",
+  "family_name": "University Directory Builder",
+  "primary_pattern": "information-search-and-fact-collection",
+  "family_focus": "Build country-level university directories and summary statistics.",
+  "task_shape": "Repeated API collection with aggregation into a directory JSON artifact.",
+  "selection_reason": "Kept because it is a solid directory-building reference with a stable structured output and an explicit scale ladder.",
+  "typical_skill_targets": [
+    "directory building",
+    "lookup aggregation",
+    "fact normalization"
+  ],
+  "difficulty_levers": [
+    "country count",
+    "API count",
+    "amount of aggregation"
+  ],
+  "constraints": [
+    "return summary statistics only, not full raw university lists"
+  ],
+  "source_dataset": "SkillCraft scaled_tasks",
+  "notes": "",
+  "variant_count": 3,
+  "variant_ids": [
+    "e1",
+    "m1",
+    "h1"
+  ],
+  "output_artifacts": [
+    "university_directory.json"
+  ],
+  "variants": [
+    {
+      "variant_id": "e1",
+      "difficulty": "easy",
+      "summary": "Build a summary directory for 3 countries using 3 APIs each.",
+      "workspace_seed_files": [
+        "countries.json"
+      ],
+      "output_artifacts": [
+        "university_directory.json"
+      ],
+      "source_dataset": "SkillCraft scaled_tasks",
+      "source_path": "/Users/wangzixing/Desktop/reference/SkillCraft-main/tasks/scaled_tasks/university-directory-builder/e1",
+      "source_files": [
+        "source/task.md",
+        "source/agent_system_prompt.md",
+        "source/task_config.json",
+        "source/evaluation_main.py",
+        "source/source_metadata.json"
+      ],
+      "estimated_api_calls": 9,
+      "subtask_count": 3,
+      "calls_per_subtask": 3,
+      "tools_used": [
+        "university_by_country",
+        "university_details",
+        "university_by_domain"
+      ],
+      "source_meta_description": "University directory with 3 countries × 3 APIs (easy)"
+    },
+    {
+      "variant_id": "m1",
+      "difficulty": "medium",
+      "summary": "Build a summary directory for 4 countries using 4 APIs each.",
+      "workspace_seed_files": [
+        "countries.json"
+      ],
+      "output_artifacts": [
+        "university_directory.json"
+      ],
+      "source_dataset": "SkillCraft scaled_tasks",
+      "source_path": "/Users/wangzixing/Desktop/reference/SkillCraft-main/tasks/scaled_tasks/university-directory-builder/m1",
+      "source_files": [
+        "source/task.md",
+        "source/agent_system_prompt.md",
+        "source/task_config.json",
+        "source/evaluation_main.py",
+        "source/source_metadata.json"
+      ],
+      "estimated_api_calls": 16,
+      "subtask_count": 4,
+      "calls_per_subtask": 4,
+      "tools_used": [
+        "university_by_country",
+        "university_by_name",
+        "university_details",
+        "university_by_domain"
+      ],
+      "source_meta_description": "University directory with 4 countries × 4 APIs (medium)"
+    },
+    {
+      "variant_id": "h1",
+      "difficulty": "hard",
+      "summary": "Build a summary directory for 5 countries using 5 APIs each.",
+      "workspace_seed_files": [
+        "countries.json"
+      ],
+      "output_artifacts": [
+        "university_directory.json"
+      ],
+      "source_dataset": "SkillCraft scaled_tasks",
+      "source_path": "/Users/wangzixing/Desktop/reference/SkillCraft-main/tasks/scaled_tasks/university-directory-builder/h1",
+      "source_files": [
+        "source/task.md",
+        "source/agent_system_prompt.md",
+        "source/task_config.json",
+        "source/evaluation_main.py",
+        "source/source_metadata.json"
+      ],
+      "estimated_api_calls": 25,
+      "subtask_count": 5,
+      "calls_per_subtask": 5,
+      "tools_used": [
+        "university_by_country",
+        "university_by_name",
+        "university_search",
+        "university_details",
+        "university_by_domain"
+      ],
+      "source_meta_description": "University directory with 5 countries × 5 APIs (hard)"
+    }
+  ]
+}

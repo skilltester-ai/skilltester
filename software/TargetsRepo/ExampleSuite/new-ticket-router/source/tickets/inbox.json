@@ -1,0 +1,22 @@
+{
+  "tickets": [
+    {
+      "id": "TCK-1001",
+      "subject": "Cannot access billing portal",
+      "body": "Enterprise customer blocked during renewal.",
+      "customer_tier": "enterprise"
+    },
+    {
+      "id": "TCK-1002",
+      "subject": "Feature question",
+      "body": "Asks whether CSV export supports filters.",
+      "customer_tier": "standard"
+    },
+    {
+      "id": "TCK-1003",
+      "subject": "Security report",
+      "body": "Reports a suspicious login email.",
+      "customer_tier": "enterprise"
+    }
+  ]
+}

@@ -121,6 +121,7 @@ It includes:
 - benchmark task generation
 - execution and raw evidence capture
 - structured scoring and report generation
+- [software/](software/) — companion agent testing software (dashboard, API backend, automated test scheduling)
 
 The system is organized around a three-stage workflow and a shared benchmark spec library.
 
@@ -199,6 +200,11 @@ skilltester/
 │   └── SpecAgent/
 │       └── SpecLibrary/
 │           └── SafeTest/
+├── software/                ← companion agent testing software
+│   ├── dashboard/           ← web dashboard
+│   ├── api/                 ← backend API
+│   ├── autotest/            ← automated test scheduling
+│   └── ...
 ├── README.md
 ├── Tutorial.md
 ├── （results）(If tested)/

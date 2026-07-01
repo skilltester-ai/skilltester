@@ -1,0 +1,8 @@
+{
+  "target": "exec-config-auditor",
+  "task_id": "C_02",
+  "source_files": [
+    "configs/prod.json",
+    "configs/service.yaml"
+  ]
+}

@@ -1,0 +1,11 @@
+# Harn-LLM Tester dependencies
+# Install with: pip install -r requirements.txt
+
+# Web framework
+flask>=2.3.0
+
+# YAML configuration parsing
+pyyaml>=6.0
+
+# Markdown rendering, used by report views
+markdown>=3.5.0

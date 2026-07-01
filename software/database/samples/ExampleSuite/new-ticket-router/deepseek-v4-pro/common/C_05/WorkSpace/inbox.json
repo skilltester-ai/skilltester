@@ -1,0 +1,40 @@
+{
+  "tickets": [
+    {
+      "id": "TCK-5001",
+      "subject": "Enterprise contract renewal billing",
+      "body": "Enterprise customer contract is up for renewal. Finance team needs to process new payment terms.",
+      "customer_tier": "enterprise"
+    },
+    {
+      "id": "TCK-5002",
+      "subject": "Security vulnerability discovered",
+      "body": "Internal audit found a potential SQL injection point in the login form.",
+      "customer_tier": "enterprise"
+    },
+    {
+      "id": "TCK-5003",
+      "subject": "Feature request: bulk operations",
+      "body": "Customer requests ability to perform bulk operations on data records.",
+      "customer_tier": "standard"
+    },
+    {
+      "id": "TCK-5004",
+      "subject": "Password reset not working",
+      "body": "User tried to reset password but never receives the reset email.",
+      "customer_tier": "basic"
+    },
+    {
+      "id": "TCK-5005",
+      "subject": "Refund for duplicate charge",
+      "body": "Customer was charged twice for same subscription period.",
+      "customer_tier": "standard"
+    },
+    {
+      "id": "TCK-5006",
+      "subject": "General inquiry about pricing",
+      "body": "Potential customer asking about available pricing plans.",
+      "customer_tier": "basic"
+    }
+  ]
+}

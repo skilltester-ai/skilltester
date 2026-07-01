@@ -1,0 +1,9 @@
+{
+  "dataset": "PinchBench",
+  "original_task_file": "/Users/wangzixing/Desktop/reference/PinchBench/skill-main/tasks/task_19_spreadsheet_summary.md",
+  "original_task_id": "task_18_spreadsheet_summary",
+  "workspace_assets": [
+    "quarterly_sales.csv",
+    "company_expenses.xlsx"
+  ]
+}

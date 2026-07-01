@@ -1,0 +1,8 @@
+{
+  "target": "sample-research-summarizer",
+  "task_id": "C_01",
+  "source_files": [
+    "research/interviews.json",
+    "research/notes_q2.md"
+  ]
+}

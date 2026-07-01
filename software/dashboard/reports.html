@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harn-LLM Tester - Report Viewer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f4efe4;
+            --panel: rgba(255, 251, 245, 0.9);
+            --panel-strong: #fffaf2;
+            --text: #1d241f;
+            --muted: #5d675f;
+            --line: rgba(29, 36, 31, 0.12);
+            --accent: #005f4b;
+            --accent-soft: #d9efe8;
+            --shadow: 0 24px 60px rgba(41, 48, 43, 0.12);
+            --radius-xl: 30px;
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --font-sans: "IBM Plex Sans", sans-serif;
+            --font-display: "Space Grotesk", sans-serif;
+            --font-mono: "IBM Plex Mono", monospace;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--font-sans);
+            color: var(--text);
+            background:
+                radial-gradient(circle at top left, rgba(0, 95, 75, 0.14), transparent 30%),
+                radial-gradient(circle at top right, rgba(197, 91, 36, 0.14), transparent 30%),
+                linear-gradient(180deg, #fbf7ef 0%, var(--bg) 100%);
+            min-height: 100vh;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(29, 36, 31, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(29, 36, 31, 0.02) 1px, transparent 1px);
+            background-size: 36px 36px;
+            pointer-events: none;
+            z-index: -1;
+        }
+        a { color: inherit; text-decoration: none; }
+
+        .page { width: min(1320px, calc(100% - 28px)); margin: 20px auto 44px; }
+
+        /* Nav */
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+        .brand {
+            display: inline-flex;
+            align-items: center;
+        }
+        .brand-wordmark {
+            font-family: var(--font-display);
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.22em;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            line-height: 1;
+        }
+        .brand-line {
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), #01a87a);
+            border-radius: 2px;
+            margin-top: 5px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 10px;
+        }
+        .nav-link {
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.7);
+            border: 1px solid var(--line);
+            font-size: 13px;
+            font-weight: 700;
+            color: inherit;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .nav-link.active {
+            background: linear-gradient(90deg, var(--accent), #018b66);
+            color: #f8f4eb;
+            border-color: transparent;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, rgba(15,44,36,0.95), rgba(0,95,75,0.84));
+            color: #f8f4eb;
+            border-radius: 30px;
+            padding: 28px 32px;
+            box-shadow: var(--shadow);
+            margin-bottom: 18px;
+        }
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(24px, 4vw, 40px);
+            margin-bottom: 6px;
+        }
+        .hero p {
+            color: rgba(248,244,235,0.82);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        /* Section */
+        .section {
+            background: var(--panel);
+            border: 1px solid rgba(255,255,255,0.55);
+            border-radius: var(--radius-xl);
+            padding: 26px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(12px);
+            margin-bottom: 18px;
+        }
+
+        /* Filters */
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .filter-group {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .filter-label {
+            font-size: 12px;
+            color: var(--muted);
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+        }
+        .filters input, .filters select {
+            font: inherit;
+            border: 1px solid var(--line);
+            background: #fffdf8;
+            color: var(--text);
+            border-radius: 12px;
+            padding: 8px 12px;
+            outline: none;
+            font-size: 13px;
+        }
+        .filters input:focus, .filters select:focus {
+            border-color: var(--accent);
+        }
+
+        /* Target Grid */
+        .target-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 18px;
+        }
+
+        /* Target Card */
+        .target-card {
+            background: var(--panel-strong);
+            border: 1px solid var(--line);
+            border-radius: var(--radius-lg);
+            padding: 18px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .target-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 8px 24px rgba(0,95,75,0.12);
+        }
+        .target-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            gap: 12px;
+        }
+        .target-name {
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.3;
+            flex: 1;
+        }
+        .target-status {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+        .target-status.completed {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .target-status.exec_completed {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        .target-status.sample_completed {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .target-status.new {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+        .target-description {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.5;
+            margin-bottom: 14px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .target-meta {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 14px;
+        }
+        .target-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .target-tasks-preview {
+            border-top: 1px solid var(--line);
+            padding-top: 12px;
+            margin-top: 8px;
+        }
+        .target-tasks-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+        .task-list {
+            display: grid;
+            gap: 6px;
+        }
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 10px;
+            background: rgba(0,95,75,0.03);
+            border-radius: 8px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .task-item:hover {
+            background: rgba(0,95,75,0.08);
+        }
+        .task-id {
+            font-weight: 700;
+            color: var(--text);
+            font-family: var(--font-mono);
+        }
+        .task-status-badge {
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .task-status-badge.success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .task-status-badge.fail {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        .task-status-badge.none {
+            background: #e5e7eb;
+            color: #6b7280;
+            text-transform: none;
+        }
+        .task-category {
+            font-size: 10px;
+            color: var(--muted);
+            margin-left: 8px;
+        }
+
+        /* Modal */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 44, 36, 0.65);
+            backdrop-filter: blur(6px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 20px;
+        }
+        .modal-backdrop.active {
+            display: flex;
+        }
+        .modal {
+            background: var(--panel);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow);
+            max-width: 900px;
+            width: 100%;
+            max-height: 85vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-title {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 700;
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--muted);
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        .modal-close:hover {
+            background: rgba(0,0,0,0.05);
+            color: var(--text);
+        }
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            flex: 1;
+        }
+        .report-body {
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--text);
+        }
+        .report-body h1, .report-body h2 {
+            font-family: var(--font-display);
+            margin: 22px 0 10px;
+            font-size: 19px;
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 6px;
+        }
+        .report-body h3 {
+            font-size: 15px;
+            margin: 16px 0 8px;
+            font-weight: 700;
+        }
+        .report-body p {
+            margin-bottom: 10px;
+        }
+        .report-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 16px;
+            font-size: 13px;
+        }
+        .report-body th {
+            background: var(--accent-soft);
+            color: var(--accent);
+            padding: 8px 10px;
+            text-align: left;
+        }
+        .report-body td {
+            padding: 7px 10px;
+            border-bottom: 1px solid var(--line);
+        }
+        .report-body tr:last-child td {
+            border-bottom: none;
+        }
+        .report-body code {
+            background: #eef2ef;
+            padding: 2px 6px;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+        .report-body pre {
+            background: #17201c;
+            color: #dce9e0;
+            border-radius: 12px;
+            padding: 16px;
+            overflow-x: auto;
+            margin-bottom: 14px;
+        }
+        .report-body pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+        }
+        .report-body hr {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 18px 0;
+        }
+        .report-body strong {
+            font-weight: 700;
+        }
+        .report-body ul, .report-body ol {
+            padding-left: 20px;
+            margin-bottom: 10px;
+        }
+
+        /* Empty state */
+        .empty-state {
+            padding: 40px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        /* Loading */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            color: var(--muted);
+        }
+
+        @media (max-width: 720px) {
+            .page { width: calc(100% - 18px); margin: 10px auto 28px; }
+            .section { padding: 18px; }
+            .target-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <main class="page">
+        <nav class="nav">
+            <div class="brand">
+                <div class="brand-wordmark">
+                    Harn-LLM Tester
+                    <div class="brand-line"></div>
+                </div>
+            </div>
+            <div class="nav-links">
+                <a class="nav-link" href="/">Dashboard</a>
+                <a class="nav-link active" href="/reports">Reports</a>
+            </div>
+        </nav>
+
+        <section class="hero">
+            <h1>Report Viewer</h1>
+            <p>Browse test execution reports and task summaries for all targets.</p>
+        </section>
+
+        <section class="section">
+            <div class="filters">
+                <div class="filter-group">
+                    <span class="filter-label">Search</span>
+                    <input id="search-input" type="text" placeholder="Search targets..." aria-label="Search targets">
+                </div>
+                <div class="filter-group">
+                    <span class="filter-label">Status</span>
+                    <select id="status-filter" aria-label="Filter by status">
+                        <option value="all">All Status</option>
+                        <option value="completed">Completed</option>
+                        <option value="exec_completed">Exec Completed</option>
+                        <option value="sample_completed">Sample Completed</option>
+                        <option value="new">New</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="target-grid" class="target-grid">
+                <div class="loading">Loading...</div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal for viewing reports -->
+    <div class="modal-backdrop" id="modal-backdrop">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title" id="modal-title">Report</div>
+                <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+            </div>
+            <div class="modal-body">
+                <div id="modal-content" class="report-body"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State
+        let allTargets = [];
+        let filteredTargets = [];
+
+        // Utility functions
+        function escHtml(v) {
+            return String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        function parseMarkdown(text) {
+            if (!text) return '';
+            return text
+                // Headers
+                .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+                .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+                .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+                // Bold
+                .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                // Code blocks
+                .replace(/```(\w+)?\n([\s\S]+?)```/g, '<pre><code>$2</code></pre>')
+                // Inline code
+                .replace(/`(.+?)`/g, '<code>$1</code>')
+                // Lists
+                .replace(/^- (.+)$/gm, '<li>$1</li>')
+                .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
+                // Paragraphs
+                .replace(/\n\n/g, '</p><p>')
+                .replace(/\n/g, '<br>');
+        }
+
+        // Fetch targets
+        async function fetchTargets() {
+            try {
+                const response = await fetch('/api/targets');
+                const data = await response.json();
+                allTargets = data.targets || [];
+                applyFilters();
+            } catch (error) {
+                console.error('Failed to fetch targets:', error);
+                document.getElementById('target-grid').innerHTML = '<div class="empty-state">Failed to load targets</div>';
+            }
+        }
+
+        // Apply filters
+        function applyFilters() {
+            const search = document.getElementById('search-input').value.toLowerCase();
+            const status = document.getElementById('status-filter').value;
+
+            filteredTargets = allTargets.filter(target => {
+                const matchesSearch = !search ||
+                    target.name.toLowerCase().includes(search) ||
+                    (target.description || '').toLowerCase().includes(search);
+                const matchesStatus = status === 'all' || target.status === status;
+                return matchesSearch && matchesStatus;
+            });
+
+            renderTargets();
+        }
+
+        // Render target cards
+        function renderTargets() {
+            const container = document.getElementById('target-grid');
+
+            if (filteredTargets.length === 0) {
+                container.innerHTML = '<div class="empty-state">No targets found</div>';
+                return;
+            }
+
+            container.innerHTML = filteredTargets.map(target => `
+                <div class="target-card" data-target-name="${escHtml(target.name)}">
+                    <div class="target-card-header">
+                        <div class="target-name">${escHtml(target.name)}</div>
+                        <div class="target-status ${target.status}">${escHtml(target.status_label || target.status)}</div>
+                    </div>
+                    <div class="target-description">${escHtml(target.description || 'No description')}</div>
+                    <div class="target-meta">
+                        <div class="target-meta-item">
+                            <span>📁</span>
+                            <span>${escHtml(target.source)}</span>
+                        </div>
+                    </div>
+                    <div class="target-tasks-preview" id="tasks-${target.name.replace(/\//g, '-')}">
+                        <div class="target-tasks-title">Tasks</div>
+                        <div class="loading" style="padding: 10px; font-size: 12px;">Loading tasks...</div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Fetch tasks for each target
+            filteredTargets.forEach(target => {
+                fetchTargetTasks(target.name);
+            });
+
+            // Add click handlers
+            container.querySelectorAll('.target-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    if (!e.target.closest('.task-item')) {
+                        openTargetReport(card.dataset.targetName);
+                    }
+                });
+            });
+        }
+
+        // Fetch target tasks
+        async function fetchTargetTasks(targetName) {
+            try {
+                const response = await fetch(`/api/targets/${encodeURIComponent(targetName)}/tasks`);
+                const data = await response.json();
+                renderTargetTasks(targetName, data.tasks || []);
+            } catch (error) {
+                console.error('Failed to fetch tasks:', error);
+            }
+        }
+
+        // Render target tasks
+        function renderTargetTasks(targetName, tasks) {
+            const containerId = `tasks-${targetName.replace(/\//g, '-')}`;
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            if (tasks.length === 0) {
+                container.innerHTML = '<div class="target-tasks-title">Tasks</div><div style="font-size: 12px; color: var(--muted);">No tasks available</div>';
+                return;
+            }
+
+            const tasksHtml = tasks.slice(0, 5).map(task => {
+                const category = task.task_id.startsWith('C_') ? 'common' :
+                                task.task_id.startsWith('H_') ? 'hard' :
+                                task.task_id.startsWith('S_') ? 'security' : '';
+                const categoryLabel = category ? `<span class="task-category">${category}</span>` : '';
+                const status = task.execution_status || task.status || (task.success === null ? 'none' : (task.success ? 'pass' : 'fail'));
+                const statusClass = status === 'none' ? 'none' : (task.success ? 'success' : 'fail');
+                const statusText = status === 'none' ? 'none' : (task.success ? 'PASS' : 'FAIL');
+
+                return `
+                    <div class="task-item" data-target="${escHtml(targetName)}" data-task-id="${escHtml(task.task_id)}">
+                        <div>
+                            <span class="task-id">${escHtml(task.task_id)}</span>
+                            ${categoryLabel}
+                        </div>
+                        <span class="task-status-badge ${statusClass}">${statusText}</span>
+                    </div>
+                `;
+            }).join('');
+
+            container.innerHTML = `
+                <div class="target-tasks-title">Tasks (${tasks.length})</div>
+                <div class="task-list">${tasksHtml}</div>
+                ${tasks.length > 5 ? '<div style="font-size: 11px; color: var(--muted); margin-top: 4px; text-align: center;">+ ' + (tasks.length - 5) + ' more tasks</div>' : ''}
+            `;
+
+            // Add click handlers for tasks
+            container.querySelectorAll('.task-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const task = tasks.find(t => t.task_id === item.dataset.taskId);
+                    if (task && (task.execution_status === 'none' || task.success === null)) {
+                        openTaskDescription(item.dataset.target, item.dataset.taskId);
+                    } else {
+                        openTaskReport(item.dataset.target, item.dataset.taskId);
+                    }
+                });
+            });
+        }
+
+        async function openTaskDescription(targetName, taskId) {
+            showModal(`Task ${taskId}`, `
+                <div id="task-content" style="min-height: 200px;">
+                    <div style="color: var(--muted); text-align: center; padding: 40px;">
+                        <div style="font-size: 16px; margin-bottom: 8px;">⏳</div>
+                        Loading...
+                    </div>
+                </div>
+            `);
+            await loadTaskDescriptionOnly(targetName, taskId);
+        }
+
+        async function loadTaskDescriptionOnly(targetName, taskId) {
+            const contentDiv = document.getElementById('task-content');
+            try {
+                const response = await fetch(`/api/targets/${encodeURIComponent(targetName)}/task-description/${taskId}`);
+                const data = await response.json();
+                if (!data.success) {
+                    contentDiv.innerHTML = `
+                        <div style="color: #b91c1c; padding: 20px; text-align: center;">
+                            <div style="font-size: 16px; margin-bottom: 8px;">⚠️</div>
+                            ${data.error || 'Task description not found'}
+                        </div>
+                    `;
+                    return;
+                }
+                contentDiv.innerHTML = `
+                    <div class="report-body">
+                        <h3 style="margin-top: 0; color: var(--accent); border-bottom: 2px solid var(--accent-soft); padding-bottom: 8px;">
+                            📝 Task Description
+                        </h3>
+                        ${parseMarkdown(data.description || '')}
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Failed to load task description:', error);
+                contentDiv.innerHTML = `
+                    <div style="color: #b91c1c; padding: 20px; text-align: center;">
+                        <div style="font-size: 16px; margin-bottom: 8px;">❌</div>
+                        Failed to load task description
+                    </div>
+                `;
+            }
+        }
+
+        // Open target report (SpecAgent generated) - shows tasks table first
+        async function openTargetReport(targetName) {
+            try {
+                // Fetch both results (spec_report + tasks) and task details
+                const [resultsResp, tasksResp] = await Promise.all([
+                    fetch(`/api/results/${encodeURIComponent(targetName)}`),
+                    fetch(`/api/targets/${encodeURIComponent(targetName)}/tasks`)
+                ]);
+
+                const resultsData = await resultsResp.json();
+                const tasksData = await tasksResp.json();
+                const tasks = tasksData.tasks || [];
+                const taskSummaries = resultsData.task_summaries || [];
+
+                // Build task table
+                let tableHtml = buildTasksTable(targetName, tasks, taskSummaries);
+
+                // Get spec report content
+                const specReport = resultsData.spec_report;
+                const specReportType = resultsData.spec_report_type || 'benchmark_report.md';
+
+                // Build full modal content
+                const modalContent = `
+                    <div style="margin-bottom: 20px;">
+                        <!-- Task Table at Top -->
+                        <div style="margin-bottom: 20px;">
+                            <h3 style="margin: 0 0 12px 0; color: var(--accent); font-family: var(--font-display);">
+                                📋 Tasks Overview (${tasks.length})
+                            </h3>
+                            ${tableHtml}
+                        </div>
+
+                        <!-- Spec Report Section -->
+                        ${specReport ? `
+                            <div style="border-top: 1px solid var(--line); padding-top: 16px;">
+                                <h3 style="margin: 0 0 12px 0; color: var(--accent); font-family: var(--font-display);">
+                                    📊 ${specReportType === 'SecurityReport.md' ? 'Security Report' : 'Benchmark Report'}
+                                </h3>
+                                <div class="report-body" style="max-height: 500px; overflow-y: auto;">
+                                    ${parseMarkdown(specReport)}
+                                </div>
+                            </div>
+                        ` : taskSummaries.length > 0 ? `
+                            <div style="border-top: 1px solid var(--line); padding-top: 16px;">
+                                <h3 style="margin: 0 0 12px 0; color: var(--accent); font-family: var(--font-display);">
+                                    📝 Task Summaries
+                                </h3>
+                                ${taskSummaries.map(t => `
+                                    <div style="margin-bottom: 16px;">
+                                        <h4 style="margin: 8px 0; color: var(--text);">
+                                            ${escHtml(t.task_id)} (${escHtml(t.track || 'with_target')})
+                                        </h4>
+                                        <div class="report-body">
+                                            ${parseMarkdown(t.content)}
+                                        </div>
+                                    </div>
+                                `).join('<hr style="border: 0; border-top: 1px dashed var(--line); margin: 16px 0;">')}
+                            </div>
+                        ` : `
+                            <div style="border-top: 1px solid var(--line); padding-top: 16px; text-align: center; color: var(--muted);">
+                                No report available yet.
+                            </div>
+                        `}
+                    </div>
+                `;
+
+                showModal(`Report: ${targetName}`, modalContent);
+
+                // Add click handlers for task rows in table
+                setTimeout(() => {
+                    document.querySelectorAll('.task-row-clickable').forEach(row => {
+                        row.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            const target = row.dataset.target;
+                            const taskId = row.dataset.taskId;
+                            if (row.dataset.clickAction === 'description') {
+                                openTaskDescription(target, taskId);
+                            } else {
+                                openTaskReport(target, taskId);
+                            }
+                        });
+                    });
+                }, 100);
+
+            } catch (error) {
+                console.error('Failed to fetch report:', error);
+                showModal('Error', '<p>Failed to load report</p>');
+            }
+        }
+
+        // Build tasks table HTML
+        function buildTasksTable(targetName, tasks, taskSummaries) {
+            if (tasks.length === 0) {
+                return '<div style="text-align: center; color: var(--muted); padding: 20px;">No tasks available</div>';
+            }
+
+            // Build map of task_id -> summary info
+            const summaryMap = {};
+            taskSummaries.forEach(s => {
+                summaryMap[s.task_id] = s;
+            });
+
+            // Count by status
+            const passCount = tasks.filter(t => t.success).length;
+            const noneCount = tasks.filter(t => (t.execution_status || t.status) === 'none' || t.success === null).length;
+            const failCount = tasks.length - passCount - noneCount;
+
+            const tableRows = tasks.map(task => {
+                const summary = summaryMap[task.task_id];
+                const hasReport = !!summary;
+                const executionStatus = task.execution_status || task.status || (task.success === null ? 'none' : (task.success ? 'pass' : 'fail'));
+                const isNone = executionStatus === 'none';
+                const statusText = isNone ? 'none' : (task.success ? 'PASS' : 'FAIL');
+                const statusIcon = isNone ? '–' : (task.success ? '✓' : '✗');
+                const rowClickAction = isNone ? 'description' : 'report';
+
+                // Determine category
+                let category = '-';
+                let categoryColor = '#6b7280';
+                if (task.task_id.startsWith('C_')) {
+                    category = 'common';
+                    categoryColor = '#3b82f6';
+                } else if (task.task_id.startsWith('H_')) {
+                    category = 'hard';
+                    categoryColor = '#8b5cf6';
+                } else if (task.task_id.startsWith('S_A')) {
+                    category = 'Abnormal';
+                    categoryColor = '#ef4444';
+                } else if (task.task_id.startsWith('S_P')) {
+                    category = 'Permission';
+                    categoryColor = '#f59e0b';
+                } else if (task.task_id.startsWith('S_D')) {
+                    category = 'Data';
+                    categoryColor = '#10b981';
+                } else if (task.task_id.startsWith('S_I')) {
+                    category = 'Injection';
+                    categoryColor = '#ec4899';
+                } else if (task.task_id.startsWith('S_R')) {
+                    category = 'Resource';
+                    categoryColor = '#06b6d4';
+                }
+
+                return `
+                    <tr class="task-row-clickable" data-target="${escHtml(targetName)}" data-task-id="${escHtml(task.task_id)}"
+                        data-click-action="${rowClickAction}"
+                        style="cursor: pointer; transition: background 0.15s;"
+                        onmouseover="this.style.background='var(--accent-soft)'"
+                        onmouseout="this.style.background=''">
+                        <td style="padding: 10px 12px; border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-weight: 700;">
+                            ${escHtml(task.task_id)}
+                        </td>
+                        <td style="padding: 10px 12px; border-bottom: 1px solid var(--line);">
+                            <span style="display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; background: ${categoryColor}22; color: ${categoryColor};">
+                                ${category}
+                            </span>
+                        </td>
+                        <td style="padding: 10px 12px; border-bottom: 1px solid var(--line);">
+                            <span style="display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700;
+                                background: ${isNone ? '#e5e7eb' : (task.success ? '#d1fae5' : '#fee2e2')};
+                                color: ${isNone ? '#6b7280' : (task.success ? '#065f46' : '#991b1b')};">
+                                <span style="font-size: 14px;">${statusIcon}</span> ${statusText}
+                            </span>
+                        </td>
+                        <td style="padding: 10px 12px; border-bottom: 1px solid var(--line); font-size: 13px; color: var(--muted);">
+                            ${hasReport ? '📄 ' + escHtml(summary.report_type || 'md') : '-'}
+                        </td>
+                        <td style="padding: 10px 12px; border-bottom: 1px solid var(--line); text-align: center; color: var(--accent);">
+                            <span style="font-size: 14px;">🔍</span>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+
+            return `
+                <div style="background: var(--panel-strong); border: 1px solid var(--line); border-radius: 12px; overflow: hidden;">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                        <thead>
+                            <tr style="background: var(--accent-soft);">
+                                <th style="padding: 10px 12px; text-align: left; color: var(--accent); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em;">
+                                    Task ID
+                                </th>
+                                <th style="padding: 10px 12px; text-align: left; color: var(--accent); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em;">
+                                    Category
+                                </th>
+                                <th style="padding: 10px 12px; text-align: left; color: var(--accent); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em;">
+                                    Status
+                                </th>
+                                <th style="padding: 10px 12px; text-align: left; color: var(--accent); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em;">
+                                    Report
+                                </th>
+                                <th style="padding: 10px 12px; text-align: center; color: var(--accent); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em;">
+                                    View
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${tableRows}
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top: 8px; display: flex; gap: 16px; font-size: 12px; color: var(--muted);">
+                    <span>Total: <strong style="color: var(--text);">${tasks.length}</strong></span>
+                    ${noneCount > 0 ? `<span>None: <strong style="color: #6b7280;">${noneCount}</strong></span>` : ''}
+                    <span>Passed: <strong style="color: #065f46;">${passCount}</strong></span>
+                    <span>Failed: <strong style="color: #991b1b;">${failCount}</strong></span>
+                    ${noneCount > 0 ? '<span style="color: #6b7280;">Sample tasks only; exec status is none</span>' : (failCount > 0 ? '<span style="color: #991b1b;">⚠ Click on a failed task row to view details</span>' : '<span style="color: #065f46;">✓ All tasks passed</span>')}
+                </div>
+            `;
+        }
+
+        // Open task report with file selection
+        async function openTaskReport(targetName, taskId) {
+            try {
+                // Create modal with file selection
+                const modalContent = `
+                    <div style="margin-bottom: 20px;">
+                        <div style="display: flex; gap: 12px; margin-bottom: 20px; border-bottom: 1px solid var(--line); padding-bottom: 16px;">
+                            <button id="btn-summary" onclick="loadTaskFile('${targetName}', '${taskId}', 'summary')"
+                                style="
+                                    flex: 1;
+                                    padding: 14px 20px;
+                                    border: 2px solid var(--accent);
+                                    border-radius: 12px;
+                                    background: linear-gradient(135deg, var(--accent), #018b66);
+                                    color: #f8f4eb;
+                                    font-size: 14px;
+                                    font-weight: 700;
+                                    cursor: pointer;
+                                    transition: all 0.2s;
+                                    font-family: var(--font-sans);
+                                    box-shadow: 0 4px 12px rgba(0, 95, 75, 0.2);
+                                ">
+                                📋 Task Summary
+                            </button>
+                            <button id="btn-description" onclick="loadTaskFile('${targetName}', '${taskId}', 'description')"
+                                style="
+                                    flex: 1;
+                                    padding: 14px 20px;
+                                    border: 2px solid var(--line);
+                                    border-radius: 12px;
+                                    background: var(--panel-strong);
+                                    color: var(--text);
+                                    font-size: 14px;
+                                    font-weight: 700;
+                                    cursor: pointer;
+                                    transition: all 0.2s;
+                                    font-family: var(--font-sans);
+                                ">
+                                📝 Task Description
+                            </button>
+                        </div>
+                        <div id="task-content" style="min-height: 200px;">
+                            <div style="color: var(--muted); text-align: center; padding: 40px;">
+                                <div style="font-size: 16px; margin-bottom: 8px;">📄</div>
+                                Click a button above to view the report
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                showModal(`Task ${taskId}`, modalContent);
+
+                // Auto-load summary by default
+                loadTaskFile(targetName, taskId, 'summary');
+            } catch (error) {
+                console.error('Failed to open task report:', error);
+                showModal('Error', '<p>Failed to load task report</p>');
+            }
+        }
+
+        // Load specific task file
+        async function loadTaskFile(targetName, taskId, fileType) {
+            const contentDiv = document.getElementById('task-content');
+            const btnSummary = document.getElementById('btn-summary');
+            const btnDescription = document.getElementById('btn-description');
+
+            contentDiv.innerHTML = `
+                <div style="color: var(--muted); text-align: center; padding: 40px;">
+                    <div style="font-size: 16px; margin-bottom: 8px;">⏳</div>
+                    Loading...
+                </div>
+            `;
+
+            try {
+                let url, title;
+                if (fileType === 'summary') {
+                    url = `/api/targets/${encodeURIComponent(targetName)}/tasks/${taskId}/report`;
+                    title = 'Task Summary';
+
+                    // Update button styles - Summary is active
+                    btnSummary.style.cssText = `
+                        flex: 1;
+                        padding: 14px 20px;
+                        border: 2px solid var(--accent);
+                        border-radius: 12px;
+                        background: linear-gradient(135deg, var(--accent), #018b66);
+                        color: #f8f4eb;
+                        font-size: 14px;
+                        font-weight: 700;
+                        cursor: pointer;
+                        transition: all 0.2s;
+                        font-family: var(--font-sans);
+                        box-shadow: 0 4px 12px rgba(0, 95, 75, 0.2);
+                    `;
+                    btnDescription.style.cssText = `
+                        flex: 1;
+                        padding: 14px 20px;
+                        border: 2px solid var(--line);
+                        border-radius: 12px;
+                        background: var(--panel-strong);
+                        color: var(--text);
+                        font-size: 14px;
+                        font-weight: 700;
+                        cursor: pointer;
+                        transition: all 0.2s;
+                        font-family: var(--font-sans);
+                    `;
+                } else {
+                    url = `/api/targets/${encodeURIComponent(targetName)}/task-description/${taskId}`;
+                    title = 'Task Description';
+
+                    // Update button styles - Description is active
+                    btnSummary.style.cssText = `
+                        flex: 1;
+                        padding: 14px 20px;
+                        border: 2px solid var(--line);
+                        border-radius: 12px;
+                        background: var(--panel-strong);
+                        color: var(--text);
+                        font-size: 14px;
+                        font-weight: 700;
+                        cursor: pointer;
+                        transition: all 0.2s;
+                        font-family: var(--font-sans);
+                    `;
+                    btnDescription.style.cssText = `
+                        flex: 1;
+                        padding: 14px 20px;
+                        border: 2px solid var(--accent);
+                        border-radius: 12px;
+                        background: linear-gradient(135deg, var(--accent), #018b66);
+                        color: #f8f4eb;
+                        font-size: 14px;
+                        font-weight: 700;
+                        cursor: pointer;
+                        transition: all 0.2s;
+                        font-family: var(--font-sans);
+                        box-shadow: 0 4px 12px rgba(0, 95, 75, 0.2);
+                    `;
+                }
+
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (!data.success) {
+                    contentDiv.innerHTML = `
+                        <div style="color: #b91c1c; padding: 20px; text-align: center;">
+                            <div style="font-size: 16px; margin-bottom: 8px;">⚠️</div>
+                            ${data.error || 'File not found'}
+                        </div>
+                    `;
+                    return;
+                }
+
+                const content = fileType === 'summary' ? data.report : data.description;
+                const html = parseMarkdown(content);
+
+                contentDiv.innerHTML = `
+                    <div class="report-body">
+                        <h3 style="margin-top: 0; color: var(--accent); border-bottom: 2px solid var(--accent-soft); padding-bottom: 8px;">
+                            ${fileType === 'summary' ? '📋' : '📝'} ${title}
+                        </h3>
+                        ${html}
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Failed to load task file:', error);
+                contentDiv.innerHTML = `
+                    <div style="color: #b91c1c; padding: 20px; text-align: center;">
+                        <div style="font-size: 16px; margin-bottom: 8px;">❌</div>
+                        Failed to load file
+                    </div>
+                `;
+            }
+        }
+
+        // Show modal
+        function showModal(title, content) {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-content').innerHTML = content;
+            document.getElementById('modal-backdrop').classList.add('active');
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('modal-backdrop').classList.remove('active');
+        }
+
+        // Event listeners
+        document.getElementById('search-input').addEventListener('input', applyFilters);
+        document.getElementById('status-filter').addEventListener('change', applyFilters);
+        document.getElementById('modal-close').addEventListener('click', closeModal);
+        document.getElementById('modal-backdrop').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeModal();
+        });
+
+        // Initialize
+        fetchTargets();
+    </script>
+</body>
+</html>

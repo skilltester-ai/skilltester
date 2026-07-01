@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-04-07T14:50:09+00:00",
+  "family_id": "daily-research-summary",
+  "family_name": "Daily Research Summary",
+  "primary_pattern": "content-writing-and-packaging",
+  "family_focus": "Read multiple internal research notes and turn them into an executive daily briefing.",
+  "task_shape": "Seeded corpus synthesis into a concise business-ready brief.",
+  "selection_reason": "Kept because it starts from a realistic multi-document workspace and produces a clearly scoped written deliverable.",
+  "typical_skill_targets": [
+    "brief writing",
+    "multi-document synthesis",
+    "executive communication"
+  ],
+  "difficulty_levers": [
+    "source count",
+    "signal prioritization",
+    "summary structure"
+  ],
+  "constraints": [
+    "turn several input files into one coherent daily summary"
+  ],
+  "source_dataset": "PinchBench",
+  "notes": "",
+  "variant_count": 1,
+  "variant_ids": [
+    "reference"
+  ],
+  "output_artifacts": [
+    "daily_briefing.md"
+  ],
+  "variants": [
+    {
+      "variant_id": "reference",
+      "difficulty": "synthesis",
+      "summary": "Convert several research and operational notes into a daily executive summary.",
+      "workspace_seed_files": [
+        "research/competitor_intelligence.txt",
+        "research/customer_feedback.txt",
+        "research/industry_news.txt",
+        "research/market_analysis.txt",
+        "research/product_updates.txt"
+      ],
+      "output_artifacts": [
+        "daily_briefing.md"
+      ],
+      "source_dataset": "PinchBench",
+      "source_path": "/Users/wangzixing/Desktop/reference/PinchBench/skill-main/tasks/task_15_daily_summary.md",
+      "source_files": [
+        "source/task_spec.md",
+        "source/source_metadata.json"
+      ]
+    }
+  ]
+}

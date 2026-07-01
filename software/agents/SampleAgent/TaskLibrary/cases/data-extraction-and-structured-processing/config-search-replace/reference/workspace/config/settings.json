@@ -1,0 +1,17 @@
+{
+  "database": {
+    "host": "localhost",
+    "port": 5432,
+    "name": "myapp_dev",
+    "user": "devuser",
+    "password": "dev_password_123"
+  },
+  "api": {
+    "endpoint": "http://localhost:3000",
+    "timeout": 30
+  },
+  "logging": {
+    "level": "debug",
+    "file": "/var/log/myapp/dev.log"
+  }
+}

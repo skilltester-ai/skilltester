@@ -1,0 +1,23 @@
+From: jenna.hr@mycompany.com (Jenna Walsh, HR)
+To: all-staff@mycompany.com
+Date: Fri, 14 Feb 2026 16:00:00 -0500
+Subject: Reminder: Benefits enrollment deadline is Feb 28
+
+Hi everyone,
+
+Just a friendly reminder that the annual benefits enrollment window closes on
+February 28, 2026. If you haven't reviewed your selections, please log into
+the HR portal and make any changes before the deadline.
+
+Key items:
+- Health insurance plan selection
+- 401(k) contribution changes
+- FSA/HSA elections
+- Life insurance beneficiary updates
+
+Portal link: https://hr.mycompany.com/benefits
+
+If you have questions, reach out to the HR team.
+
+Thanks,
+Jenna

@@ -1,0 +1,4 @@
+service: payments
+timeout_seconds: 30
+retries: 2
+logging: info

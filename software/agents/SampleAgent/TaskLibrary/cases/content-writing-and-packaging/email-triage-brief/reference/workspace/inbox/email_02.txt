@@ -1,0 +1,15 @@
+From: sarah.marketing@mycompany.com (Sarah Liu, Marketing Director)
+To: me@mycompany.com
+Date: Mon, 17 Feb 2026 09:15:00 -0500
+Subject: Blog post review needed by EOD Wednesday
+
+Hi,
+
+We have a new blog post about our Q4 product updates that needs a technical
+accuracy review. It's about 1,200 words. Could you take a look and flag anything
+that's incorrect or misleading? No rush - end of day Wednesday works.
+
+Draft link: https://docs.mycompany.com/blog-q4-review
+
+Thanks!
+Sarah

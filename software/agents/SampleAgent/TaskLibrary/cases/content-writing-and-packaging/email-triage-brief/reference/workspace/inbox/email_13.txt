@@ -1,0 +1,22 @@
+From: automated-alerts@monitoring.mycompany.com
+To: oncall@mycompany.com, me@mycompany.com
+Date: Mon, 17 Feb 2026 07:48:00 -0500
+Subject: [ALERT] API latency exceeding threshold - p99 > 2000ms
+
+MONITORING ALERT
+
+Service: api-gateway
+Metric: p99 latency
+Current value: 3,247ms (threshold: 2,000ms)
+Duration: 3 minutes
+Status: FIRING
+
+Affected endpoints:
+- POST /api/v1/transactions (p99: 4,102ms)
+- GET /api/v1/accounts (p99: 2,891ms)
+- POST /api/v1/auth/token (p99: 3,415ms)
+
+Dashboard: https://grafana.mycompany.com/d/api-latency
+Runbook: https://wiki.mycompany.com/runbooks/api-latency
+
+This alert correlates with the ongoing database incident (INC-20260217-001).

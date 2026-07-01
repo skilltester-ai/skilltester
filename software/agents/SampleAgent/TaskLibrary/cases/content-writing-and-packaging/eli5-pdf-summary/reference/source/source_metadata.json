@@ -1,0 +1,8 @@
+{
+  "dataset": "PinchBench",
+  "original_task_file": "/Users/wangzixing/Desktop/reference/PinchBench/skill-main/tasks/task_20_eli5_pdf_summary.md",
+  "original_task_id": "task_20_eli5_pdf_summary",
+  "workspace_assets": [
+    "GPT4.pdf"
+  ]
+}

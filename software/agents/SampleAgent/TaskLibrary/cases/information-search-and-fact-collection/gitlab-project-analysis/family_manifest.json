@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-04-07T14:50:09+00:00",
+  "family_id": "gitlab-project-analysis",
+  "family_name": "GitLab Project Analysis",
+  "primary_pattern": "information-search-and-fact-collection",
+  "family_focus": "Analyze repository metadata and activity signals across multiple GitLab projects.",
+  "task_shape": "Repeated project research with cross-project rollup metrics.",
+  "selection_reason": "Kept because it mirrors real software intelligence work and produces a structured multi-project report rather than a toy encyclopedia entry.",
+  "typical_skill_targets": [
+    "repository analysis",
+    "engineering research",
+    "project intelligence"
+  ],
+  "difficulty_levers": [
+    "project count",
+    "API count",
+    "derived activity scoring"
+  ],
+  "constraints": [
+    "process all listed projects and aggregate the summary accurately"
+  ],
+  "source_dataset": "SkillCraft scaled_tasks",
+  "notes": "",
+  "variant_count": 3,
+  "variant_ids": [
+    "e1",
+    "m1",
+    "h1"
+  ],
+  "output_artifacts": [
+    "gitlab_analysis_results.json"
+  ],
+  "variants": [
+    {
+      "variant_id": "e1",
+      "difficulty": "easy",
+      "summary": "Analyze 3 GitLab projects using project, contributor, and issue data.",
+      "workspace_seed_files": [
+        "README.md"
+      ],
+      "output_artifacts": [
+        "gitlab_analysis_results.json"
+      ],
+      "source_dataset": "SkillCraft scaled_tasks",
+      "source_path": "/Users/wangzixing/Desktop/reference/SkillCraft-main/tasks/scaled_tasks/gitlab-deep-analysis/e1",
+      "source_files": [
+        "source/task.md",
+        "source/agent_system_prompt.md",
+        "source/task_config.json",
+        "source/evaluation_main.py",
+        "source/source_metadata.json"
+      ],
+      "estimated_api_calls": 9,
+      "subtask_count": 3,
+      "calls_per_subtask": 3,
+      "tools_used": [
+        "gitlab_get_project_info",
+        "gitlab_get_contributors",
+        "gitlab_get_issues"
+      ],
+      "source_meta_description": "Analysis of 3 GitLab repositories with project info, contributors, and issues (easy difficulty)"
+    },
+    {
+      "variant_id": "m1",
+      "difficulty": "medium",
+      "summary": "Analyze 4 GitLab projects with contributor, commit, and branch activity.",
+      "workspace_seed_files": [
+        "README.md"
+      ],
+      "output_artifacts": [
+        "gitlab_analysis_results.json"
+      ],
+      "source_dataset": "SkillCraft scaled_tasks",
+      "source_path": "/Users/wangzixing/Desktop/reference/SkillCraft-main/tasks/scaled_tasks/gitlab-deep-analysis/m1",
+      "source_files": [
+        "source/task.md",
+        "source/agent_system_prompt.md",
+        "source/task_config.json",
+        "source/evaluation_main.py",
+        "source/source_metadata.json"
+      ],
+      "estimated_api_calls": 16,
+      "subtask_count": 4,
+      "calls_per_subtask": 4,
+      "tools_used": [
+        "gitlab_get_project_info",
+        "gitlab_get_contributors",
+        "gitlab_get_commits",
+        "gitlab_get_branches"
+      ],
+      "source_meta_description": "Analysis of 4 GitLab repositories with branch info (medium difficulty)"
+    },
+    {
+      "variant_id": "h1",
+      "difficulty": "hard",
+      "summary": "Analyze 5 GitLab projects with a deeper multi-signal health model.",
+      "workspace_seed_files": [
+        "README.md"
+      ],
+      "output_artifacts": [
+        "gitlab_analysis_results.json"
+      ],
+      "source_dataset": "SkillCraft scaled_tasks",
+      "source_path": "/Users/wangzixing/Desktop/reference/SkillCraft-main/tasks/scaled_tasks/gitlab-deep-analysis/h1",
+      "source_files": [
+        "source/task.md",
+        "source/agent_system_prompt.md",
+        "source/task_config.json",
+        "source/evaluation_main.py",
+        "source/source_metadata.json"
+      ],
+      "estimated_api_calls": 25,
+      "subtask_count": 5,
+      "calls_per_subtask": 5,
+      "tools_used": [
+        "gitlab_get_project_info",
+        "gitlab_get_contributors",
+        "gitlab_get_commits",
+        "gitlab_get_branches",
+        "gitlab_get_issues"
+      ],
+      "source_meta_description": "Comprehensive analysis of 5 GitLab repositories (hard difficulty)"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "tickets": [
+    {
+      "id": "TCK-6001",
+      "subject": "",
+      "body": "This ticket has an empty subject field.",
+      "customer_tier": "standard"
+    },
+    {
+      "id": "TCK-6002",
+      "subject": null,
+      "body": "This ticket has a null subject.",
+      "customer_tier": "enterprise"
+    },
+    {
+      "id": "TCK-6003",
+      "subject": "Normal billing question",
+      "body": "",
+      "customer_tier": "standard"
+    },
+    {
+      "id": "TCK-6004",
+      "subject": "Payment issue",
+      "body": "Standard billing problem.",
+      "customer_tier": null
+    },
+    {
+      "id": "TCK-6005",
+      "subject": "Unknown issue type",
+      "body": "This does not match any known category keyword at all xyzzy.",
+      "customer_tier": "enterprise"
+    },
+    {
+      "id": "TCK-6006",
+      "subject": "Mixed billing AND security concern",
+      "body": "Customer reports billing problem that may be a security breach.",
+      "customer_tier": "standard"
+    }
+  ]
+}
